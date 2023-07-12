@@ -1,29 +1,29 @@
 {
-    "name": "vite-module-builder-w-ghpages-npm-template",
+    "name": "sc-camera-module",
     "version": "1.0.0",
     "description": "This is a templare repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.",
     "files": [
         "dist"
     ],
-    "main": "./dist/vite-module-builder-w-ghpages-npm-template.umd.js",
+    "main": "./dist/sc-camera-module.umd.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/johnfmorton/vite-module-builder-w-ghpages-npm-template"
+        "url": "https://github.com/johnfmorton/sc-camera-module"
     },
-    "module": "./dist/vite-module-builder-w-ghpages-npm-template.es.js",
-    "unpkg": "./dist/vite-module-builder-w-ghpages-npm-template.es.js",
-    "types": "./dist/vite-module-builder-w-ghpages-npm-template.d.ts",
+    "module": "./dist/sc-camera-module.es.js",
+    "unpkg": "./dist/sc-camera-module.es.js",
+    "types": "./dist/sc-camera-module.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/vite-module-builder-w-ghpages-npm-template.es.js",
-            "require": "./dist/vite-module-builder-w-ghpages-npm-template.umd.js"
+            "import": "./dist/sc-camera-module.es.js",
+            "require": "./dist/sc-camera-module.umd.js"
         }
     },
     "scripts": {
         "clean": "rm -rf dist es demo",
         "dev": "vite --host 0.0.0.0 --port 8888",
         "vite-build": "vite build --config vite.demo.config.js",
-        "build": "vite build --config vite.demo.config.js && vite build && tsc lib/vite-module-builder-w-ghpages-npm-template.ts --declaration --emitDeclarationOnly --outFile dist/vite-module-builder-w-ghpages-npm-template.d.ts",
+        "build": "vite build --config vite.demo.config.js && vite build && tsc lib/sc-camera-module.ts --declaration --emitDeclarationOnly --outFile dist/sc-camera-module.d.ts",
         "preview": "vite preview",
         "project-setup": "node project-setup.js && npm install",
         "test": "echo \"Error: no test specified\" && exit 1"

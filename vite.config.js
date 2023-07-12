@@ -12,11 +12,11 @@ module.exports = defineConfig({
         lib: {
             entry: path.resolve(
                 __dirname,
-                'lib/vite-module-builder-w-ghpages-npm-template.ts'
+                'lib/sc-camera-module.ts'
             ),
-            name: 'vite-module-builder-w-ghpages-npm-template',
+            name: 'sc-camera-module',
             fileName: (format) =>
-                `vite-module-builder-w-ghpages-npm-template.${format}.js`,
+                `sc-camera-module.${format}.js`,
         },
         minify: false,
     },
