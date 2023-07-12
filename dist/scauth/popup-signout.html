@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Secure Citizen Logout Popup</title>
+</head>
+
+<body>
+    <h1>Signed Out</h1>
+
+
+    <script type="module">
+        import { SecureCitizenCamera } from '../dist/sc-face-camera.js'
+       const secureCamera = new SecureCitizenCamera("sc-app-beta");
+       secureCamera.popupSignout();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="140.00081"
+   height="219.99921"
+   clip-rule="evenodd"
+   version="1.1"
+   xml:space="preserve"
+   id="svg8"
+   sodipodi:docname="facemask.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs12" /><sodipodi:namedview
+   id="namedview10"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   showgrid="false"
+   showguides="true"
+   inkscape:zoom="3.6311111"
+   inkscape:cx="74.908201"
+   inkscape:cy="112.5"
+   inkscape:window-width="1920"
+   inkscape:window-height="1000"
+   inkscape:window-x="-9"
+   inkscape:window-y="-9"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg8" />
+ <g
+   id="g6"
+   transform="matrix(0.98772719,0,0,1.0018223,-4.2814269,-3.1080725)">
+  <title
+   id="title2">Layer 1</title>
+  <g
+   stroke="null"
+   id="Layer 1">
+   <path
+   stroke="#ffffff"
+   id="svg_1"
+   stroke-linejoin="round"
+   fill="none"
+   d="M 74.27765,6.92761 C 62.90168,6.91048 40.71214,12.03194 27.46449,26.42242 20.72306,33.74534 9.3418,49.49209 8.19691,86.03611 c -0.51906,16.56921 5.04524,60.62533 10.24006,76.46775 3.6313,11.07468 27.48215,43.93349 44.4906,53.68251 4.80791,2.75546 11.29668,2.68251 12.42255,2.68251 1.18876,-0.0846 7.33026,0.0729 12.13765,-2.68251 17.00846,-9.74902 40.40208,-42.76851 44.4906,-53.68251 4.40038,-11.74491 10.75965,-59.89854 10.24006,-76.46775 C 141.07354,49.49209 129.69228,33.74534 122.95085,26.42242 109.7032,12.03194 87.64422,6.89309 76.17258,6.92761 c -0.74688,0.00222 -1.89494,0 -1.89494,0 z"
+   stroke-width="7.65" />
+  </g>
+ </g>
+</svg>

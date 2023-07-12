@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Secure Citizen Login/Register Popup</title>
+</head>
+
+<body>
+    <ul id="logMessages"></ul>
+
+
+    <script type="module">
+        import { SecureCitizenCamera } from '../dist/sc-face-camera.js'
+       const secureCamera = new SecureCitizenCamera("sc-app-beta");
+       secureCamera.popupSignin();
+    </script>
+
+</body>
+
+</html>

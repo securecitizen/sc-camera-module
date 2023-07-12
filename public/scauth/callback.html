@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Secure Citizen OIDC Callback</title>
+    </head>
+    <body>
+        <pre id="out"></pre>
+        <script type="module">
+            import { SecureCitizenCamera, DefaultCameraConfig } from '../dist/sc-face-camera.js'
+            const configuration = DefaultCameraConfig("sc-app-beta");
+            const secureCamera = new SecureCitizenCamera(configuration);
+            secureCamera.endSigninMainWindow();
+            
+        </script>
+
+    </body>
+</html>
