@@ -6,9 +6,9 @@
 import { log }  from './utils/errors';
 // import { SecureCitizenFaceCamera } from './sc-face-camera';
 import { SecureCitizenBootstrapper } from './utils/bootstrap'
-import { SetupTask } from './utils/configuration'
+import { InitialConfig } from './utils/configuration'
 
-function init(config: SetupTask): SecureCitizenBootstrapper {
+function init(config: InitialConfig): SecureCitizenBootstrapper {
   log(config);
   const messageOutputElement = document.getElementById("messageOutput");
   if (messageOutputElement) {
@@ -23,10 +23,4 @@ function init(config: SetupTask): SecureCitizenBootstrapper {
 export default {
   init: init,
   log
-}
-
-export {
-  init,
-  log,
-  SetupTask
 }

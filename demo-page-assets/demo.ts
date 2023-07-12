@@ -5,7 +5,10 @@ import ModuleDemoPage from '../lib/sc-camera-module'
 
 // ModuleDemoPage.init('Success! The module is working.')
 
-ModuleDemoPage.init({div_id: 'camera', client_id: 'sc-app-beta'});
+const camera = ModuleDemoPage.init({div_id: 'camera', client_id: 'sc-app-beta'});
+
+const container = document.getElementById('camera') as HTMLDivElement
+camera.UpdateValues(container);
 
 import './style.pcss';
 

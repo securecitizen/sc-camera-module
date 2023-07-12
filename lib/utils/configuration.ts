@@ -9,7 +9,7 @@ import {
   DEFAULT_WIDTH,
 } from './defaults';
 
-export interface SetupTask {
+export interface InitialConfig {
   div_id: string,
   client_id: string
 }

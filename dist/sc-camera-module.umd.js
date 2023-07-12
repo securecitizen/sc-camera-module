@@ -4,11 +4,11 @@
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-07-12T14:13:13.146Z 
+ * build date: 2023-07-12T14:21:35.190Z 
  */
 (function(global2, factory) {
-  typeof exports === "object" && typeof module !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2["sc-camera-module"] = {}));
-})(this, function(exports2) {
+  typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, global2["sc-camera-module"] = factory());
+})(this, function() {
   "use strict";var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => {
@@ -47,7 +47,7 @@ var __publicField = (obj, key, value) => {
     return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
   }
   var platformDetect = { exports: {} };
-  (function(module2, exports3) {
+  (function(module2, exports2) {
     !function(e, o) {
       module2.exports = o();
     }(commonjsGlobal, function() {
@@ -283,8 +283,5 @@ var __publicField = (obj, key, value) => {
     init,
     log
   };
-  exports2.default = scCameraModule;
-  exports2.init = init;
-  exports2.log = log;
-  Object.defineProperties(exports2, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
+  return scCameraModule;
 });

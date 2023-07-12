@@ -111,18 +111,70 @@ declare module "utils/bootstrap" {
     }
     export { SecureCitizenBootstrapper };
 }
-declare module "sc-camera-module" {
-    import { log } from "utils/errors";
-    import { SecureCitizenBootstrapper } from "utils/bootstrap";
-    interface SetupTask {
+declare module "utils/configuration" {
+    export interface InitialConfig {
         div_id: string;
         client_id: string;
     }
-    function init(config: SetupTask): SecureCitizenBootstrapper;
+    export interface ISecureCitizenCameraConfig {
+        showControls: boolean;
+        autoStart: boolean;
+        useFaceDetection: boolean;
+        startCameraText: string;
+        buttonWidth: string;
+        debug: boolean;
+    }
+    export class SecureCitizenCameraConfig {
+        private showControls;
+        private autoStart;
+        private useFaceDetection;
+        private startCameraText;
+        private buttonWidth;
+        private debugSetting;
+        constructor(buttonWidth?: string, useFaceDetection?: boolean, autoStart?: boolean, showControls?: boolean, startCameraText?: string, debug?: boolean);
+        printConfig(): ISecureCitizenCameraConfig;
+        setCameraText(text: string): SecureCitizenCameraConfig;
+        disableFaceDetection(): SecureCitizenCameraConfig;
+        enableFaceDetection(autoStart?: boolean): SecureCitizenCameraConfig;
+        setButtonWidth(width: string): SecureCitizenCameraConfig;
+        changeShowControls(value?: boolean): SecureCitizenCameraConfig;
+        changeDebug(value?: boolean): SecureCitizenCameraConfig;
+        IsAutoStartEnabled: () => boolean;
+        IsFaceDetectionEnabled: () => boolean;
+        ButtonWidth: () => string;
+        ShowControls: () => boolean;
+        Debug: () => boolean;
+        CameraText: () => string;
+    }
+    /** Gets the parameters used to start navigator.mediaDevices.getUserMedia(...) */
+    export function GetConstraints(isMac?: boolean, width?: string, height?: string): {
+        audio: boolean;
+        video: {
+            facingMode: string;
+            width: number;
+            height: number;
+        };
+    } | {
+        audio: boolean;
+        video: {
+            facingMode: string;
+            width: {
+                ideal: number;
+            };
+            height: {
+                ideal: number;
+            };
+        };
+    };
+}
+declare module "sc-camera-module" {
+    import { log } from "utils/errors";
+    import { SecureCitizenBootstrapper } from "utils/bootstrap";
+    import { InitialConfig } from "utils/configuration";
+    function init(config: InitialConfig): SecureCitizenBootstrapper;
     const _default: {
         init: typeof init;
         log: typeof log;
     };
     export default _default;
-    export { init, log, SetupTask };
 }
