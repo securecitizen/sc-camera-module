@@ -36,7 +36,7 @@
         "github-pages",
         "npm-publish"
     ],
-    "author": "Grant Vine <grantv@securecitizen.co.za> (https://securecityizen.co.za)",
+    "author": "Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)",
     "license": "MIT",
     "devDependencies": {
         "autoprefixer": "^10.4.13",
