@@ -2,25 +2,26 @@ import platform from 'platform-detect';
 import { log } from './errors';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './defaults';
 import { GenerateErrorDiv } from '../components/error-output';
-import { BootstrapCameraDiv, BootstrapCanvas, BootstrapVideo, GenerateMainCaptureDiv } from '../components/main-camera-div';
+import { BootstrapCameraDiv, BootstrapCanvas, BootstrapVideo, GenerateMainCaptureDiv, IdentifyContent, IdentifyWindow, PatchContentSize } from '../components/main-camera-div';
 import { GenerateControlPanel } from '../components/control-panel';
 // import { EventBroker } from './typedeventemitter'
 
 class SecureCitizenBootstrapper {
     private random_id_suffix = Math.floor((Math.random() * 1000000)).toString();
-    public authBase: string;
-    public isMobile: boolean;
-    public isMac: boolean;
-    public isIOS: boolean;
-    public pixelRatio: number;
+    private authBase: string;
+    private isMobile: boolean;
+    private isMac: boolean;
+    private isIOS: boolean;
+    private pixelRatio: number;
 
-    public parentDivWidth: number = 0;
-    public parentDivHeight: number = 0;
-    public divWidth: number = 0;
-    public divHeight: number = 0;
+    private parentDivWidth: number = 0;
+    private parentDivHeight: number = 0;
+    private divWidth: number = 0;
+    private divHeight: number = 0;
 
-    public videoElement: HTMLVideoElement; // the <video> tag
-    public canvasElement: HTMLCanvasElement; // the mask <canvas>
+    private cameraDiv: HTMLDivElement;
+    private videoElement: HTMLVideoElement; // the <video> tag
+    private canvasElement: HTMLCanvasElement; // the mask <canvas>
     
     /**
      * This bootstrap process will perform the following functions:
@@ -36,7 +37,8 @@ class SecureCitizenBootstrapper {
      */
     constructor(
         div_id: string,
-        client_id: string
+        client_id: string,
+        mask?: string
     ) {
         // set all fixed  or initial values in the constructor
 
@@ -46,6 +48,9 @@ class SecureCitizenBootstrapper {
         // Set the Auth Suffix
         const whatPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
         this.authBase = window.location.origin + whatPath;
+
+        // Initialise an Auth instance
+        log('Client ID: ' + client_id);
 
         // check if this isMobile, isIOS or isMac
         this.isMobile = platform.phone || platform.tablet;
@@ -63,36 +68,34 @@ class SecureCitizenBootstrapper {
 
         // check the width and height of the div we are located in - TBD
 
-        this.videoElement = document.createElement('video'); // moved to function
-        this.canvasElement = document.createElement('canvas'); // moved to function
+        this.cameraDiv = document.getElementById(div_id) as HTMLDivElement;
+
+        // Update 
+        BootstrapCameraDiv(this.cameraDiv);
+
+        const { width, height } = IdentifyWindow(this.cameraDiv);
+
+        this.videoElement = BootstrapVideo(this.random_id_suffix);
+        this.cameraDiv.appendChild(this.videoElement);
+
+        PatchContentSize(this.videoElement, width, height);
+
+        this.canvasElement = BootstrapCanvas(this.random_id_suffix, mask);
+        this.cameraDiv.appendChild(this.canvasElement);
+
+        PatchContentSize(this.canvasElement, width, height);
+
+        IdentifyContent(this.videoElement);
+        IdentifyContent(this.canvasElement);
     }
 
     // public GenerateErrorDiv(): HTMLDivElement {
     //     return GenerateErrorDiv(this.random_id_suffix);
     // }
 
-    public GenerateMainCaptureDiv(
-        isCameraActive: boolean,
-        chosenMask?: string
-    ): {
-        videoElement: HTMLVideoElement;
-        canvasElement: HTMLCanvasElement;
-    } {
-        const videoElement = BootstrapVideo(this.random_id_suffix);
-        const canvasElement = BootstrapCanvas(this.random_id_suffix, chosenMask);
-        
-        return { videoElement, canvasElement };
-    }
-
     // public GenerateControlPanel() {
     //     return GenerateControlPanel(this.random_id_suffix);
     // }
-
-    public GenerateCameraDiv(width: number): HTMLDivElement {
-        
-        log("Width Configured to " + width)
-        return BootstrapCameraDiv(this.random_id_suffix, width);
-    }
 
     public UpdateValues(
         container: HTMLDivElement

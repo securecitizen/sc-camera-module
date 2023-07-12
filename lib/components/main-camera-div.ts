@@ -1,45 +1,50 @@
 import { DEFAULT_ASPECT_RATIO } from "../utils/defaults";
 import { log } from "../utils/errors";
 
-function IdentifyWindow(checkedElement: HTMLDivElement) {
+function IdentifyWindow(checkedElement: HTMLDivElement) : { width: number, height: number } {
 
   const setWidth = checkedElement.clientWidth;
   const setHeight = checkedElement.clientHeight;
   const actualWidth = checkedElement.offsetWidth;
   const actualHeight = checkedElement.offsetHeight;
 
+  log("Checking Div ID: " + checkedElement.id)
   log("Client Width: " + setWidth);
   log("Client Height: " + setHeight);
   log("OffsetWidth: " + actualWidth);
   log("OffsetHeight: " + actualHeight);
 
+  return { width: actualWidth, height: actualHeight } 
+
 }
 
 function IdentifyContent(checkedElement: HTMLVideoElement | HTMLCanvasElement) {
 
-  const setWidth = checkedElement.width;
-  const setHeight = checkedElement.height;
-  // const actualWidth = checkedElement.offsetWidth;
-  // const actualHeight = checkedElement.offsetHeight;
-
-  log("Set Width: " + setWidth);
-  log("Set Height: " + setHeight);
-  // log("OffsetWidth: " + actualWidth);
-  // log("OffsetHeight: " + actualHeight);
+  log("Checking Element ID: " + checkedElement.id)
+  log("Set Width: " + checkedElement.width);
+  log("Set Height: " + checkedElement.height);
+  log("Client Width: " + checkedElement.clientWidth);
+  log("Client Height: " + checkedElement.clientHeight);
+  log("Offset Width: " + checkedElement.offsetWidth);
+  log("Offset Height: " + checkedElement.offsetHeight);
 
 }
 
-function BootstrapCameraDiv(random_id_suffix: string, width: number): HTMLDivElement {
-  const cameraDiv = document.createElement('div');
-  cameraDiv.id = 'camera' + random_id_suffix;
+function PatchContentSize(checkedElement: HTMLVideoElement | HTMLCanvasElement, width: number, height: number) {
+
+  checkedElement.width = width;
+  checkedElement.height = height;
+}
+
+function BootstrapCameraDiv(cameraDiv: HTMLDivElement): HTMLDivElement {
   cameraDiv.className = 'camera';
-  cameraDiv.style.width = width.toString();
-  cameraDiv.style.height = (width * DEFAULT_ASPECT_RATIO).toString();
   cameraDiv.style.color = 'white';
   cameraDiv.style.display = 'flex';
   cameraDiv.style.alignItems = 'center';
   cameraDiv.style.justifyContent = 'center';
   cameraDiv.style.position = 'relative';
+  cameraDiv.style.minWidth = '240px';
+  cameraDiv.style.minHeight = '480px';
 
   return cameraDiv;
 }
@@ -90,6 +95,8 @@ function BootstrapCanvas(
   canvasElement.style.height = '100%';
   // canvasElement.style.maxWidth = '700px'; // this causes the mask to squish ... (need a resize, not a crop)
   // canvasElement.style.maxHeight = '100%'; // ?? why ?
+  canvasElement.style.minWidth = '240px';
+  canvasElement.style.minHeight = '480px';
   canvasElement.style.display = 'none';
   canvasElement.style.zIndex = '1';
 
@@ -148,87 +155,11 @@ function BootstrapCanvas(
   return canvasElement;
 }
 
-function GenerateMainCaptureDiv(
-  random_id_suffix: string,
-  width: string,
-  height: string,
-  isCameraActive: boolean
-): { videoElement: HTMLVideoElement; canvasElement: HTMLCanvasElement } {
-  // <video
-  //           ref="cameraVideo"
-  //           id="cameraVideo"
-  //           class="cameraVideo"
-  //           loop
-  //           autoplay
-  //           playsinline
-  //           muted
-  //           style='border-width: 10;'
-  //           ></video>
-  //         <canvas
-  //           ref="cameraCanvas"
-  //           id="cameraCanvas"
-  //           class="cameraCanvas"
-  //           style='display:block'
-  //           >
-  //         </canvas>
-
-  // change this to be given a div that it appends to ?
-  var videoElement = document.createElement('video');
-  videoElement.id = 'cameraVideo' + random_id_suffix;
-  videoElement.className = 'cameraVideo';
-  // videoElement.ref = 'cameraVideo';
-  videoElement.loop = true;
-  videoElement.autoplay = true;
-  videoElement.playsInline = true;
-  videoElement.muted = true;
-  videoElement.style.borderWidth = '10';
-  videoElement.style.width = width;
-  videoElement.style.height = height;
-
-  // Dynamic Styling
-
-  //   .cameraVideo {
-  //     -webkit-transform: scale(-1, 1);
-  //     transform: scale(-1, 1);
-  //     position: absolute;
-  //     max-width: 100%;
-  //     max-height: 100%;
-  //     background: black;
-  //   }
-  videoElement.style.position = 'absolute';
-  videoElement.style.maxHeight = '100%';
-  videoElement.style.maxWidth = '100%';
-  videoElement.style.background = 'black';
-  videoElement.style.transform = 'scale(-1, 1)';
-  videoElement.style.webkitTransform = 'scale(-1, 1)';
-
-  // Canvas Canvas Styling
-  // .cameraCanvas {
-  //   max-width: 700px;
-  //   max-height: 100%;
-  //   z-index: 1;
-  //   -webkit-transform: scale(-1, 1);
-  //   transform: scale(-1, 1);
-  // }
-  var canvasElement = document.createElement('canvas');
-  canvasElement.id = 'cameraCanvas' + random_id_suffix;
-  canvasElement.className = 'cameraCanvas';
-  // canvasElement.ref = "cameraCanvas";
-  canvasElement.style.width = width;
-  canvasElement.style.height = height;
-  canvasElement.style.maxWidth = '700px';
-  canvasElement.style.maxHeight = '100%';
-  canvasElement.style.display = isCameraActive ? 'block' : 'none';
-  canvasElement.style.zIndex = '1';
-
-  return { videoElement, canvasElement };
-}
-
 export {
-  GenerateMainCaptureDiv,
   BootstrapCanvas,
   BootstrapVideo,
   BootstrapCameraDiv,
   IdentifyWindow,
   IdentifyContent,
+  PatchContentSize
 };
