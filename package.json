@@ -1,14 +1,14 @@
 {
     "name": "sc-camera-module",
     "version": "1.0.0",
-    "description": "This is a templare repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.",
+    "description": "This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.",
     "files": [
         "dist"
     ],
     "main": "./dist/sc-camera-module.umd.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/johnfmorton/sc-camera-module"
+        "url": "https://github.com/securecitizen/sc-camera-module"
     },
     "module": "./dist/sc-camera-module.es.js",
     "unpkg": "./dist/sc-camera-module.es.js",
@@ -21,11 +21,10 @@
     },
     "scripts": {
         "clean": "rm -rf dist es demo",
-        "dev": "vite --host 0.0.0.0 --port 8888",
+        "dev": "vite --host 0.0.0.0 --port 3000",
         "vite-build": "vite build --config vite.demo.config.js",
         "build": "vite build --config vite.demo.config.js && vite build && tsc lib/sc-camera-module.ts --declaration --emitDeclarationOnly --outFile dist/sc-camera-module.d.ts",
         "preview": "vite preview",
-        "project-setup": "node project-setup.js && npm install",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
@@ -37,7 +36,7 @@
         "github-pages",
         "npm-publish"
     ],
-    "author": "John F. Morton <john@johnfmorton.com> (https://supergeekery.com)",
+    "author": "Grant Vine <grantv@securecitizen.co.za> (https://securecityizen.co.za)",
     "license": "MIT",
     "devDependencies": {
         "autoprefixer": "^10.4.13",
@@ -45,6 +44,13 @@
         "tailwindcss": "^3.2.7",
         "typescript": "^4.9.5",
         "vite": "^4.1.3",
-        "vite-plugin-banner": "^0.7.0"
+        "vite-plugin-banner": "^0.7.0",
+        "vite-plugin-dts": "^3.2.0"
+    },
+    "dependencies": {
+        "@vladmandic/face-api": "^1.7.12",
+        "kalmanjs": "^1.1.0",
+        "oidc-client-ts": "^2.2.4",
+        "platform-detect": "^3.0.1"
     }
 }
