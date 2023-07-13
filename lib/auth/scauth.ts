@@ -26,8 +26,8 @@ export const SecureCitizenOIDC : UserManagerSettings = {
     popup_redirect_uri: url + "/scauth/popup-signin.html",
     popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
 
+    popupWindowFeatures: { height: 768 },
     
-
     silent_redirect_uri: url + "/scauth/silent-renew.html",
     automaticSilentRenew: false,
     validateSubOnSilentRenew: true,
