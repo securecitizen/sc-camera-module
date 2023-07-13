@@ -1,6 +1,6 @@
 {
-    "name": "sc-camera-module",
-    "version": "1.0.0",
+    "name": "@securecitizen/sc-camera-module",
+    "version": "1.0.1",
     "description": "This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.",
     "files": [
         "dist"
@@ -37,7 +37,7 @@
         "npm-publish"
     ],
     "author": "Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)",
-    "license": "MIT",
+    "license": "ISC",
     "devDependencies": {
         "@types/node": "^20.4.1",
         "autoprefixer": "^10.4.13",

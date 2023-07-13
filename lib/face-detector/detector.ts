@@ -2,7 +2,7 @@ import * as faceapi from '@vladmandic/face-api';
 import base64Photo from './photo-to-start-detector';
 import { FaceDetectionFeedback } from './face-detection-feedback';
 import { HeadPosition } from './head-position/head-position';
-import cv from '@techstark/opencv-js';
+import * as cv from '@techstark/opencv-js';
 import platform from 'platform-detect';
 
   
