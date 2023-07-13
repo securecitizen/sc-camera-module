@@ -35,6 +35,10 @@ type LocalEventTypes = {
   'takePhotoBtn': [],
   'openCameraBtn': [],
   'closeCameraBtn': [],
+  'login': [],
+  'logout': [],
+  'getUser': [],
+  'getSession': [],
   'photoTaken': [statusCode: number, photoString: string]
   'userAcquired': [statusCode: number, user: User | null]
   'userChange': [statusCode: number, change: 'token_expired' | 'token_expiring' | 'user_loaded' | 'user_unloaded' | 'user_signed_in' | 'user_signed_out']

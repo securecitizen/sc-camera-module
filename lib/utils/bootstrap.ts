@@ -2,22 +2,24 @@ import platform from 'platform-detect';
 import { log } from './errors';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './defaults';
 import { GenerateErrorDiv } from '../components/error-output';
-import { BootstrapCameraDiv, BootstrapCanvas, BootstrapVideo, IdentifyContent, IdentifyWindow, PatchContentSize } from '../components/main-camera-div';
+import { BootstrapCameraDiv, IdentifyWindow } from '../components/main-camera-div';
 import { GenerateControlPanel } from '../components/control-panel';
-import { SecureCitizenUserManager, SecureCitizenOIDC } from "../auth/auth-settings";
-// import { EventBroker } from './typedeventemitter'
+import { SecureCitizenUserManager, SecureCitizenOIDC } from "../auth/scauth";
+import { SecureCitizenCamera } from '../obsolete/sc-camera';
+import { User } from 'oidc-client-ts';
+import { EventBroker } from './typedeventemitter';
 
 class SecureCitizenBootstrapper {
     private random_id_suffix = Math.floor((Math.random() * 1000000)).toString();
-    private authBase: string;
+    // private authBase: string;
     private auth: SecureCitizenUserManager;
-    private isMobile: boolean;
-    private isMac: boolean;
-    private isIOS: boolean;
-    private pixelRatio: number;
+    // private isMobile: boolean;
+    // private isMac: boolean;
+    // private isIOS: boolean;
+    // private pixelRatio: number;
+    private camera: SecureCitizenCamera;
 
     private originationDiv: HTMLDivElement;
-    private cameraDiv: HTMLDivElement;
     
     /**
      * This bootstrap process will perform the following functions:
@@ -45,33 +47,14 @@ class SecureCitizenBootstrapper {
 
         // Check if browser or exit
         if(!platform.web) { throw Error("This library is only for browser based usage")}
-        
-        // Set the Auth Suffix
-        const whatPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
-        this.authBase = window.location.origin + whatPath;
 
-        SecureCitizenOIDC.client_id = clientId;
-
-        this.auth = new SecureCitizenUserManager(SecureCitizenOIDC);
-
-        // Initialise an Auth instance
-        log('Client ID: ' + clientId + ' and authBase set to ' + this.authBase);
-
+        this.auth = new SecureCitizenUserManager(clientId);
         log('Auth Config: ', this.auth.settings)
 
-        // check if this isMobile, isIOS or isMac
-        this.isMobile = platform.phone || platform.tablet;
-        this.isIOS = platform.ios;
-        this.isMac = platform.macos;
-
-        log('Mobile: ' + this.isMobile);
-        log('IOS: ' + this.isIOS);
-        log('MAC: ' + this.isMac);
-
         // check the pixelRatio (to be used for scaling ?)
-        this.pixelRatio = platform.pixelRatio;
+        const pixelRatio = platform.pixelRatio;
 
-        log('Pixel Ratio: ' + this.pixelRatio);
+        log('Pixel Ratio: ' + pixelRatio);
 
         // check the width and height of the div we are located in
 
@@ -79,16 +62,100 @@ class SecureCitizenBootstrapper {
 
         const { width, height } = IdentifyWindow(this.originationDiv);
 
-        // Update this div by bootstrapping our content
-        this.cameraDiv = BootstrapCameraDiv(this.random_id_suffix, width, height);
+        this.camera = new SecureCitizenCamera(this.random_id_suffix, width, height);
 
-        this.originationDiv.appendChild(this.cameraDiv);
+        // log(this.camera.cameraDiv);
+        IdentifyWindow(this.camera.cameraDiv)
+        this.originationDiv.appendChild(this.camera.cameraDiv);
 
-        const videoElement = document.getElementById('cameraVideo' + this.random_id_suffix) as HTMLVideoElement;
-        const canvasElement = document.getElementById('cameraVideo' + this.random_id_suffix) as HTMLCanvasElement;
+        
+    if(this.camera.config.ShowControls()) {
+        // attach the control panel to the named div if requested
+        const controlPanelDiv = GenerateControlPanel(this.random_id_suffix);
+        
+        // Finally append the controlPanelDiv to the SecureCitizenCameraDiv
+        this.originationDiv?.appendChild(controlPanelDiv);
+        
+        // Listening to button bresses from the control panel
+        EventBroker.on('openCameraBtn', () => {
+          this.camera.openCamera();
+        });
+        EventBroker.on('takePhotoBtn', () => {
+          this.camera.takePhoto();
+        });
+        EventBroker.on('closeCameraBtn', () => {
+          this.camera.closeCamera();
+        });
+        EventBroker.on('login', () => {
+            this.auth.signinPopup();
+          });
+          EventBroker.on('logout', () => {
+            this.auth.signoutPopup();
+          });
+          EventBroker.on('getSession', () => {
+            const session = this.auth.querySessionStatus();
+            log('Session: ', session)
+          });
+          EventBroker.on('getUser', () => {
+            const user = this.auth.getUser();
+            log('User: ' + user)
+          });
+      }
 
-        IdentifyContent(videoElement);
-        IdentifyContent(canvasElement);
+        this.ConfigureListeners();
+    }
+
+    private ConfigureListeners() {
+        
+        const um = this.auth;
+    this.auth.events.addAccessTokenExpiring(function () {
+        console.log("token expiring");
+        log("token expiring");
+        EventBroker.emit('userChange', 1, 'token_expiring');
+        // maybe do this code manually if automaticSilentRenew doesn't work for you
+        um.signinSilent().then(function(user: User | null) {
+            EventBroker.emit('userAcquired', 1, user);
+            log("silent renew success", user);
+        }).catch(function(e: Error) {
+            log("silent renew error", e.message);
+            EventBroker.emit('userError', 1, e.message);
+        });
+    });
+
+    this.auth.events.addAccessTokenExpired(function () {
+        console.log("token expired");
+        log("token expired");
+        EventBroker.emit('userChange', 1, 'token_expired');
+    });
+
+    this.auth.events.addSilentRenewError(function (e) {
+        console.log("silent renew error", e.message);
+        log("silent renew error", e.message);
+        EventBroker.emit('userError', 1, e.message);
+    });
+
+    this.auth.events.addUserLoaded(function (user) {
+        console.log("user loaded", user);
+        um.getUser().then(function() {
+            console.log("getUser loaded user after userLoaded event fired");
+        });
+        EventBroker.emit('userChange', 1, 'user_loaded');
+    });                                                                             
+
+    this.auth.events.addUserUnloaded(function () {
+        console.log("user unloaded");
+        EventBroker.emit('userChange', 1, 'user_unloaded');
+    });
+
+    this.auth.events.addUserSignedIn(function () {
+        log("user logged in to the token server");
+        EventBroker.emit('userChange', 1, 'user_signed_in');
+    });
+
+    this.auth.events.addUserSignedOut(function () {
+        log("user logged out of the token server");
+        EventBroker.emit('userChange', 1, 'user_signed_out');
+    });
     }
 
     // public GenerateErrorDiv(): HTMLDivElement {

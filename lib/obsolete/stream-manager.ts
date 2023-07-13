@@ -1,5 +1,7 @@
 import { log } from '../utils/errors';
 import { Detector } from '../face-detector/detector';
+import platform from 'platform-detect';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../utils/defaults';
 
 export class StreamManager {
 
@@ -12,14 +14,13 @@ export class StreamManager {
   maskOverlayImageElement: HTMLImageElement;
   isMobile: boolean;
   isIos: boolean;
+  isMac: boolean;
 
   onErrors: (errors: any) => void;
 
   constructor(
     videoElement: HTMLVideoElement, 
-    canvasElement: HTMLCanvasElement, 
-    isMobile: boolean,
-    isIos: boolean,
+    canvasElement: HTMLCanvasElement,
     detector: Detector | null,
     mask: string,
     onErrors: (errors: any) => void) 
@@ -32,14 +33,21 @@ export class StreamManager {
       this.detector = detector;
       this.onErrors = onErrors;
 
-      this.isMobile = isMobile;
-      this.isIos = isIos;
+      // check if this isMobile, isIOS or isMac
+      this.isMobile = platform.phone || platform.tablet;
+      this.isIos = platform.ios;
+      this.isMac = platform.macos;
+
+      log('Mobile: ' + this.isMobile);
+      log('IOS: ' + this.isIos);
+      log('MAC: ' + this.isMac);
       
       this.maskOverlayImageElement = new Image();
       this.maskOverlayImageElement.src = mask;
       
-      window.addEventListener('resize', this.orientationChange, false);
-      window.addEventListener('orientationchange', this.orientationChange, false);
+      // replace with resizeObserver
+      // window.addEventListener('resize', this.orientationChange, false);
+      // window.addEventListener('orientationchange', this.orientationChange, false);
   }
 
   startStream(stream: MediaStream) {
@@ -162,4 +170,40 @@ export class StreamManager {
     log("Resize triggered")
     this.drawMask();
   }
+}
+
+
+/** Gets the parameters used to start navigator.mediaDevices.getUserMedia(...) */
+export function GetConstraints(
+  width: string = '1920',
+  height: string = '1080'
+) {
+  const w = Number(width);
+  const h = Number(height);
+
+  if (w === 0 || w > 1920) {
+    width = DEFAULT_WIDTH.toString();
+  }
+
+  if (h === 0 || h > 1080) {
+    height = DEFAULT_HEIGHT.toString();
+  }
+
+  return platform.macos
+    ? {
+        audio: false,
+        video: {
+          facingMode: 'user',
+          width: w,
+          height: h,
+        },
+      }
+    : {
+        audio: false,
+        video: {
+          facingMode: 'user',
+          width: { ideal: w },
+          height: { ideal: h },
+        },
+      };
 }

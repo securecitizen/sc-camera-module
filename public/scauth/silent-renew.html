@@ -7,9 +7,12 @@
 
 <body>
     <script type="module">
-       import { SecureCitizenCamera } from '../dist/sc-face-camera.js'
-       const secureCamera = new SecureCitizenCamera("sc-app-beta");
-       secureCamera.endSigninMainWindow();
+       import SecureCitizenAuth from '../lib/sc-camera-module'
+
+// ModuleDemoPage.init('Success! The module is working.')
+
+const auth = SecureCitizenAuth.authinit({clientId: 'sc-app-beta'});
+       auth.endSigninMainWindow();
     </script>
 
 </body>

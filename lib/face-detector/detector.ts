@@ -3,6 +3,7 @@ import base64Photo from './photo-to-start-detector';
 import { FaceDetectionFeedback } from './face-detection-feedback';
 import { HeadPosition } from './head-position/head-position';
 import cv from '@techstark/opencv-js';
+import platform from 'platform-detect';
 
   
 export class Detector {
@@ -41,8 +42,6 @@ export class Detector {
   DEFAULT_NUMBER_SUCCESSFUL_RESULTS_FOR_AUTO_CAPTURING: number;
 
   constructor(
-    isMobile: boolean,
-    isIos: boolean,
     videoElement: HTMLVideoElement, 
     canvasElement: HTMLCanvasElement,
     onAutoCapture: () => void, 
@@ -72,8 +71,9 @@ export class Detector {
     this.videoRatio = 1;
     this.headTurnCounter = 0;
     this.counterSuccessfulHeadTurns = 0;
-    this.isMobile = isMobile;
-    this.isIos = isIos;
+    // check if this isMobile, isIOS or isMac
+    this.isMobile = platform.phone || platform.tablet;
+    this.isIos = platform.ios;
     this.videoElement = videoElement;
     this.innerCanvas = canvasElement;
     this.animationFrame = null;

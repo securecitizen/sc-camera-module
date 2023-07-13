@@ -4,9 +4,10 @@
 // Use `output.exports: "named"` to disable this warning.
 
 import { log }  from './utils/errors';
+import { SecureCitizenUserManager } from './auth/scauth'
 // import { SecureCitizenFaceCamera } from './sc-face-camera';
 import { SecureCitizenBootstrapper } from './utils/bootstrap'
-import { InitConfig } from './utils/configuration'
+import { AuthInit, InitConfig } from './utils/configuration'
 
 function init(config: InitConfig): void {
   log(config);
@@ -20,7 +21,12 @@ function init(config: InitConfig): void {
   // return bootstrap;
 }
 
+function authinit(config: AuthInit): SecureCitizenUserManager {
+  return new SecureCitizenUserManager(config.clientId);
+}
+
 export default {
   init: init,
+  authinit: authinit,
   log
 }

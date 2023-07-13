@@ -20,7 +20,7 @@ function GenerateControlPanel(
     // define the controlPanel
     const index = 'controlPanel';
     const controlPanelDiv = document.createElement('div');
-    controlPanelDiv.id = index + random_id_suffix;
+    controlPanelDiv.id = index + "-" + random_id_suffix;
     controlPanelDiv.className = index;
     controlPanelDiv.style.height = "35%";
     controlPanelDiv.style.maxWidth = "450px";
@@ -35,21 +35,33 @@ function GenerateControlPanel(
       // controlPanelDiv.style.position = 'fixed';
     // }
 
-    // const loginBtn = AddButton('Login', () => this.startSigninMainWindow());
+    const loginBtn = AddButton(random_id_suffix, 'Login', () => {
+      EventBroker.emit('login');
+      log('login from Control Panel');
+    });
 
-    // controlPanelDiv.appendChild(loginBtn);
+    controlPanelDiv.appendChild(loginBtn);
 
-    // const statusBtn = AddButton('Get Session', () => this.sessionStatus());
+    const statusBtn = AddButton(random_id_suffix, 'Get Session', () => {
+      EventBroker.emit('getSession');
+      log('getSession from Control Panel');
+    });
 
-    // controlPanelDiv.appendChild(statusBtn);
+    controlPanelDiv.appendChild(statusBtn);
 
-    // const userBtn = AddButton('Get User', () => this.getUser());
+    const userBtn = AddButton(random_id_suffix, 'Get User', () => {
+      EventBroker.emit('getUser');
+      log('getUser from Control Panel');
+    });
 
-    // controlPanelDiv.appendChild(userBtn);
+    controlPanelDiv.appendChild(userBtn);
 
-    // const logoutBtn = AddButton('Logout', () => this.startSignoutMainWindow());
+    const logoutBtn = AddButton(random_id_suffix, 'Logout', () => {
+      EventBroker.emit('logout');
+      log('Logout from Control Panel');
+    });
 
-    // controlPanelDiv.appendChild(logoutBtn);
+    controlPanelDiv.appendChild(logoutBtn);
 
     const takePhotoBtn = AddButton(random_id_suffix, 'Take Photo', () => {
         EventBroker.emit('takePhotoBtn');

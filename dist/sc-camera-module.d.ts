@@ -17,6 +17,7 @@ declare module "utils/defaults" {
     export const DEFAULT_ASPECT_RATIO: number;
     export const DEFAULT_ERROR_OUTSINK = "out";
     export const DEFAULT_MESSAGE_OUTSINK = "logMessages";
+    export const DEFAULT_CLIENT_ID = "sc-app-beta";
 }
 declare module "utils/errors" {
     const errorToFriendly: {
@@ -32,16 +33,16 @@ declare module "components/error-output" {
     export { GenerateErrorDiv };
 }
 declare module "components/main-camera-div" {
-    function IdentifyWindow(checkedElement: HTMLDivElement): void;
+    function IdentifyWindow(checkedElement: HTMLDivElement): {
+        width: number;
+        height: number;
+    };
     function IdentifyContent(checkedElement: HTMLVideoElement | HTMLCanvasElement): void;
-    function BootstrapCameraDiv(random_id_suffix: string, width: number): HTMLDivElement;
+    function PatchContentSize(checkedElement: HTMLVideoElement | HTMLCanvasElement, width: number, height: number): void;
+    function BootstrapCameraDiv(random_id_suffix: string, width: number, height?: number, mask?: string): HTMLDivElement;
     function BootstrapVideo(random_id_suffix: string): HTMLVideoElement;
     function BootstrapCanvas(random_id_suffix: string, chosenMask?: string): HTMLCanvasElement;
-    function GenerateMainCaptureDiv(random_id_suffix: string, width: string, height: string, isCameraActive: boolean): {
-        videoElement: HTMLVideoElement;
-        canvasElement: HTMLCanvasElement;
-    };
-    export { GenerateMainCaptureDiv, BootstrapCanvas, BootstrapVideo, BootstrapCameraDiv, IdentifyWindow, IdentifyContent, };
+    export { BootstrapCanvas, BootstrapVideo, BootstrapCameraDiv, IdentifyWindow, IdentifyContent, PatchContentSize };
 }
 declare module "components/add-button" {
     function AddButton(random_id_suffix: string, innerText: string, f: Function): HTMLButtonElement;
@@ -75,46 +76,46 @@ declare module "components/control-panel" {
     function GenerateControlPanel(random_id_suffix: string): HTMLDivElement;
     export { GenerateControlPanel };
 }
+declare module "auth/auth-settings" {
+    import { Log, UserManager, UserManagerSettings } from "oidc-client-ts";
+    const url: string;
+    export const SecureCitizenOIDC: UserManagerSettings;
+    class SecureCitizenUserManager extends UserManager {
+        constructor(clientId: string);
+    }
+    export { Log as UserManagerLog, SecureCitizenUserManager, url as baseUrl };
+}
 declare module "utils/bootstrap" {
     class SecureCitizenBootstrapper {
         private random_id_suffix;
-        authBase: string;
-        isMobile: boolean;
-        isMac: boolean;
-        isIOS: boolean;
-        pixelRatio: number;
-        parentDivWidth: number;
-        parentDivHeight: number;
-        divWidth: number;
-        divHeight: number;
-        videoElement: HTMLVideoElement;
-        canvasElement: HTMLCanvasElement;
+        private auth;
+        private originationDiv;
+        private cameraDiv;
         /**
          * This bootstrap process will perform the following functions:
-         * 1 - Identify what base URL we are running on for authentication configurations
+         * 1 - Identify what base URL we are running on for authentication configuration
+         *     and creates an OIDC Authentication client based on this information
          * 2 - Identify what type of device we are running on
          * 3 - Identify our PixelRatio, and the width (required) and height (optional)
          *     from the enclosing div element
-         * 4 - Create a Video Element
-         * 5 - Create a Mask Canvas Element - requires defining what mask to use - served from the public folder URL
-         * 6 - Create a Text Canvas Element to display status changes including 'Launch Camera'
+         * 4 - Create an enclosing CameraDiv element that our items will be within (the
+         *     Camera Module itself)
+         * 5 - Create a Video Element
+         * 5 - Create a Mask Canvas Element - requires defining what mask to use - served
+         *     from the public folder URL
+         * 6 - Create a Text Canvas Element to display status changes including 'Launch
+         *     Camera'
          * 7 -
          * 8 - Create a resizeObserver on the enclosing div to manage orientation and page changes
          */
-        constructor(div_id: string, client_id: string);
-        GenerateMainCaptureDiv(isCameraActive: boolean, chosenMask?: string): {
-            videoElement: HTMLVideoElement;
-            canvasElement: HTMLCanvasElement;
-        };
-        GenerateCameraDiv(width: number): HTMLDivElement;
-        UpdateValues(container: HTMLDivElement): void;
+        constructor(sourceDiv: string, clientId: string, mask?: string);
     }
     export { SecureCitizenBootstrapper };
 }
 declare module "utils/configuration" {
-    export interface InitialConfig {
-        div_id: string;
-        client_id: string;
+    export interface InitConfig {
+        sourceDiv: string;
+        clientId: string;
     }
     export interface ISecureCitizenCameraConfig {
         showControls: boolean;
@@ -169,9 +170,8 @@ declare module "utils/configuration" {
 }
 declare module "sc-camera-module" {
     import { log } from "utils/errors";
-    import { SecureCitizenBootstrapper } from "utils/bootstrap";
-    import { InitialConfig } from "utils/configuration";
-    function init(config: InitialConfig): SecureCitizenBootstrapper;
+    import { InitConfig } from "utils/configuration";
+    function init(config: InitConfig): void;
     const _default: {
         init: typeof init;
         log: typeof log;

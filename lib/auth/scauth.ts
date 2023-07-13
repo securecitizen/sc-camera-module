@@ -1,5 +1,6 @@
-import { Log, UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client-ts";
+import { Log, User, UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client-ts";
 import { DEFAULT_CLIENT_ID } from "../utils/defaults";
+import { log } from "../utils/errors";
 
 Log.setLogger(console);
 Log.setLevel(Log.INFO);
@@ -20,11 +21,12 @@ export const SecureCitizenOIDC : UserManagerSettings = {
     scope: "openid profile offline_access",
     //scope: 'openid profile api offline_access',
 
-    popup_redirect_uri: url + "/popup-signin.html",
-    popup_post_logout_redirect_uri: url + "/popup-signout.html",
+    popup_redirect_uri: url + "/scauth/popup-signin.html",
+    popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
 
+    
 
-    silent_redirect_uri: url + "/silent-renew.html",
+    silent_redirect_uri: url + "/scauth/silent-renew.html",
     automaticSilentRenew: false,
     validateSubOnSilentRenew: true,
     //silentRequestTimeout: 10000,
@@ -42,12 +44,123 @@ export const SecureCitizenOIDC : UserManagerSettings = {
 };
 
 class SecureCitizenUserManager extends UserManager {
-    constructor(settings: UserManagerSettings) {
+    constructor(clientId: string) {
+        const settings = SecureCitizenOIDC;
+        settings.client_id = clientId;
         super(settings);
+
+        // Initialise an Auth instance
+        log('Client ID: ' + clientId + ' and authBase set to ' + url);
     }
+
+    
+    // Auth methods
+
+    public clearState() {
+        this.clearStaleState().then(function() {
+            log("clearStateState success");
+        }).catch(function(err) {
+            console.error(err);
+            log(err);
+        });
+    }
+
+public sessionStatus() {
+    this.querySessionStatus().then(function(status) {
+        log("user's session status", status);
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public getUserInfo() {
+    this.getUser().then(function(user: User | null) {
+        log("user object", user);
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public revokeAccessToken() {
+    this.revokeTokens().then(function() {
+        log("access token revoked");
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public startSigninMainWindow() {
+    this.signinRedirect({ state: { foo: "bar" } /*, useReplaceToNavigate: true*/ }).then(function() {
+        log("signinRedirect done");
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public endSigninMainWindow() {
+    this.signinRedirectCallback().then(function(user) {
+        log("signed in", user);
+        // this is how you get the custom state after the login:
+        var customState = (user as User).state;
+        console.log("here's our post-login custom state", customState);
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public popupSignin() {
+    this.signinPopupCallback().then(function(user) {
+        log("signed in", user);
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public popupSignout() {
+    this.signoutPopupCallback().then(function() {
+        log("signed out");
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public iframeSignin() {
+    this.signinSilent().then(function(user) {
+        log("signed in silent", user);
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public startSignoutMainWindow() {
+    this.signoutRedirect().then(function(resp) {
+        log("signed out", resp);
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
+
+public endSignoutMainWindow() {
+    this.signoutRedirectCallback().then(function(resp) {
+        log("signed out", resp);
+    }).catch(function(err) {
+        console.error(err);
+        log(err);
+    });
+}
 }
 
 export {
-    Log,
-    SecureCitizenUserManager
+    Log as UserManagerLog,
+    SecureCitizenUserManager,
+    url as baseUrl
 };

@@ -9,9 +9,12 @@ import {
   DEFAULT_WIDTH,
 } from './defaults';
 
-export interface InitConfig {
-  sourceDiv: string,
+export interface AuthInit {
   clientId: string,
+}
+
+export interface InitConfig extends AuthInit {
+  sourceDiv: string,
 }
 
 export interface ISecureCitizenCameraConfig {
@@ -154,40 +157,4 @@ export class SecureCitizenCameraConfig {
   public CameraText = () => {
     return this.startCameraText;
   };
-}
-
-/** Gets the parameters used to start navigator.mediaDevices.getUserMedia(...) */
-export function GetConstraints(
-  isMac?: boolean,
-  width: string = '1920',
-  height: string = '1080'
-) {
-  const w = Number(width);
-  const h = Number(height);
-
-  if (w === 0 || w > 1920) {
-    width = DEFAULT_WIDTH.toString();
-  }
-
-  if (h === 0 || h > 1080) {
-    height = DEFAULT_HEIGHT.toString();
-  }
-
-  return isMac
-    ? {
-        audio: false,
-        video: {
-          facingMode: 'user',
-          width: w,
-          height: h,
-        },
-      }
-    : {
-        audio: false,
-        video: {
-          facingMode: 'user',
-          width: { ideal: w },
-          height: { ideal: h },
-        },
-      };
 }

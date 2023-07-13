@@ -3,24 +3,19 @@ import { log } from "../utils/errors";
 
 function IdentifyWindow(checkedElement: HTMLDivElement) : { width: number, height: number } {
 
-  const setWidth = checkedElement.clientWidth;
-  const setHeight = checkedElement.clientHeight;
-  const actualWidth = checkedElement.offsetWidth;
-  const actualHeight = checkedElement.offsetHeight;
-
   log("Checking Div ID: " + checkedElement.id)
-  log("Client Width: " + setWidth);
-  log("Client Height: " + setHeight);
-  log("OffsetWidth: " + actualWidth);
-  log("OffsetHeight: " + actualHeight);
+  log("Client Width: " + checkedElement.clientWidth ? checkedElement.clientWidth : 0);
+  log("Client Height: " + checkedElement.clientHeight ? checkedElement.clientHeight : 0);
+  log("Offset Width: " + checkedElement.offsetWidth ? checkedElement.offsetWidth : 0);
+  log("Offset Height: " + checkedElement.offsetHeight ? checkedElement.offsetHeight : 0);
 
-  return { width: actualWidth, height: actualHeight } 
+  return { width: checkedElement.offsetWidth, height: checkedElement.offsetHeight } 
 
 }
 
 function IdentifyContent(checkedElement: HTMLVideoElement | HTMLCanvasElement) {
 
-  log("Checking Element ID: " + !!checkedElement)
+  log("Checking Element ID: " + checkedElement.id)
   log("Set Width: " + checkedElement.width);
   log("Set Height: " + checkedElement.height);
   log("Client Width: " + checkedElement.clientWidth);
@@ -36,10 +31,10 @@ function PatchContentSize(checkedElement: HTMLVideoElement | HTMLCanvasElement, 
   checkedElement.height = height;
 }
 
-function BootstrapCameraDiv(random_id_suffix: string, width: number, height?: number, mask?: string): HTMLDivElement {
+function BootstrapCameraDiv(random_id_suffix: string, width: number, height?: number, mask?: string): { cameraDiv: HTMLDivElement, videoElement: HTMLVideoElement, canvasElement: HTMLCanvasElement } {
   const h = height ? height : (width / DEFAULT_ASPECT_RATIO);
   const cameraDiv = document.createElement('div');
-  cameraDiv.id = 'camera' + random_id_suffix;
+  cameraDiv.id = 'camera-' + random_id_suffix;
   cameraDiv.className = 'camera';
   cameraDiv.style.width = width.toString();
   cameraDiv.style.height = h.toString();
@@ -59,12 +54,12 @@ function BootstrapCameraDiv(random_id_suffix: string, width: number, height?: nu
 
   PatchContentSize(canvasElement, width, h);
 
-  return cameraDiv;
+  return { cameraDiv, videoElement, canvasElement };
 }
 
 function BootstrapVideo(random_id_suffix: string): HTMLVideoElement {
   var videoElement = document.createElement('video');
-  videoElement.id = 'cameraVideo' + random_id_suffix;
+  videoElement.id = 'cameraVideo-' + random_id_suffix;
   videoElement.className = 'cameraVideo';
   // videoElement.ref = 'cameraVideo';
   videoElement.loop = true;
@@ -101,7 +96,7 @@ function BootstrapCanvas(
   chosenMask?: string
 ): HTMLCanvasElement {
   var canvasElement = document.createElement('canvas');
-  canvasElement.id = 'cameraCanvas' + random_id_suffix;
+  canvasElement.id = 'cameraCanvas-' + random_id_suffix;
   canvasElement.className = 'cameraCanvas';
   // canvasElement.ref = "cameraCanvas";
   canvasElement.style.width = '100%';
