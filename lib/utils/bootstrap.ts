@@ -2,42 +2,43 @@ import platform from 'platform-detect';
 import { log } from './errors';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './defaults';
 import { GenerateErrorDiv } from '../components/error-output';
-import { BootstrapCameraDiv, BootstrapCanvas, BootstrapVideo, GenerateMainCaptureDiv, IdentifyContent, IdentifyWindow, PatchContentSize } from '../components/main-camera-div';
+import { BootstrapCameraDiv, BootstrapCanvas, BootstrapVideo, IdentifyContent, IdentifyWindow, PatchContentSize } from '../components/main-camera-div';
 import { GenerateControlPanel } from '../components/control-panel';
+import { SecureCitizenUserManager, SecureCitizenOIDC } from "../auth/auth-settings";
 // import { EventBroker } from './typedeventemitter'
 
 class SecureCitizenBootstrapper {
     private random_id_suffix = Math.floor((Math.random() * 1000000)).toString();
     private authBase: string;
+    private auth: SecureCitizenUserManager;
     private isMobile: boolean;
     private isMac: boolean;
     private isIOS: boolean;
     private pixelRatio: number;
 
-    private parentDivWidth: number = 0;
-    private parentDivHeight: number = 0;
-    private divWidth: number = 0;
-    private divHeight: number = 0;
-
+    private originationDiv: HTMLDivElement;
     private cameraDiv: HTMLDivElement;
-    private videoElement: HTMLVideoElement; // the <video> tag
-    private canvasElement: HTMLCanvasElement; // the mask <canvas>
     
     /**
      * This bootstrap process will perform the following functions:
-     * 1 - Identify what base URL we are running on for authentication configurations
+     * 1 - Identify what base URL we are running on for authentication configuration 
+     *     and creates an OIDC Authentication client based on this information
      * 2 - Identify what type of device we are running on
      * 3 - Identify our PixelRatio, and the width (required) and height (optional) 
      *     from the enclosing div element
-     * 4 - Create a Video Element
-     * 5 - Create a Mask Canvas Element - requires defining what mask to use - served from the public folder URL
-     * 6 - Create a Text Canvas Element to display status changes including 'Launch Camera'
+     * 4 - Create an enclosing CameraDiv element that our items will be within (the 
+     *     Camera Module itself)
+     * 5 - Create a Video Element
+     * 5 - Create a Mask Canvas Element - requires defining what mask to use - served 
+     *     from the public folder URL
+     * 6 - Create a Text Canvas Element to display status changes including 'Launch 
+     *     Camera'
      * 7 - 
      * 8 - Create a resizeObserver on the enclosing div to manage orientation and page changes
      */
     constructor(
-        div_id: string,
-        client_id: string,
+        sourceDiv: string,
+        clientId: string,
         mask?: string
     ) {
         // set all fixed  or initial values in the constructor
@@ -49,8 +50,14 @@ class SecureCitizenBootstrapper {
         const whatPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
         this.authBase = window.location.origin + whatPath;
 
+        SecureCitizenOIDC.client_id = clientId;
+
+        this.auth = new SecureCitizenUserManager(SecureCitizenOIDC);
+
         // Initialise an Auth instance
-        log('Client ID: ' + client_id);
+        log('Client ID: ' + clientId + ' and authBase set to ' + this.authBase);
+
+        log('Auth Config: ', this.auth.settings)
 
         // check if this isMobile, isIOS or isMac
         this.isMobile = platform.phone || platform.tablet;
@@ -66,27 +73,22 @@ class SecureCitizenBootstrapper {
 
         log('Pixel Ratio: ' + this.pixelRatio);
 
-        // check the width and height of the div we are located in - TBD
+        // check the width and height of the div we are located in
 
-        this.cameraDiv = document.getElementById(div_id) as HTMLDivElement;
+        this.originationDiv = document.getElementById(sourceDiv) as HTMLDivElement;
 
-        // Update 
-        BootstrapCameraDiv(this.cameraDiv);
+        const { width, height } = IdentifyWindow(this.originationDiv);
 
-        const { width, height } = IdentifyWindow(this.cameraDiv);
+        // Update this div by bootstrapping our content
+        this.cameraDiv = BootstrapCameraDiv(this.random_id_suffix, width, height);
 
-        this.videoElement = BootstrapVideo(this.random_id_suffix);
-        this.cameraDiv.appendChild(this.videoElement);
+        this.originationDiv.appendChild(this.cameraDiv);
 
-        PatchContentSize(this.videoElement, width, height);
+        const videoElement = document.getElementById('cameraVideo' + this.random_id_suffix) as HTMLVideoElement;
+        const canvasElement = document.getElementById('cameraVideo' + this.random_id_suffix) as HTMLCanvasElement;
 
-        this.canvasElement = BootstrapCanvas(this.random_id_suffix, mask);
-        this.cameraDiv.appendChild(this.canvasElement);
-
-        PatchContentSize(this.canvasElement, width, height);
-
-        IdentifyContent(this.videoElement);
-        IdentifyContent(this.canvasElement);
+        IdentifyContent(videoElement);
+        IdentifyContent(canvasElement);
     }
 
     // public GenerateErrorDiv(): HTMLDivElement {
@@ -96,20 +98,6 @@ class SecureCitizenBootstrapper {
     // public GenerateControlPanel() {
     //     return GenerateControlPanel(this.random_id_suffix);
     // }
-
-    public UpdateValues(
-        container: HTMLDivElement
-    ) {
-        this.parentDivWidth = window.screen.availWidth;
-        this.parentDivHeight = window.screen.availHeight;
-
-        log('Parent size set to - Width: ' + this.parentDivWidth + ' - Height: ' + this.parentDivHeight)
-
-        this.divWidth = container.clientWidth !== 0 || container.clientWidth <= DEFAULT_WIDTH ? container.clientWidth : DEFAULT_WIDTH;
-        this.divHeight = container.clientHeight !== 0 || container.clientHeight <= DEFAULT_HEIGHT ? container.clientHeight : DEFAULT_HEIGHT;
-
-        log('Canvas size set to - Width: ' + this.divWidth + ' - Height: ' + this.divHeight)
-    }
 }
 
 export { SecureCitizenBootstrapper }

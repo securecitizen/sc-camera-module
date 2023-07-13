@@ -20,7 +20,7 @@ function IdentifyWindow(checkedElement: HTMLDivElement) : { width: number, heigh
 
 function IdentifyContent(checkedElement: HTMLVideoElement | HTMLCanvasElement) {
 
-  log("Checking Element ID: " + checkedElement.id)
+  log("Checking Element ID: " + !!checkedElement)
   log("Set Width: " + checkedElement.width);
   log("Set Height: " + checkedElement.height);
   log("Client Width: " + checkedElement.clientWidth);
@@ -36,15 +36,28 @@ function PatchContentSize(checkedElement: HTMLVideoElement | HTMLCanvasElement, 
   checkedElement.height = height;
 }
 
-function BootstrapCameraDiv(cameraDiv: HTMLDivElement): HTMLDivElement {
+function BootstrapCameraDiv(random_id_suffix: string, width: number, height?: number, mask?: string): HTMLDivElement {
+  const h = height ? height : (width / DEFAULT_ASPECT_RATIO);
+  const cameraDiv = document.createElement('div');
+  cameraDiv.id = 'camera' + random_id_suffix;
   cameraDiv.className = 'camera';
+  cameraDiv.style.width = width.toString();
+  cameraDiv.style.height = h.toString();
   cameraDiv.style.color = 'white';
   cameraDiv.style.display = 'flex';
   cameraDiv.style.alignItems = 'center';
   cameraDiv.style.justifyContent = 'center';
   cameraDiv.style.position = 'relative';
-  cameraDiv.style.minWidth = '240px';
-  cameraDiv.style.minHeight = '480px';
+
+  const videoElement = BootstrapVideo(random_id_suffix);
+  cameraDiv.appendChild(videoElement);
+
+  PatchContentSize(videoElement, width, h); 
+
+  const canvasElement = BootstrapCanvas(random_id_suffix, mask);
+  cameraDiv.appendChild(canvasElement);
+
+  PatchContentSize(canvasElement, width, h);
 
   return cameraDiv;
 }

@@ -1,12 +1,11 @@
 import { Log, UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client-ts";
+import { DEFAULT_CLIENT_ID } from "../utils/defaults";
 
 Log.setLogger(console);
 Log.setLevel(Log.INFO);
 
 const whatPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
 const url = window.location.origin + whatPath;
-
-export const DEFAULT_CLIENT_ID = 'sc-app-beta';
 
 export const SecureCitizenOIDC : UserManagerSettings = {
     stateStore: new WebStorageStateStore({ store: window.localStorage }),
@@ -42,7 +41,13 @@ export const SecureCitizenOIDC : UserManagerSettings = {
     //signingKeys:[{"kty":"RSA","use":"sig","kid":"5CCAA03EDDE26D53104CC35D0D4B299C","e":"AQAB","n":"3fbgsZuL5Kp7HyliAznS6N0kTTAqApIzYqu0tORUk4T9m2f3uW5lDomNmwwPuZ3QDn0nwN3esx2NvZjL_g5DN407Pgl0ffHhARdtydJvdvNJIpW4CmyYGnI8H4ZdHtuW4wF8GbKadIGgwpI4UqcsHuPiWKARfWZMQfPKBT08SiIPwGncavlRRDgRVX1T94AgZE_fOTJ4Odko9RX9iNXghJIzJ_wEkY9GEkoHz5lQGdHYUplxOS6fcxL8j_N9urSBlnoYjPntBOwUfPsMoNcmIDXPARcq10miWTz8SHzUYRtsiSUMqimRJ9KdCucKcCmttB_p_EAWohJQDnav-Vqi3Q","alg":"RS256"}]
 };
 
+class SecureCitizenUserManager extends UserManager {
+    constructor(settings: UserManagerSettings) {
+        super(settings);
+    }
+}
+
 export {
     Log,
-    UserManager
+    SecureCitizenUserManager
 };

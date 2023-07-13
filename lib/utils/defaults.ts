@@ -16,3 +16,4 @@ export const DEFAULT_MIN_HEIGHT = 220;
 export const DEFAULT_ASPECT_RATIO = DEFAULT_MIN_HEIGHT / DEFAULT_MIN_WIDTH
 export const DEFAULT_ERROR_OUTSINK = "out";
 export const DEFAULT_MESSAGE_OUTSINK = "logMessages";
+export const DEFAULT_CLIENT_ID = 'sc-app-beta';

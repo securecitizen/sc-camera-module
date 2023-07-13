@@ -6,18 +6,18 @@
 import { log }  from './utils/errors';
 // import { SecureCitizenFaceCamera } from './sc-face-camera';
 import { SecureCitizenBootstrapper } from './utils/bootstrap'
-import { InitialConfig } from './utils/configuration'
+import { InitConfig } from './utils/configuration'
 
-function init(config: InitialConfig): SecureCitizenBootstrapper {
+function init(config: InitConfig): void {
   log(config);
   const messageOutputElement = document.getElementById("messageOutput");
   if (messageOutputElement) {
-    messageOutputElement.innerHTML = config.client_id;
+    messageOutputElement.innerHTML = config.clientId;
   }
 
-  const bootstrap = new SecureCitizenBootstrapper(config.div_id, config.client_id);
+  const bootstrap = new SecureCitizenBootstrapper(config.sourceDiv, config.clientId);
 
-  return bootstrap;
+  // return bootstrap;
 }
 
 export default {
