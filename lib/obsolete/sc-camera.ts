@@ -6,6 +6,7 @@ import { Detector } from '../face-detector/detector';
 import { GetConstraints, StreamManager } from './stream-manager';
 import { log } from '../utils/errors';
 import { EventBroker } from '../utils/typedeventemitter'
+import { baseUrl } from '../auth/scauth'
 
 // import mask from '/masks/facemask.svg';
 import { BootstrapCameraDiv, IdentifyContent, IdentifyWindow } from '../components/main-camera-div';
@@ -173,7 +174,7 @@ class SecureCitizenCamera {
             this.videoElement,
             this.canvasElement,
             detector,
-            '/masks/facemask.svg',
+            baseUrl + '/masks/facemask.svg',
             (errors) => {
               log('errors' + JSON.stringify(errors));
               this.onStreamManagerError(errors, false);
