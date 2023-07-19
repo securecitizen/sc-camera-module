@@ -59,15 +59,11 @@ class SecureCitizenBootstrapper {
 
         // check the width and height of the div we are located in
 
-        this.overlayMask = document.getElementById(maskDiv ?? 'overlayMask') as HTMLImageElement;
-
-        const { aspectRatio } = IdentifyOverlay(this.overlayMask);
-
         this.originationDiv = document.getElementById(sourceDiv) as HTMLDivElement;
 
         const { width } = IdentifyWindow(this.originationDiv);
 
-        this.camera = new SecureCitizenCamera(this.random_id_suffix, width, aspectRatio);
+        this.camera = new SecureCitizenCamera(this.random_id_suffix, width, maskDiv ?? 'overlayMask');
 
         // log(this.camera.cameraDiv);
         // IdentifyWindow(this.camera.cameraDiv)

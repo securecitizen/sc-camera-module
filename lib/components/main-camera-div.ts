@@ -44,7 +44,7 @@ function PatchContentSize(checkedElement: HTMLVideoElement | HTMLCanvasElement, 
   checkedElement.height = height;
 }
 
-function BootstrapCameraDiv(random_id_suffix: string, width: string, height: string, mask?: string): { cameraDiv: HTMLDivElement, videoElement: HTMLVideoElement, canvasElement: HTMLCanvasElement } {
+function BootstrapCameraDiv(random_id_suffix: string, width: string, height: string, mask: HTMLImageElement): { cameraDiv: HTMLDivElement, videoElement: HTMLVideoElement, canvasElement: HTMLCanvasElement } {
   // const h = height ? height : (Number.parseInt(width.replace("px", "")) / DEFAULT_ASPECT_RATIO) + "px";
   const cameraDiv = document.createElement('div');
   cameraDiv.id = 'camera-' + random_id_suffix;
@@ -105,19 +105,20 @@ function BootstrapVideo(random_id_suffix: string): HTMLVideoElement {
 }
 
 function BootstrapMask(
-  chosenMask: any
+  chosenMask: HTMLImageElement
 ) {
-  log("ChosenMask Type: " + typeof chosenMask)
-  log("ChosenMask Details: " + chosenMask)
+  log("ChosenMask Details: ", chosenMask)
 }
 
 function BootstrapCanvas(
   random_id_suffix: string,
-  chosenMask?: string
+  chosenMask: HTMLImageElement
 ): HTMLCanvasElement {
   var canvasElement = document.createElement('canvas');
   canvasElement.id = 'cameraCanvas-' + random_id_suffix;
   canvasElement.className = 'cameraCanvas';
+  canvasElement.width = chosenMask.width;
+  canvasElement.height = chosenMask.height;
   // canvasElement.ref = "cameraCanvas";
   canvasElement.style.width = '100%';
   canvasElement.style.height = '100%';
@@ -129,55 +130,66 @@ function BootstrapCanvas(
   canvasElement.style.zIndex = '1';
 
   if (chosenMask !== undefined) {
-    const maskImage = new Image();
-    maskImage.src = chosenMask;
-    maskImage.width = 140;
-    maskImage.height = 220;
+    // const maskImage = new Image();
+    const maskImage = chosenMask;
+    // maskImage.width = 140;
+    // maskImage.height = 220;
 
     console.log("Image Info - Width: " + maskImage.width + " - Height: " + maskImage.height)
-    console.log("Data in the mask: " + chosenMask)
+    console.log("Data in the mask: ", chosenMask)
 
     canvasElement.style.display = 'block';
-    const canvasCtx = canvasElement.getContext('2d');
 
-    maskImage.onload = () => {
-      // calcs
-      const hRatio = canvasElement.width / maskImage.width;
-      const vRatio = canvasElement.height / maskImage.height;
-      const ratio = Math.min(hRatio, vRatio);
-      const portraitOrientation = canvasElement.width < canvasElement.height;
-      const paddingX = portraitOrientation ? 50 : 100;
-      const paddingY = portraitOrientation ? 200 : 100;
-      const centerShift_x = (canvasElement.width - maskImage.width * ratio) / 2;
-      const centerShift_y =
-        (canvasElement.height - maskImage.height * ratio) / 2;
+    BootstrapMask(chosenMask);
 
-      // canvasCtx.drawImage(image, cx, cy, sw, sh, x, y, width, height)
-      canvasCtx?.drawImage(
-        maskImage,
-        // this is how far from the top left we want to crop the image by.
-        // So if it is 50, the image will be cropped 50 pixels from the left hand side.
-        0,
-        // this is how far from the top we want to crop the image by. So if it is 50,
-        // the image will be cropped 50 pixels from the top side.
-        0,
-        // this is how big we want the image to be from the point of cx. So if 100, the
-        // image will continue for 100px from cx, and then be cropped at that point.
-        maskImage.width,
-        //  this is how big we want the image to be from the point of ch. So if 100, the
-        // image will continue for 100px from ch, and then be cropped at that point.
-        maskImage.height,
-        // the x position on the canvas for the top left corner of the image.
-        centerShift_x + paddingX,
-        // the y position on the canvas for the top left corner of the image.
-        centerShift_y + paddingY,
-        // the width of the image. If left blank, the original image width is used.
-        maskImage.width * ratio - paddingX * 2,
-        // the height of the image. If left blank, the original image height is used.
-        maskImage.height * ratio - paddingY * 2
-        // ref https://fjolt.com/images/misc/202203282.png
-      );
-    };
+    // TODO: this draws the initial mask !!
+
+    // const canvasCtx = canvasElement.getContext('2d');
+
+    // maskImage.onload = () => {
+    //   // calcs
+      //  const hRatio = canvasElement.width / this.maskOverlayImageElement.width;
+      //   log('hRatio: ' + hRatio)
+      //   const vRatio = canvasElement.height / this.maskOverlayImageElement.height;
+      //   log('vRatio: ' + vRatio)
+      //   const ratio = Math.min(hRatio, vRatio);
+      //   const portraitOrientation = canvasElement.width < canvasElement.height;
+      //   log('Orientation:' + portraitOrientation ? 'Portrait' : 'Landscape')
+      //   const paddingX = (!portraitOrientation && this.isMobile) ? 50 : 100;
+      //   log('X Padding: ' + paddingX)
+      //   const paddingY = portraitOrientation ? 200 : 100;
+      //   log('Y Padding: ' + paddingY)
+      //   const centerShift_x = (canvasElement.width - this.maskOverlayImageElement.width * ratio) / 2;
+      //   log('centerShift X: ' + centerShift_x)
+      //   const centerShift_y = (canvasElement.height - this.maskOverlayImageElement.height * ratio) / 2;
+      //   log('centerShift Y: ' + centerShift_y)
+
+    //   // canvasCtx.drawImage(image, cx, cy, sw, sh, x, y, width, height)
+    //   canvasCtx?.drawImage(
+    //     maskImage,
+    //     // this is how far from the top left we want to crop the image by.
+    //     // So if it is 50, the image will be cropped 50 pixels from the left hand side.
+    //     0,
+    //     // this is how far from the top we want to crop the image by. So if it is 50,
+    //     // the image will be cropped 50 pixels from the top side.
+    //     0,
+    //     // this is how big we want the image to be from the point of cx. So if 100, the
+    //     // image will continue for 100px from cx, and then be cropped at that point.
+    //     maskImage.width,
+    //     //  this is how big we want the image to be from the point of ch. So if 100, the
+    //     // image will continue for 100px from ch, and then be cropped at that point.
+    //     maskImage.height,
+    //     // the x position on the canvas for the top left corner of the image.
+    //     centerShift_x + paddingX,
+    //     // the y position on the canvas for the top left corner of the image.
+    //     centerShift_y + paddingY,
+    //     // the width of the image. If left blank, the original image width is used.
+    //     maskImage.width * ratio - paddingX * 2,
+    //     // the height of the image. If left blank, the original image height is used.
+    //     maskImage.height * ratio - paddingY * 2
+    //     // ref https://fjolt.com/images/misc/202203282.png
+    //   );
+    // };
   }
 
   return canvasElement;

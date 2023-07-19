@@ -22,7 +22,7 @@ export class StreamManager {
     videoElement: HTMLVideoElement, 
     canvasElement: HTMLCanvasElement,
     detector: Detector | null,
-    mask: string,
+    mask: HTMLImageElement,
     onErrors: (errors: any) => void) 
   {
       this.stream = null;
@@ -42,8 +42,8 @@ export class StreamManager {
       log('IOS: ' + this.isIos);
       log('MAC: ' + this.isMac);
       
-      this.maskOverlayImageElement = new Image();
-      this.maskOverlayImageElement.src = mask;
+      // this.maskOverlayImageElement = new Image();
+      this.maskOverlayImageElement = mask;
       
       // replace with resizeObserver
       // window.addEventListener('resize', this.orientationChange, false);
@@ -133,13 +133,20 @@ export class StreamManager {
         const canvas = this.canvasElement;
         const canvasCtx = canvas.getContext('2d');
         const hRatio = canvas.width / this.maskOverlayImageElement.width;
+        log('hRatio: ' + hRatio)
         const vRatio = canvas.height / this.maskOverlayImageElement.height;
+        log('vRatio: ' + vRatio)
         const ratio = Math.min(hRatio, vRatio);
         const portraitOrientation = canvas.width < canvas.height;
+        log('Orientation:' + portraitOrientation ? 'Portrait' : 'Landscape')
         const paddingX = (!portraitOrientation && this.isMobile) ? 50 : 100;
+        log('X Padding: ' + paddingX)
         const paddingY = portraitOrientation ? 200 : 100;
+        log('Y Padding: ' + paddingY)
         const centerShift_x = (canvas.width - this.maskOverlayImageElement.width * ratio) / 2;
+        log('centerShift X: ' + centerShift_x)
         const centerShift_y = (canvas.height - this.maskOverlayImageElement.height * ratio) / 2;
+        log('centerShift Y: ' + centerShift_y)
         canvasCtx?.drawImage(
           this.maskOverlayImageElement, 
           0, 
