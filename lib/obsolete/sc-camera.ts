@@ -8,9 +8,7 @@ import { log } from '../utils/errors';
 import { EventBroker } from '../utils/typedeventemitter'
 import { baseUrl } from '../auth/scauth'
 
-// import mask from '/masks/facemask.svg';
-import { BootstrapCameraDiv, IdentifyContent, IdentifyWindow } from '../components/main-camera-div';
-import { GenerateControlPanel } from '../components/control-panel';
+import { BootstrapCameraDiv } from '../components/main-camera-div';
 
 export function DefaultCameraConfig(): SecureCitizenCameraConfig { 
   return new SecureCitizenCameraConfig().changeDebug(true) 
@@ -224,9 +222,6 @@ class SecureCitizenCamera {
       f(statusCode, photoString);
     })
   }
-
-  public IsCameraActive() { return this.isCameraActive};
-  public GetFaceDetectionFeedback() { return this.faceDetectionFeedback};
 
 }
 
