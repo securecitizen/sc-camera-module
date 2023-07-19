@@ -61,13 +61,13 @@ class SecureCitizenBootstrapper {
 
         this.overlayMask = document.getElementById(maskDiv ?? 'overlayMask') as HTMLImageElement;
 
-        const { width: overlayWidth, height: overlayHeight } = IdentifyOverlay(this.overlayMask);
+        const { aspectRatio } = IdentifyOverlay(this.overlayMask);
 
         this.originationDiv = document.getElementById(sourceDiv) as HTMLDivElement;
 
-        const { width, height } = IdentifyWindow(this.originationDiv);
+        const { width } = IdentifyWindow(this.originationDiv);
 
-        this.camera = new SecureCitizenCamera(this.random_id_suffix, overlayWidth, overlayHeight);
+        this.camera = new SecureCitizenCamera(this.random_id_suffix, width, aspectRatio);
 
         // log(this.camera.cameraDiv);
         // IdentifyWindow(this.camera.cameraDiv)

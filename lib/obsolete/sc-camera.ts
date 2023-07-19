@@ -9,6 +9,7 @@ import { EventBroker } from '../utils/typedeventemitter'
 import { baseUrl } from '../auth/scauth'
 
 import { BootstrapCameraDiv } from '../components/main-camera-div';
+import { DEFAULT_MAX_WIDTH, DEFAULT_MIN_WIDTH } from '../utils/defaults';
 
 export function DefaultCameraConfig(): SecureCitizenCameraConfig { 
   return new SecureCitizenCameraConfig().changeDebug(true) 
@@ -34,11 +35,25 @@ class SecureCitizenCamera {
 
   constructor(
     random_id_suffix: string, 
-    width, 
-    height
+    width: number,
+    aspectRatio: number
   ) {
 
-    const { cameraDiv, videoElement, canvasElement } = BootstrapCameraDiv(random_id_suffix, width, height);
+    // check if width exceeds DEFAULT_MAX_WIDTH
+    let tWidth = "";
+    if((width > DEFAULT_MIN_WIDTH)) {
+      (width < DEFAULT_MAX_WIDTH) ?
+      tWidth = width + "px" :
+      tWidth =DEFAULT_MAX_WIDTH + "px";
+    } else {
+      throw new Error("The provided Camera overlay is too small")
+    }
+
+    // const tWidth = width + "px";
+    log('Width configured as: ' + tWidth)
+    const height = (aspectRatio * width) + "px";
+    log('Height configured as: ' + height)
+    const { cameraDiv, videoElement, canvasElement } = BootstrapCameraDiv(random_id_suffix, tWidth, height);
     this.cameraDiv = cameraDiv;
     this.videoElement = videoElement;
     this.canvasElement = canvasElement;

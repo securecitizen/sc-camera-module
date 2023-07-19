@@ -1,4 +1,3 @@
-import { DEFAULT_ASPECT_RATIO } from "../utils/defaults";
 import { log } from "../utils/errors";
 
 function IdentifyWindow(checkedElement: HTMLDivElement) : { width: number, height: number } {
@@ -13,7 +12,7 @@ function IdentifyWindow(checkedElement: HTMLDivElement) : { width: number, heigh
 
 }
 
-function IdentifyOverlay(checkedElement: HTMLImageElement) : { width: number, height: number } {
+function IdentifyOverlay(checkedElement: HTMLImageElement) : { width: number, height: number, aspectRatio: number } {
 
   log("Checking Element ID: " + checkedElement.id)
   log("Set Width: " + checkedElement.width);
@@ -23,7 +22,7 @@ function IdentifyOverlay(checkedElement: HTMLImageElement) : { width: number, he
   log("Offset Width: " + checkedElement.offsetWidth);
   log("Offset Height: " + checkedElement.offsetHeight);
 
-  return { width: checkedElement.width, height: checkedElement.height } 
+  return { width: checkedElement.width, height: checkedElement.height, aspectRatio: checkedElement.height/checkedElement.width } 
 
 }
 
@@ -45,13 +44,13 @@ function PatchContentSize(checkedElement: HTMLVideoElement | HTMLCanvasElement, 
   checkedElement.height = height;
 }
 
-function BootstrapCameraDiv(random_id_suffix: string, width: string, height?: string, mask?: string): { cameraDiv: HTMLDivElement, videoElement: HTMLVideoElement, canvasElement: HTMLCanvasElement } {
-  const h = height ? height : (Number.parseInt(width.replace("px", "")) / DEFAULT_ASPECT_RATIO) + "px";
+function BootstrapCameraDiv(random_id_suffix: string, width: string, height: string, mask?: string): { cameraDiv: HTMLDivElement, videoElement: HTMLVideoElement, canvasElement: HTMLCanvasElement } {
+  // const h = height ? height : (Number.parseInt(width.replace("px", "")) / DEFAULT_ASPECT_RATIO) + "px";
   const cameraDiv = document.createElement('div');
   cameraDiv.id = 'camera-' + random_id_suffix;
   cameraDiv.className = 'camera';
   cameraDiv.style.width = width;
-  cameraDiv.style.height = h;
+  cameraDiv.style.height = height;
   cameraDiv.style.color = 'white';
   cameraDiv.style.display = 'flex';
   cameraDiv.style.alignItems = 'center';
@@ -82,8 +81,8 @@ function BootstrapVideo(random_id_suffix: string): HTMLVideoElement {
   videoElement.muted = true;
   videoElement.style.borderWidth = '10';
   videoElement.style.borderColor = 'black';
-  // videoElement.style.width = '100%';
-  // videoElement.style.height = '100%';
+  videoElement.style.width = '100%';
+  videoElement.style.height = '100%';
 
   // Dynamic Styling
 
@@ -96,8 +95,8 @@ function BootstrapVideo(random_id_suffix: string): HTMLVideoElement {
   //     background: black;
   //   }
   videoElement.style.position = 'absolute';
-  // videoElement.style.maxHeight = '100%';
-  // videoElement.style.maxWidth = '100%';
+  videoElement.style.maxHeight = '100%';
+  videoElement.style.maxWidth = '100%';
   videoElement.style.background = 'black';
   videoElement.style.transform = 'scale(-1, 1)';
   videoElement.style.webkitTransform = 'scale(-1, 1)';
@@ -120,8 +119,8 @@ function BootstrapCanvas(
   canvasElement.id = 'cameraCanvas-' + random_id_suffix;
   canvasElement.className = 'cameraCanvas';
   // canvasElement.ref = "cameraCanvas";
-  // canvasElement.style.width = '100%';
-  // canvasElement.style.height = '100%';
+  canvasElement.style.width = '100%';
+  canvasElement.style.height = '100%';
   // canvasElement.style.maxWidth = '700px'; // this causes the mask to squish ... (need a resize, not a crop)
   // canvasElement.style.maxHeight = '100%'; // ?? why ?
   // canvasElement.style.minWidth = '240px';

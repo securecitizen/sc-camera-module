@@ -1,7 +1,7 @@
 import { log } from '../utils/errors';
 import { Detector } from '../face-detector/detector';
 import platform from 'platform-detect';
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../utils/defaults';
+import { DEFAULT_MAX_WIDTH } from '../utils/defaults';
 
 export class StreamManager {
 
@@ -182,11 +182,7 @@ export function GetConstraints(
   const h = Number(height);
 
   if (w === 0 || w > 1920) {
-    width = DEFAULT_WIDTH.toString();
-  }
-
-  if (h === 0 || h > 1080) {
-    height = DEFAULT_HEIGHT.toString();
+    width = DEFAULT_MAX_WIDTH.toString();
   }
 
   return platform.macos
