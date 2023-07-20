@@ -129,24 +129,37 @@ export class StreamManager {
   drawMask() {
     if (this.showMask) {
       setTimeout(() => {
-        this.updateCanvasSize(this.canvasElement);
-        const canvas = this.canvasElement;
-        const canvasCtx = canvas.getContext('2d');
-        const hRatio = canvas.width / this.maskOverlayImageElement.width;
+        // this.updateCanvasSize(this.canvasElement);
+        // const canvas = this.canvasElement;
+        const canvasCtx = this.canvasElement.getContext('2d');
+        const hRatio = this.canvasElement.width / this.maskOverlayImageElement.width;
         log('hRatio: ' + hRatio)
-        const vRatio = canvas.height / this.maskOverlayImageElement.height;
+        const vRatio = this.canvasElement.height / this.maskOverlayImageElement.height;
         log('vRatio: ' + vRatio)
         const ratio = Math.min(hRatio, vRatio);
-        const portraitOrientation = canvas.width < canvas.height;
+        const portraitOrientation = this.canvasElement.width < this.canvasElement.height;
         log('Orientation:' + portraitOrientation ? 'Portrait' : 'Landscape')
-        const paddingX = (!portraitOrientation && this.isMobile) ? 50 : 100;
+        // const paddingX = (!portraitOrientation && this.isMobile) ? 50 : 100;
+        const paddingX = (!portraitOrientation && this.isMobile) ? 0 : 0;
         log('X Padding: ' + paddingX)
-        const paddingY = portraitOrientation ? 200 : 100;
+        // const paddingY = portraitOrientation ? 200 : 100;
+        const paddingY = portraitOrientation ? 0 : 0;
         log('Y Padding: ' + paddingY)
-        const centerShift_x = (canvas.width - this.maskOverlayImageElement.width * ratio) / 2;
+        const centerShift_x = (this.canvasElement.width - this.maskOverlayImageElement.width * ratio) / 2;
         log('centerShift X: ' + centerShift_x)
-        const centerShift_y = (canvas.height - this.maskOverlayImageElement.height * ratio) / 2;
+        const centerShift_y = (this.canvasElement.height - this.maskOverlayImageElement.height * ratio) / 2;
         log('centerShift Y: ' + centerShift_y)
+        log("Info: ",
+          this.maskOverlayImageElement, 
+          0, 
+          0, 
+          this.maskOverlayImageElement.width, 
+          this.maskOverlayImageElement.height, 
+          centerShift_x + paddingX, 
+          centerShift_y + paddingY, 
+          (this.maskOverlayImageElement.width * ratio) - paddingX * 2, 
+          (this.maskOverlayImageElement.height * ratio) - paddingY * 2)
+        // Then draw the image
         canvasCtx?.drawImage(
           this.maskOverlayImageElement, 
           0, 
