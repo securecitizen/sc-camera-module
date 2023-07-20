@@ -6,11 +6,9 @@ import { Detector } from '../face-detector/detector';
 import { GetConstraints, StreamManager } from './stream-manager';
 import { log } from '../utils/errors';
 import { EventBroker } from '../utils/typedeventemitter'
-import { baseUrl } from '../auth/scauth'
 
-// import mask from '/masks/facemask.svg';
-import { BootstrapCameraDiv, IdentifyContent, IdentifyWindow } from '../components/main-camera-div';
-import { GenerateControlPanel } from '../components/control-panel';
+import { BootstrapCameraDiv, IdentifyOverlay } from '../components/main-camera-div';
+import { DEFAULT_MAX_WIDTH, DEFAULT_MIN_WIDTH } from '../utils/defaults';
 
 export function DefaultCameraConfig(): SecureCitizenCameraConfig { 
   return new SecureCitizenCameraConfig().changeDebug(true) 
@@ -32,15 +30,42 @@ class SecureCitizenCamera {
 
   private videoElement: HTMLVideoElement;
   private canvasElement: HTMLCanvasElement;
+  private maskElement: HTMLImageElement;
   public cameraDiv: HTMLDivElement;
 
   constructor(
     random_id_suffix: string, 
-    width, 
-    height
+    width: number,
+    maskDiv: string
   ) {
 
-    const { cameraDiv, videoElement, canvasElement } = BootstrapCameraDiv(random_id_suffix, width, height);
+    this.maskElement = document.getElementById(maskDiv) as HTMLImageElement;
+
+    log("Mask Details", this.maskElement);
+    if(this.maskElement === null) {
+      throw new Error("Please provide a mask image with a div ID of " + maskDiv);
+    }
+
+    // check if width exceeds DEFAULT_MAX_WIDTH
+    let tWidth = "";
+    if((width > DEFAULT_MIN_WIDTH)) {
+      (width < DEFAULT_MAX_WIDTH) ?
+      tWidth = width + "px" :
+      tWidth =DEFAULT_MAX_WIDTH + "px";
+    } else {
+      throw new Error("The provided Camera overlay is too small");
+    }
+
+    const { aspectRatio } = IdentifyOverlay(this.maskElement);
+
+    // const tWidth = width + "px";
+    log('Width configured as: ' + tWidth)
+    const height = (aspectRatio * width) + "px";
+    log('Height configured as: ' + height)
+
+    
+
+    const { cameraDiv, videoElement, canvasElement } = BootstrapCameraDiv(random_id_suffix, tWidth, height, this.maskElement);
     this.cameraDiv = cameraDiv;
     this.videoElement = videoElement;
     this.canvasElement = canvasElement;
@@ -174,7 +199,7 @@ class SecureCitizenCamera {
             this.videoElement,
             this.canvasElement,
             detector,
-            baseUrl + '/masks/facemask.svg',
+            this.maskElement,
             (errors) => {
               log('errors' + JSON.stringify(errors));
               this.onStreamManagerError(errors, false);
@@ -224,9 +249,6 @@ class SecureCitizenCamera {
       f(statusCode, photoString);
     })
   }
-
-  public IsCameraActive() { return this.isCameraActive};
-  public GetFaceDetectionFeedback() { return this.faceDetectionFeedback};
 
 }
 

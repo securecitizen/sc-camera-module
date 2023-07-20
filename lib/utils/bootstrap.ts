@@ -2,7 +2,7 @@ import platform from 'platform-detect';
 import { log } from './errors';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './defaults';
 import { GenerateErrorDiv } from '../components/error-output';
-import { BootstrapCameraDiv, IdentifyWindow } from '../components/main-camera-div';
+import { BootstrapCameraDiv, IdentifyOverlay, IdentifyWindow } from '../components/main-camera-div';
 import { GenerateControlPanel } from '../components/control-panel';
 import { SecureCitizenUserManager, SecureCitizenOIDC } from "../auth/scauth";
 import { SecureCitizenCamera } from '../obsolete/sc-camera';
@@ -20,6 +20,7 @@ class SecureCitizenBootstrapper {
     private camera: SecureCitizenCamera;
 
     private originationDiv: HTMLDivElement;
+    private overlayMask: HTMLImageElement;
     
     /**
      * This bootstrap process will perform the following functions:
@@ -41,7 +42,7 @@ class SecureCitizenBootstrapper {
     constructor(
         sourceDiv: string,
         clientId: string,
-        mask?: string
+        maskDiv?: string
     ) {
         // set all fixed  or initial values in the constructor
 
@@ -60,12 +61,12 @@ class SecureCitizenBootstrapper {
 
         this.originationDiv = document.getElementById(sourceDiv) as HTMLDivElement;
 
-        const { width, height } = IdentifyWindow(this.originationDiv);
+        const { width } = IdentifyWindow(this.originationDiv);
 
-        this.camera = new SecureCitizenCamera(this.random_id_suffix, width, height);
+        this.camera = new SecureCitizenCamera(this.random_id_suffix, width, maskDiv ?? 'overlayMask');
 
         // log(this.camera.cameraDiv);
-        IdentifyWindow(this.camera.cameraDiv)
+        // IdentifyWindow(this.camera.cameraDiv)
         this.originationDiv.appendChild(this.camera.cameraDiv);
 
         
