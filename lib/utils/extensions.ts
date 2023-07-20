@@ -1,5 +1,5 @@
 import * as faceapi from '@vladmandic/face-api';
-let path = require("path");
+import path from 'path';
 
 async function loadModelsFromDisk() {
 
@@ -10,8 +10,7 @@ async function loadModelsFromDisk() {
 async function loadModelsFromPackage() {
 
     await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-       await faceapi.nets.faceLandmark68TinyNet.loadFromUri('/models');
-       
+    await faceapi.nets.faceLandmark68TinyNet.loadFromUri('/models');
 }
 
 export { loadModelsFromPackage, loadModelsFromDisk }

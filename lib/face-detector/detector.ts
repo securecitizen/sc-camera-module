@@ -4,6 +4,8 @@ import { FaceDetectionFeedback } from './face-detection-feedback';
 import { HeadPosition } from './head-position/head-position';
 import * as cv from '@techstark/opencv-js';
 import platform from 'platform-detect';
+import { loadModelsFromPackage } from '../utils/extensions';
+import { log } from '../utils/errors';
 
   
 export class Detector {
@@ -93,12 +95,8 @@ export class Detector {
       console.log('detector models already loaded');
     } else{
       console.log('detector loading models');
-       // from disk
-       await faceapi.nets.tinyFaceDetector.loadFromUri('https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights');
-       await faceapi.nets.faceLandmark68TinyNet.loadFromUri('https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights');
-       
-      // await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-      // await faceapi.nets.faceLandmark68TinyNet.loadFromUri('/models');
+      
+      await loadModelsFromPackage();
       console.log('detector done loading models');
     }
 
@@ -329,7 +327,9 @@ export class Detector {
   }
   getVideoRatio(videoElement: HTMLVideoElement) {
     const hRatio = videoElement.clientWidth / videoElement.videoWidth;
+    log("Video hRatio: " + hRatio)
     const vRatio = videoElement.clientHeight / videoElement.videoHeight;
+    log("Video vRatio: " + vRatio)
     return Math.min(hRatio, vRatio);
   }
   

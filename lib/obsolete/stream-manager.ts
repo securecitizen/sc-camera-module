@@ -129,7 +129,7 @@ export class StreamManager {
   drawMask() {
     if (this.showMask) {
       setTimeout(() => {
-        // this.updateCanvasSize(this.canvasElement);
+        this.updateCanvasSize(this.canvasElement);
         // const canvas = this.canvasElement;
         const canvasCtx = this.canvasElement.getContext('2d');
         const hRatio = this.canvasElement.width / this.maskOverlayImageElement.width;
@@ -137,13 +137,14 @@ export class StreamManager {
         const vRatio = this.canvasElement.height / this.maskOverlayImageElement.height;
         log('vRatio: ' + vRatio)
         const ratio = Math.min(hRatio, vRatio);
+        log('Ratio: ' + ratio)
         const portraitOrientation = this.canvasElement.width < this.canvasElement.height;
         log('Orientation:' + portraitOrientation ? 'Portrait' : 'Landscape')
-        // const paddingX = (!portraitOrientation && this.isMobile) ? 50 : 100;
-        const paddingX = (!portraitOrientation && this.isMobile) ? 0 : 0;
+        const paddingX = (!portraitOrientation && this.isMobile) ? 50 : 100;
+        // const paddingX = (!portraitOrientation && this.isMobile) ? 0 : 0;
         log('X Padding: ' + paddingX)
-        // const paddingY = portraitOrientation ? 200 : 100;
-        const paddingY = portraitOrientation ? 0 : 0;
+        const paddingY = portraitOrientation ? 200 : 100;
+        // const paddingY = portraitOrientation ? 0 : 0;
         log('Y Padding: ' + paddingY)
         const centerShift_x = (this.canvasElement.width - this.maskOverlayImageElement.width * ratio) / 2;
         log('centerShift X: ' + centerShift_x)
@@ -175,8 +176,11 @@ export class StreamManager {
   }
   updateCanvasSize(canvas: HTMLCanvasElement) {
     this.videoSize = { width: this.videoElement.videoWidth, height: this.videoElement.videoHeight };
+    log("Video Size = Width: " + this.videoSize.width + " + Height: " + this.videoSize.height)
+    log("Original Canvas Size = Width: " + canvas.width + " + Height: " + canvas.height)
     canvas.width = this.videoSize.width;
     canvas.height = this.videoSize.height;
+    log("Adjusted Canvas Size = Width: " + canvas.width + " + Height: " + canvas.height)
     canvas.style.display = 'block';
   }
   dropMask() {

@@ -57,7 +57,7 @@ function BootstrapCameraDiv(random_id_suffix: string, width: string, height: str
   cameraDiv.style.justifyContent = 'center';
   cameraDiv.style.position = 'relative';
 
-  const videoElement = BootstrapVideo(random_id_suffix);
+  const videoElement = BootstrapVideo(random_id_suffix, mask);
   cameraDiv.appendChild(videoElement);
 
   // PatchContentSize(videoElement, width, h); 
@@ -70,10 +70,15 @@ function BootstrapCameraDiv(random_id_suffix: string, width: string, height: str
   return { cameraDiv, videoElement, canvasElement };
 }
 
-function BootstrapVideo(random_id_suffix: string): HTMLVideoElement {
+function BootstrapVideo(
+  random_id_suffix: string,
+  chosenMask: HTMLImageElement
+  ): HTMLVideoElement {
   var videoElement = document.createElement('video');
   videoElement.id = 'cameraVideo-' + random_id_suffix;
   videoElement.className = 'cameraVideo';
+  videoElement.width = chosenMask.width;
+  videoElement.height = chosenMask.height;
   // videoElement.ref = 'cameraVideo';
   videoElement.loop = true;
   videoElement.autoplay = true;
@@ -122,8 +127,8 @@ function BootstrapCanvas(
   // canvasElement.ref = "cameraCanvas";
   canvasElement.style.width = '100%';
   canvasElement.style.height = '100%';
-  // canvasElement.style.maxWidth = '700px'; // this causes the mask to squish ... (need a resize, not a crop)
-  // canvasElement.style.maxHeight = '100%'; // ?? why ?
+  canvasElement.style.maxWidth = '100%';
+  canvasElement.style.maxHeight = '100%';
   // canvasElement.style.minWidth = '240px';
   // canvasElement.style.minHeight = '480px';
   canvasElement.style.display = 'none';
