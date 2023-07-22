@@ -1,6 +1,5 @@
 import platform from 'platform-detect';
 import { log } from './errors';
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './defaults';
 import { GenerateErrorDiv } from '../components/error-output';
 import { BootstrapCameraDiv, IdentifyOverlay, IdentifyWindow } from '../components/main-camera-div';
 import { GenerateControlPanel } from '../components/control-panel';

@@ -1,14 +1,12 @@
 import {
   SecureCitizenCameraConfig,
 } from '../utils/configuration';
-import { FaceDetectionFeedback } from '../face-detector/face-detection-feedback';
-import { Detector } from '../face-detector/detector';
-import { GetConstraints, StreamManager } from './stream-manager';
 import { log } from '../utils/errors';
 import { EventBroker } from '../utils/typedeventemitter'
 
 import { BootstrapCameraDiv, IdentifyOverlay } from '../components/main-camera-div';
 import { DEFAULT_MAX_WIDTH, DEFAULT_MIN_WIDTH } from '../utils/defaults';
+import { GetConstraints } from '../utils/imagemgmt';
 
 export function DefaultCameraConfig(): SecureCitizenCameraConfig { 
   return new SecureCitizenCameraConfig().changeDebug(true) 
@@ -22,11 +20,11 @@ export function DefaultCameraConfigWithControls(): SecureCitizenCameraConfig {
 
 class SecureCitizenCamera {
   public isCameraActive = false;
-  public faceDetectionFeedback: FaceDetectionFeedback | null = null;
+  // public faceDetectionFeedback: FaceDetectionFeedback | null = null;
   public config: SecureCitizenCameraConfig = DefaultCameraConfig();
   public debugSetting: boolean = false;
 
-  streamManager: StreamManager | null = null;
+  // streamManager: StreamManager | null = null;
 
   private videoElement: HTMLVideoElement;
   private canvasElement: HTMLCanvasElement;
@@ -82,13 +80,13 @@ class SecureCitizenCamera {
     // check if Auto Start is Enabled
     if (this.config.IsAutoStartEnabled()) {
       log('Auto Start Detector');
-      Detector.warmUp()
-        .then((response) =>
-          log('attempt to initialise detector early: ' + response)
-        )
-        .catch((error) =>
-          log('attempt to initialise detector early failed:' + error)
-        );
+      // Detector.warmUp()
+      //   .then((response) =>
+      //     log('attempt to initialise detector early: ' + response)
+      //   )
+      //   .catch((error) =>
+      //     log('attempt to initialise detector early failed:' + error)
+      //   );
     }
 
     // check if Face Detection is Enabled
@@ -141,17 +139,17 @@ class SecureCitizenCamera {
   
   /** Takes a photo of the current frame and returns it as a string */
   public takePhoto() {
-    this.streamManager
-      ?.takePhoto()
-      .then((photo: string) => {
-        this.closeCamera();
-        log('photoTaken', JSON.stringify(photo));
-        EventBroker.emit('photoTaken', 1, photo)
-      })
-      .catch((error) => {
-        log('takePhoto -> error', JSON.stringify(error));
-        EventBroker.emit('cameraError', 2, 'takePhoto -> error' + error)
-      });
+    // this.streamManager
+    //   ?.takePhoto()
+    //   .then((photo: string) => {
+    //     this.closeCamera();
+    //     log('photoTaken', JSON.stringify(photo));
+    //     EventBroker.emit('photoTaken', 1, photo)
+    //   })
+    //   .catch((error) => {
+    //     log('takePhoto -> error', JSON.stringify(error));
+    //     EventBroker.emit('cameraError', 2, 'takePhoto -> error' + error)
+    //   });
   }
 
   /**Starts a stream to display the camera video on screen and starts face detection if necessary */
@@ -175,38 +173,38 @@ class SecureCitizenCamera {
           }
 
           //create a face detector if necessary
-          let detector: Detector | null = null;
+          // let detector: Detector | null = null;
           if (this.config.IsFaceDetectionEnabled()) {
-            detector = new Detector(
-              this.videoElement,
-              this.canvasElement,
-              //this is called when a face is detected and is determined to be in the right position to auto-capture a photo
-              () => {
-                this.faceDetectionFeedback = null;
-                log('Face Detected');
-                this.takePhoto();
-              },
-              //this is called while the face detector is trying to detect a face to tell you what it is seeing
-              //and what it needs in order to auto-capture
-              (feedback: FaceDetectionFeedback) => {
-                log('Face Detecting ' + JSON.stringify(feedback));
-                this.faceDetectionFeedback = feedback;
-              },
-            );
+            // detector = new Detector(
+            //   this.videoElement,
+            //   this.canvasElement,
+            //   //this is called when a face is detected and is determined to be in the right position to auto-capture a photo
+            //   () => {
+            //     this.faceDetectionFeedback = null;
+            //     log('Face Detected');
+            //     this.takePhoto();
+            //   },
+            //   //this is called while the face detector is trying to detect a face to tell you what it is seeing
+            //   //and what it needs in order to auto-capture
+            //   (feedback: FaceDetectionFeedback) => {
+            //     log('Face Detecting ' + JSON.stringify(feedback));
+            //     this.faceDetectionFeedback = feedback;
+            //   },
+            // );
           }
 
-          this.streamManager = new StreamManager(
-            this.videoElement,
-            this.canvasElement,
-            detector,
-            this.maskElement,
-            (errors) => {
-              log('errors' + JSON.stringify(errors));
-              this.onStreamManagerError(errors, false);
-            }
-          );
-          //start the stream and display the video (and start the face detector if necessary)
-          this.streamManager.startStream(cameraStream);
+          // this.streamManager = new StreamManager(
+          //   this.videoElement,
+          //   this.canvasElement,
+          //   detector,
+          //   this.maskElement,
+          //   (errors) => {
+          //     log('errors' + JSON.stringify(errors));
+          //     this.onStreamManagerError(errors, false);
+          //   }
+          // );
+          // start the stream and display the video (and start the face detector if necessary)
+          // this.streamManager.startStream(cameraStream);
         })
         .catch((e) => {
           this.closeCamera();
@@ -217,10 +215,10 @@ class SecureCitizenCamera {
   }
 
   public closeCamera() {
-    if (this.streamManager) {
-      this.isCameraActive = false;
-      this.streamManager?.dropStream();
-    }
+    // if (this.streamManager) {
+    //   this.isCameraActive = false;
+    //   this.streamManager?.dropStream();
+    // }
   }
 
   /**

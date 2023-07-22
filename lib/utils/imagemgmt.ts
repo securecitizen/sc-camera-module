@@ -1,3 +1,6 @@
+import { DEFAULT_MAX_WIDTH } from "./defaults";
+import platform from 'platform-detect';
+
 function resizeSVGOnCanvas(canvas: HTMLCanvasElement, originalImage: HTMLImageElement, newWidth: number, newHeight?: number) {
     // //create an image object from the path
     // const originalImage = new Image();
@@ -30,6 +33,35 @@ function resizeSVGOnCanvas(canvas: HTMLCanvasElement, originalImage: HTMLImageEl
     });
     }
 
-}
+/** Gets the parameters used to start navigator.mediaDevices.getUserMedia(...) */
+function GetConstraints(
+    width: string = '1920',
+    height: string = '1080'
+  ) {
+    const w = Number(width);
+    const h = Number(height);
+  
+    if (w === 0 || w > 1920) {
+      width = DEFAULT_MAX_WIDTH.toString();
+    }
+  
+    return platform.macos
+      ? {
+          audio: false,
+          video: {
+            facingMode: 'user',
+            width: w,
+            height: h,
+          },
+        }
+      : {
+          audio: false,
+          video: {
+            facingMode: 'user',
+            width: { ideal: w },
+            height: { ideal: h },
+          },
+        };
+  }
 
-export { resizeSVGOnCanvas };
+export { resizeSVGOnCanvas, GetConstraints };
