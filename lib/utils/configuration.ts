@@ -5,8 +5,6 @@ import {
   DEFAULT_CONTROLS_STATE,
   DEFAULT_DEBUG_VALUE,
   DEFAULT_FACE_DETECT,
-  DEFAULT_HEIGHT,
-  DEFAULT_WIDTH,
 } from './defaults';
 
 export interface AuthInit {
