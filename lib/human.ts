@@ -12,7 +12,7 @@ import * as indexDb from './indexdb'; // methods to deal with indexdb
 
 const humanConfig = { // user configuration for human, used to fine-tune behavior
   cacheSensitivity: 0,
-  modelBasePath: '/models',
+  modelBasePath: 'models',
   filter: { enabled: true, equalization: true }, // lets run with histogram equilizer
   debug: true,
   face: {
