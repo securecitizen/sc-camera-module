@@ -17,10 +17,10 @@ const humanConfig = { // user configuration for human, used to fine-tune behavio
   debug: true,
   face: {
     enabled: true,
-    detector: { rotation: true, return: true, mask: false }, // return tensor is used to get detected face image
+    detector: { rotation: false, return: true, mask: false }, // return tensor is used to get detected face image
     description: { enabled: true }, // default model for face descriptor extraction is faceres
     // mobilefacenet: { enabled: true, modelPath: 'https://vladmandic.github.io/human-models/models/mobilefacenet.json' }, // alternative model
-    // insightface: { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }, // alternative model
+    insightface: { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }, // alternative model
     iris: { enabled: true }, // needed to determine gaze direction
     emotion: { enabled: false }, // not needed
     antispoof: { enabled: true }, // enable optional antispoof module
@@ -37,7 +37,7 @@ const matchOptions = { order: 2, multiplier: 25, min: 0.2, max: 0.8 }; // for fa
 
 const options = {
   minConfidence: 0.6, // overal face confidence for box, face, gender, real, live
-  minSize: 224, // min input to face descriptor model before degradation
+  minSize: 264, // min input to face descriptor model before degradation
   maxTime: 30000, // max time before giving up
   blinkMin: 10, // minimum duration of a valid blink
   blinkMax: 800, // maximum duration of a valid blink
