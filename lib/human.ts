@@ -10,9 +10,10 @@
 import * as H from '@vladmandic/human'; // equivalent of @vladmandic/Human
 import * as indexDb from './indexdb'; // methods to deal with indexdb
 
-const humanConfig = { // user configuration for human, used to fine-tune behavior
+const humanConfig: Partial<H.Config> = { // user configuration for human, used to fine-tune behavior
   cacheSensitivity: 0,
   modelBasePath: 'models',
+  backend: 'webgl',
   filter: { enabled: true, equalization: true }, // lets run with histogram equilizer
   debug: true,
   face: {
@@ -20,7 +21,7 @@ const humanConfig = { // user configuration for human, used to fine-tune behavio
     detector: { rotation: false, return: true, mask: false }, // return tensor is used to get detected face image
     description: { enabled: true }, // default model for face descriptor extraction is faceres
     // mobilefacenet: { enabled: true, modelPath: 'https://vladmandic.github.io/human-models/models/mobilefacenet.json' }, // alternative model
-    insightface: { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }, // alternative model
+    // insightface: { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }, // alternative model
     iris: { enabled: true }, // needed to determine gaze direction
     emotion: { enabled: false }, // not needed
     antispoof: { enabled: true }, // enable optional antispoof module
@@ -44,8 +45,8 @@ const options = {
   threshold: 0.5, // minimum similarity
   distanceMin: 0.4, // closest that face is allowed to be to the cammera in cm
   distanceMax: 1.0, // farthest that face is allowed to be to the cammera in cm
-  mask: humanConfig.face.detector.mask,
-  rotation: humanConfig.face.detector.rotation,
+  mask: humanConfig.face?.detector?.mask,
+  rotation: humanConfig.face?.detector?.rotation,
   ...matchOptions,
 };
 
@@ -305,7 +306,7 @@ async function init() {
   log('loading human models...');
   await human.load(); // preload all models
   log('initializing human...');
-  log('face embedding model:', humanConfig.face.description.enabled ? 'faceres' : '', humanConfig.face['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face['insightface']?.enabled ? 'insightface' : '');
+  log('face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
   log('loading face database...');
   log('known face records:', await indexDb.count());
   dom.retry.addEventListener('click', main);

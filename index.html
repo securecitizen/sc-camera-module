@@ -16,10 +16,7 @@
   <!-- Script tag for demo page purposes in demo-page-assets/demo.ts  -->
   <script type="module" src="demo-page-assets/demo.ts"></script>
   <style>
-    /* @font-face { font-family: 'Lato'; font-display: swap; font-style: normal; font-weight: 100; src: local('Lato'), url('../../assets/lato-light.woff2') } */
-    html { font-family: 'Lato', 'Segoe UI'; font-size: 16px; font-variant: small-caps; }
-    body { margin: 0; background: black; overflow-x: hidden; width: 100vw; height: 100vh; }
-    body::-webkit-scrollbar { display: none; }
+      body { font-size: 16px; font-variant: small-caps; margin: 0; background: black; width: 100vw; height: 100vh; }
   </style>
 </head>
 
@@ -40,10 +37,8 @@
           <!-- This is where the message will be output -->
           If you see this message, the module is not working.
         </pre>
-        <pre id="log" class="pd-1"></pre>
-        <canvas id="canvas" class="mx-auto"></canvas>
-        <video id="video" playsinline style="display: none"></video>
-        <div id="performance"></div>
+        <canvas id="canvas" style="margin: 0 auto; width: 100%"></canvas>
+        <div id="ok"></div>
       </div>
     </div>
   </div>
