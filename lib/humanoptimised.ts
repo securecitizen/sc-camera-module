@@ -8,6 +8,7 @@
 //  */
 
 import * as H from '@vladmandic/human'
+import { drawTexture } from './utils/gldraw'
 
 const humanConfig: Partial<H.Config> = {
     // user configuration for human, used to fine-tune behavior
@@ -36,6 +37,9 @@ const humanConfig: Partial<H.Config> = {
     object: { enabled: false },
     segmentation: { enabled: false },
 }
+
+humanConfig.face!['scale'] = 1.5;
+humanConfig.face!['insightface'] = { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }
 
 // const matchOptions = { order: 2, multiplier: 1000, min: 0.0, max: 1.0 }; // for embedding model
 const matchOptions = { order: 2, multiplier: 25, min: 0.2, max: 0.8 } // for faceres model
@@ -156,8 +160,29 @@ async function validationLoop(): Promise<H.FaceResult> {
     // main screen refresh loop
     const interpolated = human.next(human.result) // smoothen result using last-known results
     human.draw.canvas(human.webcam.element!, dom.canvas) // draw canvas to screen
-    await human.draw.all(dom.canvas, interpolated) // draw labels, boxes, lines, etc.
+
+    const drawOptions: Partial<H.DrawOptions> = {
+        faceLabels: `face
+          confidence: [score]%
+          [gender] [genderScore]%
+          age: [age] years
+          distance: [distance]cm
+          real: [real]%
+          live: [live]%
+          [emotions]
+          roll: [roll]° yaw:[yaw]° pitch:[pitch]°
+          gaze: [gaze]°`,
+        bodyLabels: 'body [score]%',
+        bodyPartLabels: '[label] [score]%',
+        objectLabels: '[label] [score]%',
+        handLabels: '[label] [score]%',
+        fingerLabels: '[label]',
+        gestureLabels: '[where] [who]: [what]',
+      };
+
+    await human.draw.all(dom.canvas, interpolated, drawOptions) // draw labels, boxes, lines, etc.
     const now = human.now()
+    ok.detectFPS.val = Math.round(10000 / (now - timestamp.detect)) / 10;
     ok.drawFPS.val = Math.round(10000 / (now - timestamp.draw)) / 10
     timestamp.draw = now
     ok.faceCount.val = human.result.face.length
@@ -234,7 +259,9 @@ async function detectFace() {
         .getContext('2d')
         ?.clearRect(0, 0, options.minSize, options.minSize)
     if (!current?.face?.tensor || !current?.face?.embedding) return false
+    
     console.log('face record:', current.face) // eslint-disable-line no-console
+    
     log(
         `detected face: ${current.face.gender} ${
             current.face.age || 0
@@ -242,7 +269,9 @@ async function detectFace() {
             (100 * (current.face.distance || 0)) / 2.54
         )}in`
     )
+
     await human.tf.browser.toPixels(current.face.tensor, dom.canvas)
+    
 }
 
 // async function drawLoop() {
