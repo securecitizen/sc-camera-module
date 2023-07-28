@@ -3,14 +3,12 @@
 // to access the default export, which may not be what you want.
 // Use `output.exports: "named"` to disable this warning.
 
-import { log }  from './utils/errors';
 import { SecureCitizenUserManager } from './auth/scauth'
 // import { SecureCitizenFaceCamera } from './sc-face-camera';
 import { SecureCitizenBootstrapper } from './utils/bootstrap'
 import { AuthInit, InitConfig } from './utils/configuration'
 
 function init(config: InitConfig): void {
-  log(config);
   const messageOutputElement = document.getElementById("messageOutput");
   if (messageOutputElement) {
     messageOutputElement.innerHTML = config.clientId;

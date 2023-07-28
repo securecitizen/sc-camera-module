@@ -9,29 +9,10 @@
 
 import * as H from '@vladmandic/human'; // equivalent of @vladmandic/Human
 import * as indexDb from './indexdb'; // methods to deal with indexdb
+import { basicConfig as humanConfig } from './components/camera-configs';
+import { ok, allOk, IFullDomContainer, drawValidationTests } from './utils/detection'
+import { log } from './utils/errors'
 
-const humanConfig: Partial<H.Config> = { // user configuration for human, used to fine-tune behavior
-  cacheSensitivity: 0,
-  modelBasePath: 'models',
-  backend: 'webgl',
-  filter: { enabled: true, equalization: true }, // lets run with histogram equilizer
-  debug: true,
-  face: {
-    enabled: true,
-    detector: { rotation: false, return: true, mask: false }, // return tensor is used to get detected face image
-    description: { enabled: true }, // default model for face descriptor extraction is faceres
-    // mobilefacenet: { enabled: true, modelPath: 'https://vladmandic.github.io/human-models/models/mobilefacenet.json' }, // alternative model
-    // insightface: { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }, // alternative model
-    iris: { enabled: true }, // needed to determine gaze direction
-    emotion: { enabled: false }, // not needed
-    antispoof: { enabled: true }, // enable optional antispoof module
-    liveness: { enabled: true }, // enable optional liveness module
-  },
-  body: { enabled: false },
-  hand: { enabled: false },
-  object: { enabled: false },
-  gesture: { enabled: true }, // parses face and iris gestures
-};
 
 // const matchOptions = { order: 2, multiplier: 1000, min: 0.0, max: 1.0 }; // for embedding model
 const matchOptions = { order: 2, multiplier: 25, min: 0.2, max: 0.8 }; // for faceres model
@@ -50,38 +31,6 @@ const options = {
   ...matchOptions,
 };
 
-const ok: Record<string, { status: boolean | undefined, val: number }> = { // must meet all rules
-  faceCount: { status: false, val: 0 },
-  faceConfidence: { status: false, val: 0 },
-  facingCenter: { status: false, val: 0 },
-  lookingCenter: { status: false, val: 0 },
-  blinkDetected: { status: false, val: 0 },
-  faceSize: { status: false, val: 0 },
-  antispoofCheck: { status: false, val: 0 },
-  livenessCheck: { status: false, val: 0 },
-  distance: { status: false, val: 0 },
-  age: { status: false, val: 0 },
-  gender: { status: false, val: 0 },
-  timeout: { status: true, val: 0 },
-  descriptor: { status: false, val: 0 },
-  elapsedMs: { status: undefined, val: 0 }, // total time while waiting for valid face
-  detectFPS: { status: undefined, val: 0 }, // mark detection fps performance
-  drawFPS: { status: undefined, val: 0 }, // mark redraw fps performance
-};
-
-const allOk = () => ok.faceCount.status
-  && ok.faceSize.status
-  && ok.blinkDetected.status
-  && ok.facingCenter.status
-  && ok.lookingCenter.status
-  && ok.faceConfidence.status
-  && ok.antispoofCheck.status
-  && ok.livenessCheck.status
-  && ok.distance.status
-  && ok.descriptor.status
-  && ok.age.status
-  && ok.gender.status;
-
 const current: { face: H.FaceResult | null, record: indexDb.FaceRecord | null } = { face: null, record: null }; // current face record and matched database record
 
 const blink = { // internal timers for blink start/end/duration
@@ -97,7 +46,7 @@ human.env.perfadd = false; // is performance data showing instant or total value
 human.draw.options.font = 'small-caps 18px "Lato"'; // set font used to draw labels when using draw methods
 human.draw.options.lineHeight = 20;
 
-const dom = { // grab instances of dom objects so we dont have to look them up later
+const dom: IFullDomContainer = { // grab instances of dom objects so we dont have to look them up later
   video: document.getElementById('video') as HTMLVideoElement,
   canvas: document.getElementById('canvas') as HTMLCanvasElement,
   log: document.getElementById('log') as HTMLPreElement,
@@ -110,13 +59,9 @@ const dom = { // grab instances of dom objects so we dont have to look them up l
   source: document.getElementById('source') as HTMLCanvasElement,
   ok: document.getElementById('ok') as HTMLDivElement,
 };
+
 const timestamp = { detect: 0, draw: 0 }; // holds information used to calculate performance and possible memory leaks
 let startTime = 0;
-
-const log = (...msg) => { // helper method to output messages
-  dom.log.innerText += msg.join(' ') + '\n';
-  console.log(...msg); // eslint-disable-line no-console
-};
 
 async function webCam() { // initialize webcam
   // @ts-ignore resizeMode is not yet defined in tslib
@@ -130,7 +75,7 @@ async function webCam() { // initialize webcam
   dom.canvas.height = dom.video.videoHeight;
   dom.canvas.style.width = '50%';
   dom.canvas.style.height = '50%';
-  if (human.env.initial) log('video:', dom.video.videoWidth, dom.video.videoHeight, '|', stream.getVideoTracks()[0].label);
+  if (human.env.initial) log(dom, 'video:', dom.video.videoWidth, dom.video.videoHeight, '|', stream.getVideoTracks()[0].label);
   dom.canvas.onclick = () => { // pause when clicked on screen and resume on next click
     if (dom.video.paused) void dom.video.play();
     else dom.video.pause();
@@ -145,25 +90,6 @@ async function detectionLoop() { // main detection loop
     ok.detectFPS.val = Math.round(10000 / (now - timestamp.detect)) / 10;
     timestamp.detect = now;
     requestAnimationFrame(detectionLoop); // start new frame immediately
-  }
-}
-
-function drawValidationTests() {
-  let y = 32;
-  for (const [key, val] of Object.entries(ok)) {
-    let el = document.getElementById(`ok-${key}`);
-    if (!el) {
-      el = document.createElement('div');
-      el.id = `ok-${key}`;
-      el.innerText = key;
-      el.className = 'ok';
-      el.style.top = `${y}px`;
-      dom.ok.appendChild(el);
-    }
-    if (typeof val.status === 'boolean') el.style.backgroundColor = val.status ? 'lightgreen' : 'lightcoral';
-    const status = val.status ? 'ok' : 'fail';
-    el.innerText = `${key}: ${val.val === 0 ? status : val.val}`;
-    y += 28;
   }
 }
 
@@ -203,7 +129,7 @@ async function validationLoop(): Promise<H.FaceResult> { // main screen refresh 
   }
   // run again
   ok.timeout.status = ok.elapsedMs.val <= options.maxTime;
-  drawValidationTests();
+  drawValidationTests(dom);
   if (allOk() || !ok.timeout.status) { // all criteria met
     dom.video.pause();
     return human.result.face[0];
@@ -222,10 +148,10 @@ async function saveRecords() {
     const image = dom.canvas.getContext('2d')?.getImageData(0, 0, dom.canvas.width, dom.canvas.height) as ImageData;
     const rec = { id: 0, name: dom.name.value, descriptor: current.face?.embedding as number[], image };
     await indexDb.save(rec);
-    log('saved face record:', rec.name, 'descriptor length:', current.face?.embedding?.length);
-    log('known face records:', await indexDb.count());
+    log(dom, 'saved face record:', rec.name, 'descriptor length:', current.face?.embedding?.length);
+    log(dom, 'known face records:', await indexDb.count());
   } else {
-    log('invalid name');
+    log(dom, 'invalid name');
   }
 }
 
@@ -240,10 +166,10 @@ async function detectFace() {
   dom.canvas.getContext('2d')?.clearRect(0, 0, options.minSize, options.minSize);
   if (!current?.face?.tensor || !current?.face?.embedding) return false;
   console.log('face record:', current.face); // eslint-disable-line no-console
-  log(`detected face: ${current.face.gender} ${current.face.age || 0}y distance ${100 * (current.face.distance || 0)}cm/${Math.round(100 * (current.face.distance || 0) / 2.54)}in`);
+  log(dom, `detected face: ${current.face.gender} ${current.face.age || 0}y distance ${100 * (current.face.distance || 0)}cm/${Math.round(100 * (current.face.distance || 0) / 2.54)}in`);
   await human.tf.browser.toPixels(current.face.tensor, dom.canvas);
   if (await indexDb.count() === 0) {
-    log('face database is empty: nothing to compare face with');
+    log(dom, 'face database is empty: nothing to compare face with');
     document.body.style.background = 'black';
     dom.delete.style.display = 'none';
     return false;
@@ -253,7 +179,7 @@ async function detectFace() {
   const res = human.match.find(current.face.embedding, descriptors, matchOptions);
   current.record = db[res.index] || null;
   if (current.record) {
-    log(`best match: ${current.record.name} | id: ${current.record.id} | similarity: ${Math.round(1000 * res.similarity) / 10}%`);
+    log(dom, `best match: ${current.record.name} | id: ${current.record.id} | similarity: ${Math.round(1000 * res.similarity) / 10}%`);
     dom.name.value = current.record.name;
     dom.source.style.display = '';
     dom.source.getContext('2d')?.putImageData(current.record.image, 0, 0);
@@ -292,23 +218,23 @@ async function main() { // main entry point
   dom.delete.style.display = 'flex';
   dom.retry.style.display = 'block';
   if (!allOk()) { // is all criteria met?
-    log('did not find valid face');
+    log(dom, 'did not find valid face');
     return false;
   }
   return detectFace();
 }
 
 async function init() {
-  log('human version:', human.version, '| tfjs version:', human.tf.version['tfjs-core']);
-  log('options:', JSON.stringify(options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
-  log('initializing webcam...');
+  log(dom, 'human version:', human.version, '| tfjs version:', human.tf.version['tfjs-core']);
+  log(dom, 'options:', JSON.stringify(options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
+  log(dom, 'initializing webcam...');
   await webCam(); // start webcam
-  log('loading human models...');
+  log(dom, 'loading human models...');
   await human.load(); // preload all models
-  log('initializing human...');
-  log('face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
-  log('loading face database...');
-  log('known face records:', await indexDb.count());
+  log(dom, 'initializing human...');
+  log(dom, 'face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
+  log(dom, 'loading face database...');
+  log(dom, 'known face records:', await indexDb.count());
   dom.retry.addEventListener('click', main);
   dom.save.addEventListener('click', saveRecords);
   dom.delete.addEventListener('click', deleteRecord);
