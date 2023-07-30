@@ -14,7 +14,7 @@ function init(config: InitConfig): void {
     messageOutputElement.innerHTML = config.clientId;
   }
 
-  config.debug = false;
+  config.debug = true;
 
   const camera = new SecureCitizenCamera(config);
 
