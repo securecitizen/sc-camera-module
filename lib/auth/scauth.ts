@@ -1,6 +1,6 @@
 import { Log, User, UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client-ts";
 import { DEFAULT_CLIENT_ID } from "../utils/defaults";
-import { log } from "../utils/errors";
+// import { log } from "../utils/errors";
 
 Log.setLogger(console);
 Log.setLevel(Log.INFO);
@@ -52,7 +52,7 @@ class SecureCitizenUserManager extends UserManager {
         super(settings);
 
         // Initialise an Auth instance
-        log('Client ID: ' + clientId + ' and authBase set to ' + url);
+        console.log('Client ID: ' + clientId + ' and authBase set to ' + url);
     }
 
     
@@ -60,103 +60,101 @@ class SecureCitizenUserManager extends UserManager {
 
     public clearState() {
         this.clearStaleState().then(function() {
-            log("clearStateState success");
+            console.log("clearStateState success");
         }).catch(function(err) {
             console.error(err);
-            log(err);
         });
     }
 
 public sessionStatus() {
     this.querySessionStatus().then(function(status) {
-        log("user's session status", status);
+        console.log("user's session status", status);
     }).catch(function(err) {
         console.error(err);
-        log(err);
     });
 }
 
 public getUserInfo() {
     this.getUser().then(function(user: User | null) {
-        log("user object", user);
+        console.log("user object", user);
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public revokeAccessToken() {
     this.revokeTokens().then(function() {
-        log("access token revoked");
+        console.log("access token revoked");
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public startSigninMainWindow() {
     this.signinRedirect({ state: { foo: "bar" } /*, useReplaceToNavigate: true*/ }).then(function() {
-        log("signinRedirect done");
+        console.log("signinRedirect done");
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public endSigninMainWindow() {
     this.signinRedirectCallback().then(function(user) {
-        log("signed in", user);
+        console.log("signed in", user);
         // this is how you get the custom state after the login:
         var customState = (user as User).state;
         console.log("here's our post-login custom state", customState);
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public popupSignin() {
     this.signinPopupCallback().then(function(user) {
-        log("signed in", user);
+        console.log("signed in", user);
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public popupSignout() {
     this.signoutPopupCallback().then(function() {
-        log("signed out");
+        console.log("signed out");
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public iframeSignin() {
     this.signinSilent().then(function(user) {
-        log("signed in silent", user);
+        console.log("signed in silent", user);
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public startSignoutMainWindow() {
     this.signoutRedirect().then(function(resp) {
-        log("signed out", resp);
+        console.log("signed out", resp);
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 
 public endSignoutMainWindow() {
     this.signoutRedirectCallback().then(function(resp) {
-        log("signed out", resp);
+        console.log("signed out", resp);
     }).catch(function(err) {
         console.error(err);
-        log(err);
+        
     });
 }
 }

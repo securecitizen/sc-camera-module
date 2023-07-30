@@ -3,21 +3,22 @@
 // to access the default export, which may not be what you want.
 // Use `output.exports: "named"` to disable this warning.
 
-import { log }  from './utils/errors';
 import { SecureCitizenUserManager } from './auth/scauth'
-// import { SecureCitizenFaceCamera } from './sc-face-camera';
-import { SecureCitizenBootstrapper } from './utils/bootstrap'
+import { SecureCitizenCamera } from './components/camera';
 import { AuthInit, InitConfig } from './utils/configuration'
+import { DEFAULT_MESSAGE_OUTSINK } from './utils/defaults';
 
 function init(config: InitConfig): void {
-  log(config);
-  const messageOutputElement = document.getElementById("messageOutput");
+  const messageOutputElement = document.getElementById(DEFAULT_MESSAGE_OUTSINK) as HTMLPreElement;
   if (messageOutputElement) {
     messageOutputElement.innerHTML = config.clientId;
   }
 
-  const bootstrap = new SecureCitizenBootstrapper(config.sourceDiv, config.clientId);
+  config.debug = false;
 
+  const camera = new SecureCitizenCamera(config);
+
+  camera.init(messageOutputElement);
   // return bootstrap;
 }
 
@@ -27,6 +28,5 @@ function authinit(config: AuthInit): SecureCitizenUserManager {
 
 export default {
   init: init,
-  authinit: authinit,
-  log
+  authinit: authinit
 }
