@@ -1,12 +1,10 @@
 export class IDomContainer {
     canvas: HTMLCanvasElement
-    log: HTMLPreElement
     fps: HTMLPreElement
     ok: HTMLDivElement
 }
 
 export class IFullDomContainer extends IDomContainer {
-    video: HTMLVideoElement
     match: HTMLDivElement
     name: HTMLInputElement
     save: HTMLSpanElement

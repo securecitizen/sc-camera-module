@@ -2,7 +2,7 @@
 import * as H from '@vladmandic/human'
 
 const simpleConfig: Partial<H.Config> = { // user configuration for human, used to fine-tune behavior
-    debug: true,
+    debug: false,
     backend: 'webgl',
     // cacheSensitivity: 0,
     // cacheModels: false,
@@ -23,7 +23,7 @@ const basicConfig: Partial<H.Config> = { // user configuration for human, used t
     modelBasePath: 'models',
     backend: 'webgl',
     filter: { enabled: true, equalization: true }, // lets run with histogram equilizer
-    debug: true,
+    debug: false,
     face: {
       enabled: true,
       detector: { rotation: false, return: true, mask: false }, // return tensor is used to get detected face image
@@ -45,7 +45,7 @@ const optimisedConfig: Partial<H.Config> = {
     // user configuration for human, used to fine-tune behavior
     cacheSensitivity: 0,
     modelBasePath: 'models', // models can be loaded directly from cdn as well
-    debug: true,
+    debug: false,
     backend: 'webgl',
     filter: { enabled: true, equalization: true, flip: false }, // lets run with histogram equilizer
     face: {
@@ -70,7 +70,7 @@ const optimisedConfig: Partial<H.Config> = {
 }
 
 optimisedConfig.face!['scale'] = 1.5;
-optimisedConfig.face!['insightface'] = { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }
+optimisedConfig.face!['insightface'] = { enabled: true, modelPath: 'insightface-mobilenet-swish.json' }
 
 
 export { optimisedConfig, simpleConfig, basicConfig }

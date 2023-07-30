@@ -47,9 +47,7 @@ human.draw.options.font = 'small-caps 18px "Lato"'; // set font used to draw lab
 human.draw.options.lineHeight = 20;
 
 const dom: IFullDomContainer = { // grab instances of dom objects so we dont have to look them up later
-  video: document.getElementById('video') as HTMLVideoElement,
   canvas: document.getElementById('canvas') as HTMLCanvasElement,
-  log: document.getElementById('log') as HTMLPreElement,
   fps: document.getElementById('fps') as HTMLPreElement,
   match: document.getElementById('match') as HTMLDivElement,
   name: document.getElementById('name') as HTMLInputElement,
@@ -63,39 +61,39 @@ const dom: IFullDomContainer = { // grab instances of dom objects so we dont hav
 const timestamp = { detect: 0, draw: 0 }; // holds information used to calculate performance and possible memory leaks
 let startTime = 0;
 
-async function webCam() { // initialize webcam
-  // @ts-ignore resizeMode is not yet defined in tslib
-  const cameraOptions: MediaStreamConstraints = { audio: false, video: { facingMode: 'user', resizeMode: 'none', width: { ideal: document.body.clientWidth } } };
-  const stream: MediaStream = await navigator.mediaDevices.getUserMedia(cameraOptions);
-  const ready = new Promise((resolve) => { dom.video.onloadeddata = () => resolve(true); });
-  dom.video.srcObject = stream;
-  void dom.video.play();
-  await ready;
-  dom.canvas.width = dom.video.videoWidth;
-  dom.canvas.height = dom.video.videoHeight;
-  dom.canvas.style.width = '50%';
-  dom.canvas.style.height = '50%';
-  if (human.env.initial) log(dom, 'video:', dom.video.videoWidth, dom.video.videoHeight, '|', stream.getVideoTracks()[0].label);
-  dom.canvas.onclick = () => { // pause when clicked on screen and resume on next click
-    if (dom.video.paused) void dom.video.play();
-    else dom.video.pause();
-  };
-}
+// async function webCam() { // initialize webcam
+//   // @ts-ignore resizeMode is not yet defined in tslib
+//   const cameraOptions: MediaStreamConstraints = { audio: false, video: { facingMode: 'user', resizeMode: 'none', width: { ideal: document.body.clientWidth } } };
+//   const stream: MediaStream = await navigator.mediaDevices.getUserMedia(cameraOptions);
+//   const ready = new Promise((resolve) => { dom.video.onloadeddata = () => resolve(true); });
+//   dom.video.srcObject = stream;
+//   void dom.video.play();
+//   await ready;
+//   dom.canvas.width = dom.video.videoWidth;
+//   dom.canvas.height = dom.video.videoHeight;
+//   dom.canvas.style.width = '50%';
+//   dom.canvas.style.height = '50%';
+//   if (human.env.initial) console.log('video:', dom.video.videoWidth, dom.video.videoHeight, '|', stream.getVideoTracks()[0].label);
+//   dom.canvas.onclick = () => { // pause when clicked on screen and resume on next click
+//     if (dom.video.paused) void dom.video.play();
+//     else dom.video.pause();
+//   };
+// }
 
-async function detectionLoop() { // main detection loop
-  if (!dom.video.paused) {
-    if (current.face?.tensor) human.tf.dispose(current.face.tensor); // dispose previous tensor
-    await human.detect(dom.video); // actual detection; were not capturing output in a local variable as it can also be reached via human.result
-    const now = human.now();
-    ok.detectFPS.val = Math.round(10000 / (now - timestamp.detect)) / 10;
-    timestamp.detect = now;
-    requestAnimationFrame(detectionLoop); // start new frame immediately
-  }
-}
+// async function detectionLoop() { // main detection loop
+//   if (!dom.video.paused) {
+//     if (current.face?.tensor) human.tf.dispose(current.face.tensor); // dispose previous tensor
+//     await human.detect(dom.video); // actual detection; were not capturing output in a local variable as it can also be reached via human.result
+//     const now = human.now();
+//     ok.detectFPS.val = Math.round(10000 / (now - timestamp.detect)) / 10;
+//     timestamp.detect = now;
+//     requestAnimationFrame(detectionLoop); // start new frame immediately
+//   }
+// }
 
 async function validationLoop(): Promise<H.FaceResult> { // main screen refresh loop
   const interpolated = human.next(human.result); // smoothen result using last-known results
-  human.draw.canvas(dom.video, dom.canvas); // draw canvas to screen
+  // human.draw.canvas(dom.video, dom.canvas); // draw canvas to screen
   await human.draw.all(dom.canvas, interpolated); // draw labels, boxes, lines, etc.
   const now = human.now();
   ok.drawFPS.val = Math.round(10000 / (now - timestamp.draw)) / 10;
@@ -131,7 +129,7 @@ async function validationLoop(): Promise<H.FaceResult> { // main screen refresh 
   ok.timeout.status = ok.elapsedMs.val <= options.maxTime;
   drawValidationTests(dom);
   if (allOk() || !ok.timeout.status) { // all criteria met
-    dom.video.pause();
+    // dom.video.pause();
     return human.result.face[0];
   }
   ok.elapsedMs.val = Math.trunc(human.now() - startTime);
@@ -148,10 +146,10 @@ async function saveRecords() {
     const image = dom.canvas.getContext('2d')?.getImageData(0, 0, dom.canvas.width, dom.canvas.height) as ImageData;
     const rec = { id: 0, name: dom.name.value, descriptor: current.face?.embedding as number[], image };
     await indexDb.save(rec);
-    log(dom, 'saved face record:', rec.name, 'descriptor length:', current.face?.embedding?.length);
-    log(dom, 'known face records:', await indexDb.count());
+    console.log('saved face record:', rec.name, 'descriptor length:', current.face?.embedding?.length);
+    console.log('known face records:', await indexDb.count());
   } else {
-    log(dom, 'invalid name');
+    console.log('invalid name');
   }
 }
 
@@ -166,10 +164,10 @@ async function detectFace() {
   dom.canvas.getContext('2d')?.clearRect(0, 0, options.minSize, options.minSize);
   if (!current?.face?.tensor || !current?.face?.embedding) return false;
   console.log('face record:', current.face); // eslint-disable-line no-console
-  log(dom, `detected face: ${current.face.gender} ${current.face.age || 0}y distance ${100 * (current.face.distance || 0)}cm/${Math.round(100 * (current.face.distance || 0) / 2.54)}in`);
+  console.log(`detected face: ${current.face.gender} ${current.face.age || 0}y distance ${100 * (current.face.distance || 0)}cm/${Math.round(100 * (current.face.distance || 0) / 2.54)}in`);
   await human.tf.browser.toPixels(current.face.tensor, dom.canvas);
   if (await indexDb.count() === 0) {
-    log(dom, 'face database is empty: nothing to compare face with');
+    console.log('face database is empty: nothing to compare face with');
     document.body.style.background = 'black';
     dom.delete.style.display = 'none';
     return false;
@@ -179,7 +177,7 @@ async function detectFace() {
   const res = human.match.find(current.face.embedding, descriptors, matchOptions);
   current.record = db[res.index] || null;
   if (current.record) {
-    log(dom, `best match: ${current.record.name} | id: ${current.record.id} | similarity: ${Math.round(1000 * res.similarity) / 10}%`);
+    console.log(`best match: ${current.record.name} | id: ${current.record.id} | similarity: ${Math.round(1000 * res.similarity) / 10}%`);
     dom.name.value = current.record.name;
     dom.source.style.display = '';
     dom.source.getContext('2d')?.putImageData(current.record.image, 0, 0);
@@ -204,8 +202,8 @@ async function main() { // main entry point
   dom.source.style.display = 'none';
   dom.canvas.style.height = '50%';
   document.body.style.background = 'black';
-  await webCam();
-  await detectionLoop(); // start detection loop
+  // await webCam();
+  // await detectionLoop(); // start detection loop
   startTime = human.now();
   current.face = await validationLoop(); // start validation loop
   dom.canvas.width = current.face?.tensor?.shape[1] || options.minSize;
@@ -218,23 +216,23 @@ async function main() { // main entry point
   dom.delete.style.display = 'flex';
   dom.retry.style.display = 'block';
   if (!allOk()) { // is all criteria met?
-    log(dom, 'did not find valid face');
+    console.log('did not find valid face');
     return false;
   }
   return detectFace();
 }
 
 async function init() {
-  log(dom, 'human version:', human.version, '| tfjs version:', human.tf.version['tfjs-core']);
-  log(dom, 'options:', JSON.stringify(options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
-  log(dom, 'initializing webcam...');
-  await webCam(); // start webcam
-  log(dom, 'loading human models...');
+  console.log('human version:', human.version, '| tfjs version:', human.tf.version['tfjs-core']);
+  console.log('options:', JSON.stringify(options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
+  console.log('initializing webcam...');
+  // await webCam(); // start webcam
+  console.log('loading human models...');
   await human.load(); // preload all models
-  log(dom, 'initializing human...');
-  log(dom, 'face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
-  log(dom, 'loading face database...');
-  log(dom, 'known face records:', await indexDb.count());
+  console.log('initializing human...');
+  console.log('face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
+  console.log('loading face database...');
+  console.log('known face records:', await indexDb.count());
   dom.retry.addEventListener('click', main);
   dom.save.addEventListener('click', saveRecords);
   dom.delete.addEventListener('click', deleteRecord);

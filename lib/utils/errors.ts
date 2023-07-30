@@ -14,9 +14,9 @@ function DebugLogger(debug: boolean, value: string) : void {
     if (debug) { console.log(value) };
   }
 
-const log = (dom: IDomContainer, ...msg: any[]) => {
+const log = (messageOutputElement: HTMLPreElement, ...msg: any[]) => {
     // helper method to output messages
-    dom.log.innerText += msg.join(' ') + '\n'
+    messageOutputElement.innerHTML += msg.join(' ') + '\n'
     console.log(...msg) // eslint-disable-line no-console
 }
 
