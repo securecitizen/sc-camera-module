@@ -30,12 +30,10 @@ declare module "auth/scauth" {
 declare module "utils/detection" {
     export class IDomContainer {
         canvas: HTMLCanvasElement;
-        log: HTMLPreElement;
         fps: HTMLPreElement;
         ok: HTMLDivElement;
     }
     export class IFullDomContainer extends IDomContainer {
-        video: HTMLVideoElement;
         match: HTMLDivElement;
         name: HTMLInputElement;
         save: HTMLSpanElement;
@@ -63,12 +61,11 @@ declare module "components/camera-configs" {
     export default optimisedConfig;
 }
 declare module "utils/errors" {
-    import { IDomContainer } from "utils/detection";
     const errorToFriendly: {
         [key: string]: string;
     };
     function DebugLogger(debug: boolean, value: string): void;
-    const log: (dom: IDomContainer, ...msg: any[]) => void;
+    const log: (messageOutputElement: HTMLPreElement, ...msg: any[]) => void;
     function logMessages(...args: any[]): void;
     export { errorToFriendly, log, logMessages, DebugLogger };
 }
@@ -145,7 +142,7 @@ declare module "components/camera" {
         validationLoop(): Promise<H.FaceResult>;
         detectFace(): Promise<boolean>;
         main(): Promise<boolean>;
-        init(): Promise<void>;
+        init(messageOutputElement: HTMLPreElement): Promise<void>;
     }
     export { SecureCitizenCamera };
 }

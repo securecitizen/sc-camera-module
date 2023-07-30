@@ -4,7 +4,7 @@
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-07-29T12:47:18.983Z 
+ * build date: 2023-07-29T13:41:54.312Z 
  */
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key2, value) => key2 in obj ? __defProp(obj, key2, { enumerable: true, configurable: true, writable: true, value }) : obj[key2] = value;
@@ -39961,150 +39961,483 @@ function requireCryptoBrowserify() {
   };
   return cryptoBrowserify;
 }
-(function(module, exports) {
-  (function(root, factory) {
-    {
-      module.exports = factory();
-    }
-  })(commonjsGlobal, function() {
-    var CryptoJS2 = CryptoJS2 || function(Math2, undefined$1) {
-      var crypto;
-      if (typeof window !== "undefined" && window.crypto) {
-        crypto = window.crypto;
+var hasRequiredCore;
+function requireCore() {
+  if (hasRequiredCore)
+    return core.exports;
+  hasRequiredCore = 1;
+  (function(module, exports) {
+    (function(root, factory) {
+      {
+        module.exports = factory();
       }
-      if (typeof self !== "undefined" && self.crypto) {
-        crypto = self.crypto;
-      }
-      if (typeof globalThis !== "undefined" && globalThis.crypto) {
-        crypto = globalThis.crypto;
-      }
-      if (!crypto && typeof window !== "undefined" && window.msCrypto) {
-        crypto = window.msCrypto;
-      }
-      if (!crypto && typeof commonjsGlobal !== "undefined" && commonjsGlobal.crypto) {
-        crypto = commonjsGlobal.crypto;
-      }
-      if (!crypto && typeof commonjsRequire === "function") {
-        try {
-          crypto = requireCryptoBrowserify();
-        } catch (err) {
+    })(commonjsGlobal, function() {
+      var CryptoJS2 = CryptoJS2 || function(Math2, undefined$1) {
+        var crypto;
+        if (typeof window !== "undefined" && window.crypto) {
+          crypto = window.crypto;
         }
-      }
-      var cryptoSecureRandomInt = function() {
-        if (crypto) {
-          if (typeof crypto.getRandomValues === "function") {
-            try {
-              return crypto.getRandomValues(new Uint32Array(1))[0];
-            } catch (err) {
-            }
-          }
-          if (typeof crypto.randomBytes === "function") {
-            try {
-              return crypto.randomBytes(4).readInt32LE();
-            } catch (err) {
-            }
+        if (typeof self !== "undefined" && self.crypto) {
+          crypto = self.crypto;
+        }
+        if (typeof globalThis !== "undefined" && globalThis.crypto) {
+          crypto = globalThis.crypto;
+        }
+        if (!crypto && typeof window !== "undefined" && window.msCrypto) {
+          crypto = window.msCrypto;
+        }
+        if (!crypto && typeof commonjsGlobal !== "undefined" && commonjsGlobal.crypto) {
+          crypto = commonjsGlobal.crypto;
+        }
+        if (!crypto && typeof commonjsRequire === "function") {
+          try {
+            crypto = requireCryptoBrowserify();
+          } catch (err) {
           }
         }
-        throw new Error("Native crypto module could not be used to get secure random number.");
-      };
-      var create = Object.create || function() {
-        function F() {
-        }
-        return function(obj) {
-          var subtype;
-          F.prototype = obj;
-          subtype = new F();
-          F.prototype = null;
-          return subtype;
-        };
-      }();
-      var C = {};
-      var C_lib = C.lib = {};
-      var Base = C_lib.Base = function() {
-        return {
-          /**
-           * Creates a new object that inherits from this object.
-           *
-           * @param {Object} overrides Properties to copy into the new object.
-           *
-           * @return {Object} The new object.
-           *
-           * @static
-           *
-           * @example
-           *
-           *     var MyType = CryptoJS.lib.Base.extend({
-           *         field: 'value',
-           *
-           *         method: function () {
-           *         }
-           *     });
-           */
-          extend: function(overrides) {
-            var subtype = create(this);
-            if (overrides) {
-              subtype.mixIn(overrides);
-            }
-            if (!subtype.hasOwnProperty("init") || this.init === subtype.init) {
-              subtype.init = function() {
-                subtype.$super.init.apply(this, arguments);
-              };
-            }
-            subtype.init.prototype = subtype;
-            subtype.$super = this;
-            return subtype;
-          },
-          /**
-           * Extends this object and runs the init method.
-           * Arguments to create() will be passed to init().
-           *
-           * @return {Object} The new object.
-           *
-           * @static
-           *
-           * @example
-           *
-           *     var instance = MyType.create();
-           */
-          create: function() {
-            var instance = this.extend();
-            instance.init.apply(instance, arguments);
-            return instance;
-          },
-          /**
-           * Initializes a newly created object.
-           * Override this method to add some logic when your objects are created.
-           *
-           * @example
-           *
-           *     var MyType = CryptoJS.lib.Base.extend({
-           *         init: function () {
-           *             // ...
-           *         }
-           *     });
-           */
-          init: function() {
-          },
-          /**
-           * Copies properties into this object.
-           *
-           * @param {Object} properties The properties to mix in.
-           *
-           * @example
-           *
-           *     MyType.mixIn({
-           *         field: 'value'
-           *     });
-           */
-          mixIn: function(properties) {
-            for (var propertyName in properties) {
-              if (properties.hasOwnProperty(propertyName)) {
-                this[propertyName] = properties[propertyName];
+        var cryptoSecureRandomInt = function() {
+          if (crypto) {
+            if (typeof crypto.getRandomValues === "function") {
+              try {
+                return crypto.getRandomValues(new Uint32Array(1))[0];
+              } catch (err) {
               }
             }
-            if (properties.hasOwnProperty("toString")) {
-              this.toString = properties.toString;
+            if (typeof crypto.randomBytes === "function") {
+              try {
+                return crypto.randomBytes(4).readInt32LE();
+              } catch (err) {
+              }
             }
+          }
+          throw new Error("Native crypto module could not be used to get secure random number.");
+        };
+        var create = Object.create || function() {
+          function F() {
+          }
+          return function(obj) {
+            var subtype;
+            F.prototype = obj;
+            subtype = new F();
+            F.prototype = null;
+            return subtype;
+          };
+        }();
+        var C = {};
+        var C_lib = C.lib = {};
+        var Base = C_lib.Base = function() {
+          return {
+            /**
+             * Creates a new object that inherits from this object.
+             *
+             * @param {Object} overrides Properties to copy into the new object.
+             *
+             * @return {Object} The new object.
+             *
+             * @static
+             *
+             * @example
+             *
+             *     var MyType = CryptoJS.lib.Base.extend({
+             *         field: 'value',
+             *
+             *         method: function () {
+             *         }
+             *     });
+             */
+            extend: function(overrides) {
+              var subtype = create(this);
+              if (overrides) {
+                subtype.mixIn(overrides);
+              }
+              if (!subtype.hasOwnProperty("init") || this.init === subtype.init) {
+                subtype.init = function() {
+                  subtype.$super.init.apply(this, arguments);
+                };
+              }
+              subtype.init.prototype = subtype;
+              subtype.$super = this;
+              return subtype;
+            },
+            /**
+             * Extends this object and runs the init method.
+             * Arguments to create() will be passed to init().
+             *
+             * @return {Object} The new object.
+             *
+             * @static
+             *
+             * @example
+             *
+             *     var instance = MyType.create();
+             */
+            create: function() {
+              var instance = this.extend();
+              instance.init.apply(instance, arguments);
+              return instance;
+            },
+            /**
+             * Initializes a newly created object.
+             * Override this method to add some logic when your objects are created.
+             *
+             * @example
+             *
+             *     var MyType = CryptoJS.lib.Base.extend({
+             *         init: function () {
+             *             // ...
+             *         }
+             *     });
+             */
+            init: function() {
+            },
+            /**
+             * Copies properties into this object.
+             *
+             * @param {Object} properties The properties to mix in.
+             *
+             * @example
+             *
+             *     MyType.mixIn({
+             *         field: 'value'
+             *     });
+             */
+            mixIn: function(properties) {
+              for (var propertyName in properties) {
+                if (properties.hasOwnProperty(propertyName)) {
+                  this[propertyName] = properties[propertyName];
+                }
+              }
+              if (properties.hasOwnProperty("toString")) {
+                this.toString = properties.toString;
+              }
+            },
+            /**
+             * Creates a copy of this object.
+             *
+             * @return {Object} The clone.
+             *
+             * @example
+             *
+             *     var clone = instance.clone();
+             */
+            clone: function() {
+              return this.init.prototype.extend(this);
+            }
+          };
+        }();
+        var WordArray = C_lib.WordArray = Base.extend({
+          /**
+           * Initializes a newly created word array.
+           *
+           * @param {Array} words (Optional) An array of 32-bit words.
+           * @param {number} sigBytes (Optional) The number of significant bytes in the words.
+           *
+           * @example
+           *
+           *     var wordArray = CryptoJS.lib.WordArray.create();
+           *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607]);
+           *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607], 6);
+           */
+          init: function(words, sigBytes) {
+            words = this.words = words || [];
+            if (sigBytes != undefined$1) {
+              this.sigBytes = sigBytes;
+            } else {
+              this.sigBytes = words.length * 4;
+            }
+          },
+          /**
+           * Converts this word array to a string.
+           *
+           * @param {Encoder} encoder (Optional) The encoding strategy to use. Default: CryptoJS.enc.Hex
+           *
+           * @return {string} The stringified word array.
+           *
+           * @example
+           *
+           *     var string = wordArray + '';
+           *     var string = wordArray.toString();
+           *     var string = wordArray.toString(CryptoJS.enc.Utf8);
+           */
+          toString: function(encoder) {
+            return (encoder || Hex).stringify(this);
+          },
+          /**
+           * Concatenates a word array to this word array.
+           *
+           * @param {WordArray} wordArray The word array to append.
+           *
+           * @return {WordArray} This word array.
+           *
+           * @example
+           *
+           *     wordArray1.concat(wordArray2);
+           */
+          concat: function(wordArray) {
+            var thisWords = this.words;
+            var thatWords = wordArray.words;
+            var thisSigBytes = this.sigBytes;
+            var thatSigBytes = wordArray.sigBytes;
+            this.clamp();
+            if (thisSigBytes % 4) {
+              for (var i = 0; i < thatSigBytes; i++) {
+                var thatByte = thatWords[i >>> 2] >>> 24 - i % 4 * 8 & 255;
+                thisWords[thisSigBytes + i >>> 2] |= thatByte << 24 - (thisSigBytes + i) % 4 * 8;
+              }
+            } else {
+              for (var j = 0; j < thatSigBytes; j += 4) {
+                thisWords[thisSigBytes + j >>> 2] = thatWords[j >>> 2];
+              }
+            }
+            this.sigBytes += thatSigBytes;
+            return this;
+          },
+          /**
+           * Removes insignificant bits.
+           *
+           * @example
+           *
+           *     wordArray.clamp();
+           */
+          clamp: function() {
+            var words = this.words;
+            var sigBytes = this.sigBytes;
+            words[sigBytes >>> 2] &= 4294967295 << 32 - sigBytes % 4 * 8;
+            words.length = Math2.ceil(sigBytes / 4);
+          },
+          /**
+           * Creates a copy of this word array.
+           *
+           * @return {WordArray} The clone.
+           *
+           * @example
+           *
+           *     var clone = wordArray.clone();
+           */
+          clone: function() {
+            var clone = Base.clone.call(this);
+            clone.words = this.words.slice(0);
+            return clone;
+          },
+          /**
+           * Creates a word array filled with random bytes.
+           *
+           * @param {number} nBytes The number of random bytes to generate.
+           *
+           * @return {WordArray} The random word array.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var wordArray = CryptoJS.lib.WordArray.random(16);
+           */
+          random: function(nBytes) {
+            var words = [];
+            for (var i = 0; i < nBytes; i += 4) {
+              words.push(cryptoSecureRandomInt());
+            }
+            return new WordArray.init(words, nBytes);
+          }
+        });
+        var C_enc = C.enc = {};
+        var Hex = C_enc.Hex = {
+          /**
+           * Converts a word array to a hex string.
+           *
+           * @param {WordArray} wordArray The word array.
+           *
+           * @return {string} The hex string.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var hexString = CryptoJS.enc.Hex.stringify(wordArray);
+           */
+          stringify: function(wordArray) {
+            var words = wordArray.words;
+            var sigBytes = wordArray.sigBytes;
+            var hexChars = [];
+            for (var i = 0; i < sigBytes; i++) {
+              var bite = words[i >>> 2] >>> 24 - i % 4 * 8 & 255;
+              hexChars.push((bite >>> 4).toString(16));
+              hexChars.push((bite & 15).toString(16));
+            }
+            return hexChars.join("");
+          },
+          /**
+           * Converts a hex string to a word array.
+           *
+           * @param {string} hexStr The hex string.
+           *
+           * @return {WordArray} The word array.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var wordArray = CryptoJS.enc.Hex.parse(hexString);
+           */
+          parse: function(hexStr) {
+            var hexStrLength = hexStr.length;
+            var words = [];
+            for (var i = 0; i < hexStrLength; i += 2) {
+              words[i >>> 3] |= parseInt(hexStr.substr(i, 2), 16) << 24 - i % 8 * 4;
+            }
+            return new WordArray.init(words, hexStrLength / 2);
+          }
+        };
+        var Latin1 = C_enc.Latin1 = {
+          /**
+           * Converts a word array to a Latin1 string.
+           *
+           * @param {WordArray} wordArray The word array.
+           *
+           * @return {string} The Latin1 string.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var latin1String = CryptoJS.enc.Latin1.stringify(wordArray);
+           */
+          stringify: function(wordArray) {
+            var words = wordArray.words;
+            var sigBytes = wordArray.sigBytes;
+            var latin1Chars = [];
+            for (var i = 0; i < sigBytes; i++) {
+              var bite = words[i >>> 2] >>> 24 - i % 4 * 8 & 255;
+              latin1Chars.push(String.fromCharCode(bite));
+            }
+            return latin1Chars.join("");
+          },
+          /**
+           * Converts a Latin1 string to a word array.
+           *
+           * @param {string} latin1Str The Latin1 string.
+           *
+           * @return {WordArray} The word array.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var wordArray = CryptoJS.enc.Latin1.parse(latin1String);
+           */
+          parse: function(latin1Str) {
+            var latin1StrLength = latin1Str.length;
+            var words = [];
+            for (var i = 0; i < latin1StrLength; i++) {
+              words[i >>> 2] |= (latin1Str.charCodeAt(i) & 255) << 24 - i % 4 * 8;
+            }
+            return new WordArray.init(words, latin1StrLength);
+          }
+        };
+        var Utf82 = C_enc.Utf8 = {
+          /**
+           * Converts a word array to a UTF-8 string.
+           *
+           * @param {WordArray} wordArray The word array.
+           *
+           * @return {string} The UTF-8 string.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var utf8String = CryptoJS.enc.Utf8.stringify(wordArray);
+           */
+          stringify: function(wordArray) {
+            try {
+              return decodeURIComponent(escape(Latin1.stringify(wordArray)));
+            } catch (e8) {
+              throw new Error("Malformed UTF-8 data");
+            }
+          },
+          /**
+           * Converts a UTF-8 string to a word array.
+           *
+           * @param {string} utf8Str The UTF-8 string.
+           *
+           * @return {WordArray} The word array.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var wordArray = CryptoJS.enc.Utf8.parse(utf8String);
+           */
+          parse: function(utf8Str) {
+            return Latin1.parse(unescape(encodeURIComponent(utf8Str)));
+          }
+        };
+        var BufferedBlockAlgorithm = C_lib.BufferedBlockAlgorithm = Base.extend({
+          /**
+           * Resets this block algorithm's data buffer to its initial state.
+           *
+           * @example
+           *
+           *     bufferedBlockAlgorithm.reset();
+           */
+          reset: function() {
+            this._data = new WordArray.init();
+            this._nDataBytes = 0;
+          },
+          /**
+           * Adds new data to this block algorithm's buffer.
+           *
+           * @param {WordArray|string} data The data to append. Strings are converted to a WordArray using UTF-8.
+           *
+           * @example
+           *
+           *     bufferedBlockAlgorithm._append('data');
+           *     bufferedBlockAlgorithm._append(wordArray);
+           */
+          _append: function(data) {
+            if (typeof data == "string") {
+              data = Utf82.parse(data);
+            }
+            this._data.concat(data);
+            this._nDataBytes += data.sigBytes;
+          },
+          /**
+           * Processes available data blocks.
+           *
+           * This method invokes _doProcessBlock(offset), which must be implemented by a concrete subtype.
+           *
+           * @param {boolean} doFlush Whether all blocks and partial blocks should be processed.
+           *
+           * @return {WordArray} The processed data.
+           *
+           * @example
+           *
+           *     var processedData = bufferedBlockAlgorithm._process();
+           *     var processedData = bufferedBlockAlgorithm._process(!!'flush');
+           */
+          _process: function(doFlush) {
+            var processedWords;
+            var data = this._data;
+            var dataWords = data.words;
+            var dataSigBytes = data.sigBytes;
+            var blockSize = this.blockSize;
+            var blockSizeBytes = blockSize * 4;
+            var nBlocksReady = dataSigBytes / blockSizeBytes;
+            if (doFlush) {
+              nBlocksReady = Math2.ceil(nBlocksReady);
+            } else {
+              nBlocksReady = Math2.max((nBlocksReady | 0) - this._minBufferSize, 0);
+            }
+            var nWordsReady = nBlocksReady * blockSize;
+            var nBytesReady = Math2.min(nWordsReady * 4, dataSigBytes);
+            if (nWordsReady) {
+              for (var offset = 0; offset < nWordsReady; offset += blockSize) {
+                this._doProcessBlock(dataWords, offset);
+              }
+              processedWords = dataWords.splice(0, nWordsReady);
+              data.sigBytes -= nBytesReady;
+            }
+            return new WordArray.init(processedWords, nBytesReady);
           },
           /**
            * Creates a copy of this object.
@@ -40113,461 +40446,135 @@ function requireCryptoBrowserify() {
            *
            * @example
            *
-           *     var clone = instance.clone();
+           *     var clone = bufferedBlockAlgorithm.clone();
            */
           clone: function() {
-            return this.init.prototype.extend(this);
-          }
-        };
-      }();
-      var WordArray = C_lib.WordArray = Base.extend({
-        /**
-         * Initializes a newly created word array.
-         *
-         * @param {Array} words (Optional) An array of 32-bit words.
-         * @param {number} sigBytes (Optional) The number of significant bytes in the words.
-         *
-         * @example
-         *
-         *     var wordArray = CryptoJS.lib.WordArray.create();
-         *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607]);
-         *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607], 6);
-         */
-        init: function(words, sigBytes) {
-          words = this.words = words || [];
-          if (sigBytes != undefined$1) {
-            this.sigBytes = sigBytes;
-          } else {
-            this.sigBytes = words.length * 4;
-          }
-        },
-        /**
-         * Converts this word array to a string.
-         *
-         * @param {Encoder} encoder (Optional) The encoding strategy to use. Default: CryptoJS.enc.Hex
-         *
-         * @return {string} The stringified word array.
-         *
-         * @example
-         *
-         *     var string = wordArray + '';
-         *     var string = wordArray.toString();
-         *     var string = wordArray.toString(CryptoJS.enc.Utf8);
-         */
-        toString: function(encoder) {
-          return (encoder || Hex).stringify(this);
-        },
-        /**
-         * Concatenates a word array to this word array.
-         *
-         * @param {WordArray} wordArray The word array to append.
-         *
-         * @return {WordArray} This word array.
-         *
-         * @example
-         *
-         *     wordArray1.concat(wordArray2);
-         */
-        concat: function(wordArray) {
-          var thisWords = this.words;
-          var thatWords = wordArray.words;
-          var thisSigBytes = this.sigBytes;
-          var thatSigBytes = wordArray.sigBytes;
-          this.clamp();
-          if (thisSigBytes % 4) {
-            for (var i = 0; i < thatSigBytes; i++) {
-              var thatByte = thatWords[i >>> 2] >>> 24 - i % 4 * 8 & 255;
-              thisWords[thisSigBytes + i >>> 2] |= thatByte << 24 - (thisSigBytes + i) % 4 * 8;
-            }
-          } else {
-            for (var j = 0; j < thatSigBytes; j += 4) {
-              thisWords[thisSigBytes + j >>> 2] = thatWords[j >>> 2];
-            }
-          }
-          this.sigBytes += thatSigBytes;
-          return this;
-        },
-        /**
-         * Removes insignificant bits.
-         *
-         * @example
-         *
-         *     wordArray.clamp();
-         */
-        clamp: function() {
-          var words = this.words;
-          var sigBytes = this.sigBytes;
-          words[sigBytes >>> 2] &= 4294967295 << 32 - sigBytes % 4 * 8;
-          words.length = Math2.ceil(sigBytes / 4);
-        },
-        /**
-         * Creates a copy of this word array.
-         *
-         * @return {WordArray} The clone.
-         *
-         * @example
-         *
-         *     var clone = wordArray.clone();
-         */
-        clone: function() {
-          var clone = Base.clone.call(this);
-          clone.words = this.words.slice(0);
-          return clone;
-        },
-        /**
-         * Creates a word array filled with random bytes.
-         *
-         * @param {number} nBytes The number of random bytes to generate.
-         *
-         * @return {WordArray} The random word array.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var wordArray = CryptoJS.lib.WordArray.random(16);
-         */
-        random: function(nBytes) {
-          var words = [];
-          for (var i = 0; i < nBytes; i += 4) {
-            words.push(cryptoSecureRandomInt());
-          }
-          return new WordArray.init(words, nBytes);
-        }
-      });
-      var C_enc = C.enc = {};
-      var Hex = C_enc.Hex = {
-        /**
-         * Converts a word array to a hex string.
-         *
-         * @param {WordArray} wordArray The word array.
-         *
-         * @return {string} The hex string.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var hexString = CryptoJS.enc.Hex.stringify(wordArray);
-         */
-        stringify: function(wordArray) {
-          var words = wordArray.words;
-          var sigBytes = wordArray.sigBytes;
-          var hexChars = [];
-          for (var i = 0; i < sigBytes; i++) {
-            var bite = words[i >>> 2] >>> 24 - i % 4 * 8 & 255;
-            hexChars.push((bite >>> 4).toString(16));
-            hexChars.push((bite & 15).toString(16));
-          }
-          return hexChars.join("");
-        },
-        /**
-         * Converts a hex string to a word array.
-         *
-         * @param {string} hexStr The hex string.
-         *
-         * @return {WordArray} The word array.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var wordArray = CryptoJS.enc.Hex.parse(hexString);
-         */
-        parse: function(hexStr) {
-          var hexStrLength = hexStr.length;
-          var words = [];
-          for (var i = 0; i < hexStrLength; i += 2) {
-            words[i >>> 3] |= parseInt(hexStr.substr(i, 2), 16) << 24 - i % 8 * 4;
-          }
-          return new WordArray.init(words, hexStrLength / 2);
-        }
-      };
-      var Latin1 = C_enc.Latin1 = {
-        /**
-         * Converts a word array to a Latin1 string.
-         *
-         * @param {WordArray} wordArray The word array.
-         *
-         * @return {string} The Latin1 string.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var latin1String = CryptoJS.enc.Latin1.stringify(wordArray);
-         */
-        stringify: function(wordArray) {
-          var words = wordArray.words;
-          var sigBytes = wordArray.sigBytes;
-          var latin1Chars = [];
-          for (var i = 0; i < sigBytes; i++) {
-            var bite = words[i >>> 2] >>> 24 - i % 4 * 8 & 255;
-            latin1Chars.push(String.fromCharCode(bite));
-          }
-          return latin1Chars.join("");
-        },
-        /**
-         * Converts a Latin1 string to a word array.
-         *
-         * @param {string} latin1Str The Latin1 string.
-         *
-         * @return {WordArray} The word array.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var wordArray = CryptoJS.enc.Latin1.parse(latin1String);
-         */
-        parse: function(latin1Str) {
-          var latin1StrLength = latin1Str.length;
-          var words = [];
-          for (var i = 0; i < latin1StrLength; i++) {
-            words[i >>> 2] |= (latin1Str.charCodeAt(i) & 255) << 24 - i % 4 * 8;
-          }
-          return new WordArray.init(words, latin1StrLength);
-        }
-      };
-      var Utf82 = C_enc.Utf8 = {
-        /**
-         * Converts a word array to a UTF-8 string.
-         *
-         * @param {WordArray} wordArray The word array.
-         *
-         * @return {string} The UTF-8 string.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var utf8String = CryptoJS.enc.Utf8.stringify(wordArray);
-         */
-        stringify: function(wordArray) {
-          try {
-            return decodeURIComponent(escape(Latin1.stringify(wordArray)));
-          } catch (e8) {
-            throw new Error("Malformed UTF-8 data");
-          }
-        },
-        /**
-         * Converts a UTF-8 string to a word array.
-         *
-         * @param {string} utf8Str The UTF-8 string.
-         *
-         * @return {WordArray} The word array.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var wordArray = CryptoJS.enc.Utf8.parse(utf8String);
-         */
-        parse: function(utf8Str) {
-          return Latin1.parse(unescape(encodeURIComponent(utf8Str)));
-        }
-      };
-      var BufferedBlockAlgorithm = C_lib.BufferedBlockAlgorithm = Base.extend({
-        /**
-         * Resets this block algorithm's data buffer to its initial state.
-         *
-         * @example
-         *
-         *     bufferedBlockAlgorithm.reset();
-         */
-        reset: function() {
-          this._data = new WordArray.init();
-          this._nDataBytes = 0;
-        },
-        /**
-         * Adds new data to this block algorithm's buffer.
-         *
-         * @param {WordArray|string} data The data to append. Strings are converted to a WordArray using UTF-8.
-         *
-         * @example
-         *
-         *     bufferedBlockAlgorithm._append('data');
-         *     bufferedBlockAlgorithm._append(wordArray);
-         */
-        _append: function(data) {
-          if (typeof data == "string") {
-            data = Utf82.parse(data);
-          }
-          this._data.concat(data);
-          this._nDataBytes += data.sigBytes;
-        },
-        /**
-         * Processes available data blocks.
-         *
-         * This method invokes _doProcessBlock(offset), which must be implemented by a concrete subtype.
-         *
-         * @param {boolean} doFlush Whether all blocks and partial blocks should be processed.
-         *
-         * @return {WordArray} The processed data.
-         *
-         * @example
-         *
-         *     var processedData = bufferedBlockAlgorithm._process();
-         *     var processedData = bufferedBlockAlgorithm._process(!!'flush');
-         */
-        _process: function(doFlush) {
-          var processedWords;
-          var data = this._data;
-          var dataWords = data.words;
-          var dataSigBytes = data.sigBytes;
-          var blockSize = this.blockSize;
-          var blockSizeBytes = blockSize * 4;
-          var nBlocksReady = dataSigBytes / blockSizeBytes;
-          if (doFlush) {
-            nBlocksReady = Math2.ceil(nBlocksReady);
-          } else {
-            nBlocksReady = Math2.max((nBlocksReady | 0) - this._minBufferSize, 0);
-          }
-          var nWordsReady = nBlocksReady * blockSize;
-          var nBytesReady = Math2.min(nWordsReady * 4, dataSigBytes);
-          if (nWordsReady) {
-            for (var offset = 0; offset < nWordsReady; offset += blockSize) {
-              this._doProcessBlock(dataWords, offset);
-            }
-            processedWords = dataWords.splice(0, nWordsReady);
-            data.sigBytes -= nBytesReady;
-          }
-          return new WordArray.init(processedWords, nBytesReady);
-        },
-        /**
-         * Creates a copy of this object.
-         *
-         * @return {Object} The clone.
-         *
-         * @example
-         *
-         *     var clone = bufferedBlockAlgorithm.clone();
-         */
-        clone: function() {
-          var clone = Base.clone.call(this);
-          clone._data = this._data.clone();
-          return clone;
-        },
-        _minBufferSize: 0
-      });
-      C_lib.Hasher = BufferedBlockAlgorithm.extend({
-        /**
-         * Configuration options.
-         */
-        cfg: Base.extend(),
-        /**
-         * Initializes a newly created hasher.
-         *
-         * @param {Object} cfg (Optional) The configuration options to use for this hash computation.
-         *
-         * @example
-         *
-         *     var hasher = CryptoJS.algo.SHA256.create();
-         */
-        init: function(cfg) {
-          this.cfg = this.cfg.extend(cfg);
-          this.reset();
-        },
-        /**
-         * Resets this hasher to its initial state.
-         *
-         * @example
-         *
-         *     hasher.reset();
-         */
-        reset: function() {
-          BufferedBlockAlgorithm.reset.call(this);
-          this._doReset();
-        },
-        /**
-         * Updates this hasher with a message.
-         *
-         * @param {WordArray|string} messageUpdate The message to append.
-         *
-         * @return {Hasher} This hasher.
-         *
-         * @example
-         *
-         *     hasher.update('message');
-         *     hasher.update(wordArray);
-         */
-        update: function(messageUpdate) {
-          this._append(messageUpdate);
-          this._process();
-          return this;
-        },
-        /**
-         * Finalizes the hash computation.
-         * Note that the finalize operation is effectively a destructive, read-once operation.
-         *
-         * @param {WordArray|string} messageUpdate (Optional) A final message update.
-         *
-         * @return {WordArray} The hash.
-         *
-         * @example
-         *
-         *     var hash = hasher.finalize();
-         *     var hash = hasher.finalize('message');
-         *     var hash = hasher.finalize(wordArray);
-         */
-        finalize: function(messageUpdate) {
-          if (messageUpdate) {
+            var clone = Base.clone.call(this);
+            clone._data = this._data.clone();
+            return clone;
+          },
+          _minBufferSize: 0
+        });
+        C_lib.Hasher = BufferedBlockAlgorithm.extend({
+          /**
+           * Configuration options.
+           */
+          cfg: Base.extend(),
+          /**
+           * Initializes a newly created hasher.
+           *
+           * @param {Object} cfg (Optional) The configuration options to use for this hash computation.
+           *
+           * @example
+           *
+           *     var hasher = CryptoJS.algo.SHA256.create();
+           */
+          init: function(cfg) {
+            this.cfg = this.cfg.extend(cfg);
+            this.reset();
+          },
+          /**
+           * Resets this hasher to its initial state.
+           *
+           * @example
+           *
+           *     hasher.reset();
+           */
+          reset: function() {
+            BufferedBlockAlgorithm.reset.call(this);
+            this._doReset();
+          },
+          /**
+           * Updates this hasher with a message.
+           *
+           * @param {WordArray|string} messageUpdate The message to append.
+           *
+           * @return {Hasher} This hasher.
+           *
+           * @example
+           *
+           *     hasher.update('message');
+           *     hasher.update(wordArray);
+           */
+          update: function(messageUpdate) {
             this._append(messageUpdate);
+            this._process();
+            return this;
+          },
+          /**
+           * Finalizes the hash computation.
+           * Note that the finalize operation is effectively a destructive, read-once operation.
+           *
+           * @param {WordArray|string} messageUpdate (Optional) A final message update.
+           *
+           * @return {WordArray} The hash.
+           *
+           * @example
+           *
+           *     var hash = hasher.finalize();
+           *     var hash = hasher.finalize('message');
+           *     var hash = hasher.finalize(wordArray);
+           */
+          finalize: function(messageUpdate) {
+            if (messageUpdate) {
+              this._append(messageUpdate);
+            }
+            var hash2 = this._doFinalize();
+            return hash2;
+          },
+          blockSize: 512 / 32,
+          /**
+           * Creates a shortcut function to a hasher's object interface.
+           *
+           * @param {Hasher} hasher The hasher to create a helper for.
+           *
+           * @return {Function} The shortcut function.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
+           */
+          _createHelper: function(hasher) {
+            return function(message, cfg) {
+              return new hasher.init(cfg).finalize(message);
+            };
+          },
+          /**
+           * Creates a shortcut function to the HMAC's object interface.
+           *
+           * @param {Hasher} hasher The hasher to use in this HMAC helper.
+           *
+           * @return {Function} The shortcut function.
+           *
+           * @static
+           *
+           * @example
+           *
+           *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
+           */
+          _createHmacHelper: function(hasher) {
+            return function(message, key2) {
+              return new C_algo.HMAC.init(hasher, key2).finalize(message);
+            };
           }
-          var hash2 = this._doFinalize();
-          return hash2;
-        },
-        blockSize: 512 / 32,
-        /**
-         * Creates a shortcut function to a hasher's object interface.
-         *
-         * @param {Hasher} hasher The hasher to create a helper for.
-         *
-         * @return {Function} The shortcut function.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
-         */
-        _createHelper: function(hasher) {
-          return function(message, cfg) {
-            return new hasher.init(cfg).finalize(message);
-          };
-        },
-        /**
-         * Creates a shortcut function to the HMAC's object interface.
-         *
-         * @param {Hasher} hasher The hasher to use in this HMAC helper.
-         *
-         * @return {Function} The shortcut function.
-         *
-         * @static
-         *
-         * @example
-         *
-         *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
-         */
-        _createHmacHelper: function(hasher) {
-          return function(message, key2) {
-            return new C_algo.HMAC.init(hasher, key2).finalize(message);
-          };
-        }
-      });
-      var C_algo = C.algo = {};
-      return C;
-    }(Math);
-    return CryptoJS2;
-  });
-})(core);
-var coreExports = core.exports;
+        });
+        var C_algo = C.algo = {};
+        return C;
+      }(Math);
+      return CryptoJS2;
+    });
+  })(core);
+  return core.exports;
+}
+var coreExports = requireCore();
 const CryptoJS = /* @__PURE__ */ getDefaultExportFromCjs(coreExports);
 var sha256$1 = { exports: {} };
 (function(module, exports) {
   (function(root, factory) {
     {
-      module.exports = factory(coreExports);
+      module.exports = factory(requireCore());
     }
   })(commonjsGlobal, function(CryptoJS2) {
     (function(Math2) {
@@ -40683,7 +40690,7 @@ var encBase64 = { exports: {} };
 (function(module, exports) {
   (function(root, factory) {
     {
-      module.exports = factory(coreExports);
+      module.exports = factory(requireCore());
     }
   })(commonjsGlobal, function(CryptoJS2) {
     (function() {
@@ -40786,7 +40793,7 @@ var encUtf8 = { exports: {} };
 (function(module, exports) {
   (function(root, factory) {
     {
-      module.exports = factory(coreExports);
+      module.exports = factory(requireCore());
     }
   })(commonjsGlobal, function(CryptoJS2) {
     return CryptoJS2.enc.Utf8;
@@ -43727,6 +43734,7 @@ var UserManager = class {
   }
 };
 const DEFAULT_CLIENT_ID = "sc-app-beta";
+const DEFAULT_MESSAGE_OUTSINK = "messageOutput";
 Log.setLogger(console);
 Log.setLevel(Log.INFO);
 const whatPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
@@ -43854,7 +43862,6 @@ class SecureCitizenUserManager extends UserManager {
 class IDomContainer {
   constructor() {
     __publicField(this, "canvas");
-    __publicField(this, "log");
     __publicField(this, "fps");
     __publicField(this, "ok");
   }
@@ -43862,7 +43869,6 @@ class IDomContainer {
 class IFullDomContainer extends IDomContainer {
   constructor() {
     super(...arguments);
-    __publicField(this, "video");
     __publicField(this, "match");
     __publicField(this, "name");
     __publicField(this, "save");
@@ -92730,7 +92736,7 @@ const optimisedConfig = {
   cacheSensitivity: 0,
   modelBasePath: "models",
   // models can be loaded directly from cdn as well
-  debug: true,
+  debug: false,
   backend: "webgl",
   filter: { enabled: true, equalization: true, flip: false },
   // lets run with histogram equilizer
@@ -92763,9 +92769,9 @@ const optimisedConfig = {
   segmentation: { enabled: false }
 };
 optimisedConfig.face["scale"] = 1.5;
-optimisedConfig.face["insightface"] = { enabled: true, modelPath: "https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json" };
-const log = (dom, ...msg) => {
-  dom.log.innerText += msg.join(" ") + "\n";
+optimisedConfig.face["insightface"] = { enabled: true, modelPath: "insightface-mobilenet-swish.json" };
+const log = (messageOutputElement, ...msg) => {
+  messageOutputElement.innerHTML += msg.join(" ") + "\n";
   console.log(...msg);
 };
 const drawOptions = {
@@ -92826,8 +92832,8 @@ class SecureCitizenCamera {
     __publicField(this, "timestamp", { detect: 0, draw: 0 });
     // holds information used to calculate performance and possible memory leaks
     __publicField(this, "startTime", 0);
-    this.debug = config3.debug;
-    log(this.dom, "Config Provided", config3);
+    this.debug = config3.debug ?? false;
+    console.log("Debug Mode: " + this.debug);
     switch (type) {
       case ContainerType.Full:
         this.dom = new IFullDomContainer();
@@ -92840,14 +92846,15 @@ class SecureCitizenCamera {
     this.human = new Human(optimisedConfig);
     this.human.env.perfadd = false;
     this.human.draw.options.lineHeight = 20;
+    if (this.debug) {
+      this.human.draw.options.drawPoints = true;
+    }
   }
   sourceDomElements() {
     this.dom.canvas = document.getElementById("canvas");
-    this.dom.log = document.getElementById("messageOutput");
     this.dom.fps = document.getElementById("fps");
     this.dom.ok = document.getElementById("ok");
     if (this.dom instanceof IFullDomContainer) {
-      this.dom.video = document.getElementById("video");
       this.dom.match = document.getElementById("match");
       this.dom.name = document.getElementById("name");
       this.dom.save = document.getElementById("save");
@@ -92855,12 +92862,17 @@ class SecureCitizenCamera {
       this.dom.retry = document.getElementById("retry");
       this.dom.source = document.getElementById("source");
     }
+    if (this.debug) {
+      this.dom.ok.style.visibility = "hidden";
+    }
   }
   async validationLoop() {
     var _a3, _b2;
     const interpolated = this.human.next(this.human.result);
     this.human.draw.canvas(this.human.webcam.element, this.dom.canvas);
-    await this.human.draw.all(this.dom.canvas, interpolated, drawOptions);
+    if (this.debug) {
+      await this.human.draw.all(this.dom.canvas, interpolated, drawOptions);
+    }
     const now2 = this.human.now();
     ok$1.detectFPS.val = Math.round(1e4 / (now2 - this.timestamp.detect)) / 10;
     ok$1.drawFPS.val = Math.round(1e4 / (now2 - this.timestamp.draw)) / 10;
@@ -92921,13 +92933,8 @@ class SecureCitizenCamera {
     if (!((_c3 = (_b2 = this.current) == null ? void 0 : _b2.face) == null ? void 0 : _c3.tensor) || !((_e = (_d3 = this.current) == null ? void 0 : _d3.face) == null ? void 0 : _e.embedding))
       return false;
     console.log("face record:", this.current.face);
-    log(
-      this.dom,
-      `detected face: ${this.current.face.gender} ${this.current.face.age || 0}y distance ${100 * (this.current.face.distance || 0)}cm/${Math.round(
-        100 * (this.current.face.distance || 0) / 2.54
-      )}in`
-    );
     await this.human.tf.browser.toPixels(this.current.face.tensor, this.dom.canvas);
+    this.human.tf.dispose(this.current.face.tensor);
   }
   // async function drawLoop() {
   //     // main screen refresh loop
@@ -92948,7 +92955,6 @@ class SecureCitizenCamera {
     ok$1.age.status = false;
     ok$1.gender.status = false;
     ok$1.elapsedMs.val = 0;
-    this.dom.log.innerHTML = `human version: ${this.human.version} | tfjs version: ${this.human.tf.version["tfjs-core"]}<br>platform: ${this.human.env.platform} | agent ${this.human.env.agent}`;
     await this.human.webcam.start({ crop: true });
     this.human.video(this.human.webcam.element);
     this.dom.canvas.width = this.human.webcam.width;
@@ -92965,33 +92971,32 @@ class SecureCitizenCamera {
     this.dom.canvas.height = ((_d3 = (_c3 = this.current.face) == null ? void 0 : _c3.tensor) == null ? void 0 : _d3.shape[0]) || this.options.minSize;
     this.dom.canvas.style.width = "";
     if (!allOk()) {
-      log(this.dom, "did not find valid face");
       return false;
     }
     return this.detectFace();
   }
-  async init() {
+  async init(messageOutputElement) {
     var _a3, _b2, _c3, _d3;
-    log(this.dom, "human version:", this.human.version, "| tfjs version:", this.human.tf.version["tfjs-core"]);
-    log(this.dom, "options:", JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, "").replace(/,/g, " "));
-    log(this.dom, "initializing webcam...");
-    log(this.dom, "loading human models...");
+    log(messageOutputElement, "human version:", this.human.version, "| tfjs version:", this.human.tf.version["tfjs-core"]);
+    log(messageOutputElement, "options:", JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, "").replace(/,/g, " "));
+    log(messageOutputElement, "initializing webcam...");
+    log(messageOutputElement, "loading human models...");
     await this.human.load();
-    log(this.dom, "initializing this.human...");
-    log(this.dom, "face embedding model:", ((_b2 = (_a3 = optimisedConfig.face) == null ? void 0 : _a3.description) == null ? void 0 : _b2.enabled) ? "faceres" : "", ((_c3 = optimisedConfig.face["mobilefacenet"]) == null ? void 0 : _c3.enabled) ? "mobilefacenet" : "", ((_d3 = optimisedConfig.face["insightface"]) == null ? void 0 : _d3.enabled) ? "insightface" : "");
-    log(this.dom, "loading face database...");
+    log(messageOutputElement, "initializing this.human...");
+    log(messageOutputElement, "face embedding model:", ((_b2 = (_a3 = optimisedConfig.face) == null ? void 0 : _a3.description) == null ? void 0 : _b2.enabled) ? "faceres" : "", ((_c3 = optimisedConfig.face["mobilefacenet"]) == null ? void 0 : _c3.enabled) ? "mobilefacenet" : "", ((_d3 = optimisedConfig.face["insightface"]) == null ? void 0 : _d3.enabled) ? "insightface" : "");
+    log(messageOutputElement, "loading face database...");
     await this.human.warmup();
     await this.main();
   }
 }
 function init(config3) {
-  const messageOutputElement = document.getElementById("messageOutput");
+  const messageOutputElement = document.getElementById(DEFAULT_MESSAGE_OUTSINK);
   if (messageOutputElement) {
     messageOutputElement.innerHTML = config3.clientId;
   }
-  config3.debug = true;
+  config3.debug = false;
   const camera = new SecureCitizenCamera(config3);
-  camera.init();
+  camera.init(messageOutputElement);
 }
 function authinit(config3) {
   return new SecureCitizenUserManager(config3.clientId);
