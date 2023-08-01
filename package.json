@@ -1,11 +1,10 @@
 {
     "name": "@securecitizen/sc-camera-module",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "description": "This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.",
     "files": [
         "dist"
     ],
-    "type": "module",
     "main": "./dist/sc-camera-module.umd.js",
     "repository": {
         "type": "git",
@@ -28,8 +27,8 @@
     "scripts": {
         "clean": "rm -rf dist es demo",
         "dev": "vite --host 0.0.0.0 --port 3000",
-        "vite-build": "vite build --config vite.demo.config.cjs",
-        "build": "vite build --config vite.demo.config.cjs && vite build && tsc --target ESNext --module ESNext --moduleResolution node lib/sc-camera-module.ts --declaration --emitDeclarationOnly --outFile dist/sc-camera-module.d.ts",
+        "vite-build": "vite build --config vite.demo.config.js",
+        "build": "vite build --config vite.demo.config.js && vite build && tsc --target ESNext --module ESNext --moduleResolution node lib/sc-camera-module.ts --declaration --emitDeclarationOnly --outFile dist/sc-camera-module.d.ts",
         "preview": "vite preview",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
