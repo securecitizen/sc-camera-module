@@ -100,6 +100,7 @@ declare module "components/camera" {
     import { InitConfig } from "utils/configuration";
     class SecureCitizenCamera {
         dom: IFullDomContainer | IDomContainer;
+        log: HTMLPreElement;
         human: H.Human;
         matchOptions: {
             order: number;
@@ -142,7 +143,7 @@ declare module "components/camera" {
         validationLoop(): Promise<H.FaceResult>;
         detectFace(): Promise<boolean>;
         main(): Promise<boolean>;
-        init(messageOutputElement: HTMLPreElement): Promise<void>;
+        init(): Promise<void>;
     }
     export { SecureCitizenCamera };
 }

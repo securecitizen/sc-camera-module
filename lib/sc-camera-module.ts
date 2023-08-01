@@ -6,19 +6,14 @@
 import { SecureCitizenUserManager } from './auth/scauth'
 import { SecureCitizenCamera } from './components/camera';
 import { AuthInit, InitConfig } from './utils/configuration'
-import { DEFAULT_MESSAGE_OUTSINK } from './utils/defaults';
 
 function init(config: InitConfig): void {
-  const messageOutputElement = document.getElementById(DEFAULT_MESSAGE_OUTSINK) as HTMLPreElement;
-  if (messageOutputElement) {
-    messageOutputElement.innerHTML = config.clientId;
-  }
 
   config.debug = true;
 
   const camera = new SecureCitizenCamera(config);
 
-  camera.init(messageOutputElement);
+  camera.init();
   // return bootstrap;
 }
 
