@@ -23,7 +23,7 @@
         "clean": "rm -rf dist es demo",
         "dev": "vite --host 0.0.0.0 --port 3000",
         "vite-build": "vite build --config vite.demo.config.js",
-        "build": "vite build --config vite.demo.config.js && vite build && tsc lib/sc-camera-module.ts --declaration --emitDeclarationOnly --outFile dist/sc-camera-module.d.ts",
+        "build": "vite build --config vite.demo.config.js && vite build && tsc --target ESNext --moduleResolution node lib/sc-camera-module.ts --declaration --emitDeclarationOnly --outFile dist/sc-camera-module.d.ts",
         "preview": "vite preview",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
