@@ -8,6 +8,7 @@ import { DEFAULT_MESSAGE_OUTSINK } from "../utils/defaults";
 
 class SecureCitizenCamera {
     public dom: IFullDomContainer | IDomContainer;
+    public log: HTMLPreElement;
     public human: H.Human;
     // const matchOptions = { order: 2, multiplier: 1000, min: 0.0, max: 1.0 }; // for embedding model
     public matchOptions = { order: 2, multiplier: 25, min: 0.2, max: 0.8 } // for faceres model
@@ -41,9 +42,13 @@ class SecureCitizenCamera {
 
     protected sourceDomElements(): void {
         // grab instances of dom objects so we dont have to look them up later
+        
         this.dom.canvas = document.getElementById('canvas') as HTMLCanvasElement;
         this.dom.fps = document.getElementById('fps') as HTMLPreElement;
         this.dom.ok = document.getElementById('ok') as HTMLDivElement;
+
+        
+        this.log = document.getElementById(DEFAULT_MESSAGE_OUTSINK) as HTMLPreElement;
 
         // Add additional elements if full
         if(this.dom instanceof IFullDomContainer) {
@@ -237,15 +242,15 @@ class SecureCitizenCamera {
         return this.detectFace()
     }
 
-    public async init(messageOutputElement: HTMLPreElement) {
-        log(messageOutputElement, 'human version:', this.human.version, '| tfjs version:', this.human.tf.version['tfjs-core']);
-        log(messageOutputElement, 'options:', JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
-        log(messageOutputElement, 'initializing webcam...');
-        log(messageOutputElement, 'loading human models...');
+    public async init() {
+        log(this.log, 'human version:', this.human.version, '| tfjs version:', this.human.tf.version['tfjs-core']);
+        log(this.log, 'options:', JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
+        log(this.log, 'initializing webcam...');
+        log(this.log, 'loading human models...');
         await this.human.load(); // preload all models
-        log(messageOutputElement, 'initializing this.human...');
-        log(messageOutputElement, 'face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
-        log(messageOutputElement, 'loading face database...');
+        log(this.log, 'initializing this.human...');
+        log(this.log, 'face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
+        log(this.log, 'loading face database...');
         await this.human.warmup(); // warmup function to initialize backend for future faster detection
         await this.main();
       }
