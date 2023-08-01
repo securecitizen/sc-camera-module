@@ -1,10 +1,10 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.4
+ * version: v2.0.5
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-01T13:43:43.413Z 
+ * build date: 2023-08-01T13:45:48.346Z 
  */
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key2, value) => key2 in obj ? __defProp(obj, key2, { enumerable: true, configurable: true, writable: true, value }) : obj[key2] = value;
@@ -20629,36 +20629,53 @@ function requireBrowserifyRsa() {
   return browserifyRsa;
 }
 var elliptic = {};
-const name = "elliptic";
-const version$1 = "6.5.4";
-const description = "EC cryptography";
-const main = "lib/elliptic.js";
-const files = [
-  "lib"
+const _args = [
+  [
+    "elliptic@6.5.4",
+    "/home/runner/work/sc-camera-module/sc-camera-module"
+  ]
 ];
-const scripts = {
-  lint: "eslint lib test",
-  "lint:fix": "npm run lint -- --fix",
-  unit: "istanbul test _mocha --reporter=spec test/index.js",
-  test: "npm run lint && npm run unit",
-  version: "grunt dist && git add dist/"
+const _development = true;
+const _from = "elliptic@6.5.4";
+const _id = "elliptic@6.5.4";
+const _inBundle = false;
+const _integrity = "sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==";
+const _location = "/elliptic";
+const _phantomChildren = {};
+const _requested = {
+  type: "version",
+  registry: true,
+  raw: "elliptic@6.5.4",
+  name: "elliptic",
+  escapedName: "elliptic",
+  rawSpec: "6.5.4",
+  saveSpec: null,
+  fetchSpec: "6.5.4"
 };
-const repository = {
-  type: "git",
-  url: "git@github.com:indutny/elliptic"
-};
-const keywords = [
-  "EC",
-  "Elliptic",
-  "curve",
-  "Cryptography"
+const _requiredBy = [
+  "/browserify-sign",
+  "/create-ecdh"
 ];
-const author = "Fedor Indutny <fedor@indutny.com>";
-const license = "MIT";
+const _resolved = "https://registry.npmjs.org/elliptic/-/elliptic-6.5.4.tgz";
+const _spec = "6.5.4";
+const _where = "/home/runner/work/sc-camera-module/sc-camera-module";
+const author = {
+  name: "Fedor Indutny",
+  email: "fedor@indutny.com"
+};
 const bugs = {
   url: "https://github.com/indutny/elliptic/issues"
 };
-const homepage = "https://github.com/indutny/elliptic";
+const dependencies = {
+  "bn.js": "^4.11.9",
+  brorand: "^1.1.0",
+  "hash.js": "^1.0.0",
+  "hmac-drbg": "^1.0.1",
+  inherits: "^2.0.4",
+  "minimalistic-assert": "^1.0.1",
+  "minimalistic-crypto-utils": "^1.0.1"
+};
+const description = "EC cryptography";
 const devDependencies = {
   brfs: "^2.0.2",
   coveralls: "^3.1.0",
@@ -20674,30 +20691,59 @@ const devDependencies = {
   istanbul: "^0.4.5",
   mocha: "^8.0.1"
 };
-const dependencies = {
-  "bn.js": "^4.11.9",
-  brorand: "^1.1.0",
-  "hash.js": "^1.0.0",
-  "hmac-drbg": "^1.0.1",
-  inherits: "^2.0.4",
-  "minimalistic-assert": "^1.0.1",
-  "minimalistic-crypto-utils": "^1.0.1"
+const files = [
+  "lib"
+];
+const homepage = "https://github.com/indutny/elliptic";
+const keywords = [
+  "EC",
+  "Elliptic",
+  "curve",
+  "Cryptography"
+];
+const license = "MIT";
+const main = "lib/elliptic.js";
+const name = "elliptic";
+const repository = {
+  type: "git",
+  url: "git+ssh://git@github.com/indutny/elliptic.git"
 };
+const scripts = {
+  lint: "eslint lib test",
+  "lint:fix": "npm run lint -- --fix",
+  test: "npm run lint && npm run unit",
+  unit: "istanbul test _mocha --reporter=spec test/index.js",
+  version: "grunt dist && git add dist/"
+};
+const version$1 = "6.5.4";
 const require$$0 = {
-  name,
-  version: version$1,
-  description,
-  main,
-  files,
-  scripts,
-  repository,
-  keywords,
+  _args,
+  _development,
+  _from,
+  _id,
+  _inBundle,
+  _integrity,
+  _location,
+  _phantomChildren,
+  _requested,
+  _requiredBy,
+  _resolved,
+  _spec,
+  _where,
   author,
-  license,
   bugs,
-  homepage,
+  dependencies,
+  description,
   devDependencies,
-  dependencies
+  files,
+  homepage,
+  keywords,
+  license,
+  main,
+  name,
+  repository,
+  scripts,
+  version: version$1
 };
 var utils$2 = {};
 var bn$4 = { exports: {} };
