@@ -107,4 +107,3 @@ demo
 # MacOS
 .DS_Store
 /.vscode
-dist/
