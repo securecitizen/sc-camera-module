@@ -44,8 +44,8 @@ declare class SecureCitizenCamera {
     protected sourceDomElements(): void;
     constructor(config: InitConfig, type?: ContainerType);
     validationLoop(): Promise<H.FaceResult>;
-    detectFace(): Promise<false | undefined>;
-    main(): Promise<false | undefined>;
+    detectFace(): Promise<boolean>;
+    main(): Promise<boolean>;
     init(): Promise<void>;
 }
 export { SecureCitizenCamera };
