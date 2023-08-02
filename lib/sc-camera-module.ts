@@ -9,7 +9,7 @@ import { InitConfig } from './utils/configuration'
 
 function init(config: InitConfig): void {
 
-  config.debug = true;
+  // config.debug = true;
 
   // const video = document.getElementById('video') as HTMLVideoElement;
   // const canvas = document.getElementById('canvas') as HTMLCanvasElement;
