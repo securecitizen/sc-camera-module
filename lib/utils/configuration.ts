@@ -15,6 +15,7 @@ export interface InitConfig extends AuthInit {
   autoStart?: boolean;
   startCameraText?: string;
   debug?: boolean;
+  scaleFactor?: number
 }
 
 export class SecureCitizenCameraConfig {

@@ -5,18 +5,11 @@ import ModuleDemoPage from '../lib/sc-camera-module'
 import { DEFAULT_CLIENT_ID } from '../lib/utils/defaults';
 
 const config = {
-    clientId: DEFAULT_CLIENT_ID
+    clientId: DEFAULT_CLIENT_ID,
+    debug: true
 }
 
-ModuleDemoPage.init(config);
-
-// ModuleDemoPage.init({sourceDiv: 'camera', clientId: 'sc-app-beta'});
-
-// const container = document.getElementById('camera') as HTMLDivElement
-// camera.UpdateValues(container);
+ModuleDemoPage.quickInit(config);
 
 import './style.pcss';
-
-// From here, you can add any additional JavaScript you want to run on the demo page.
-// For example, you could add a button that calls a function in the module.
 

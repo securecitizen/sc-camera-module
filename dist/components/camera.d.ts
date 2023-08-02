@@ -1,8 +1,10 @@
-import { ContainerType, IDomContainer, IFullDomContainer } from "../utils/detection";
 import * as H from '@vladmandic/human';
 import { InitConfig } from "../utils/configuration";
 declare class SecureCitizenCamera {
-    dom: IFullDomContainer | IDomContainer;
+    video: HTMLVideoElement | undefined;
+    canvas: HTMLCanvasElement;
+    fps: HTMLPreElement | undefined;
+    ok: HTMLDivElement;
     log: HTMLPreElement;
     human: H.Human;
     matchOptions: {
@@ -41,8 +43,14 @@ declare class SecureCitizenCamera {
         draw: number;
     };
     startTime: number;
-    protected sourceDomElements(): void;
-    constructor(config: InitConfig, type?: ContainerType);
+    constructor(config: InitConfig, override?: {
+        canvas: HTMLCanvasElement;
+        ok: HTMLDivElement;
+        log: HTMLPreElement;
+    }, optional?: {
+        fps?: HTMLPreElement | undefined;
+        video?: HTMLVideoElement | undefined;
+    });
     validationLoop(): Promise<H.FaceResult>;
     detectFace(): Promise<boolean>;
     main(): Promise<boolean>;

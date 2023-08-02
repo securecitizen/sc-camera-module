@@ -1,9 +1,10 @@
 import { SecureCitizenUserManager } from './auth/scauth';
-import { AuthInit, InitConfig } from './utils/configuration';
+import { SecureCitizenCamera } from './components/camera';
+import { InitConfig } from './utils/configuration';
 declare function init(config: InitConfig): void;
-declare function authinit(config: AuthInit): SecureCitizenUserManager;
 declare const _default: {
-    init: typeof init;
-    authinit: typeof authinit;
+    quickInit: typeof init;
+    SecureCitizenCamera: typeof SecureCitizenCamera;
+    SecureCitizenUserManager: typeof SecureCitizenUserManager;
 };
 export default _default;

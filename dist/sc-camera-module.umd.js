@@ -1,10 +1,10 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.12
+ * version: v2.0.13
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-02T11:34:59.888Z 
+ * build date: 2023-08-01T21:38:20.319Z 
  */
 (function(global2, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, global2["sc-camera-module"] = factory());
@@ -3833,7 +3833,6 @@ var __publicField = (obj, key, value) => {
     }
   };
   const DEFAULT_CLIENT_ID = "sc-app-beta";
-  const DEFAULT_MESSAGE_OUTSINK = "messageOutput";
   Log.setLogger(console);
   Log.setLevel(Log.INFO);
   const whatPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
@@ -3958,29 +3957,6 @@ var __publicField = (obj, key, value) => {
       });
     }
   }
-  class IDomContainer {
-    constructor() {
-      __publicField(this, "canvas");
-      __publicField(this, "fps");
-      __publicField(this, "ok");
-    }
-  }
-  class IFullDomContainer extends IDomContainer {
-    constructor() {
-      super(...arguments);
-      __publicField(this, "match");
-      __publicField(this, "name");
-      __publicField(this, "save");
-      __publicField(this, "delete");
-      __publicField(this, "retry");
-      __publicField(this, "source");
-    }
-  }
-  var ContainerType = /* @__PURE__ */ ((ContainerType2) => {
-    ContainerType2[ContainerType2["Minimal"] = 0] = "Minimal";
-    ContainerType2[ContainerType2["Full"] = 1] = "Full";
-    return ContainerType2;
-  })(ContainerType || {});
   const ok$1 = {
     // must meet all rules
     faceCount: { status: false, val: 0 },
@@ -3992,8 +3968,8 @@ var __publicField = (obj, key, value) => {
     antispoofCheck: { status: false, val: 0 },
     livenessCheck: { status: false, val: 0 },
     distance: { status: false, val: 0 },
-    age: { status: false, val: 0 },
-    gender: { status: false, val: 0 },
+    // age: { status: false, val: 0 },
+    // gender: { status: false, val: 0 },
     timeout: { status: true, val: 0 },
     descriptor: { status: false, val: 0 },
     elapsedMs: { status: void 0, val: 0 },
@@ -4003,10 +3979,10 @@ var __publicField = (obj, key, value) => {
     drawFPS: { status: void 0, val: 0 }
     // mark redraw fps performance
   };
-  const allOk = () => ok$1.faceCount.status && ok$1.faceSize.status && ok$1.blinkDetected.status && ok$1.facingCenter.status && ok$1.lookingCenter.status && ok$1.faceConfidence.status && ok$1.antispoofCheck.status && ok$1.livenessCheck.status && ok$1.distance.status && ok$1.descriptor.status && ok$1.age.status && ok$1.gender.status;
-  function drawValidationTests(dom) {
+  const allOk = () => ok$1.faceCount.status && ok$1.faceSize.status && ok$1.blinkDetected.status && ok$1.facingCenter.status && ok$1.lookingCenter.status && ok$1.faceConfidence.status && ok$1.antispoofCheck.status && ok$1.livenessCheck.status && ok$1.distance.status && ok$1.descriptor.status;
+  function drawValidationTests(ok2) {
     let y10 = 32;
-    for (const [key, val] of Object.entries(ok$1)) {
+    for (const [key, val] of Object.entries(ok2)) {
       let el2 = document.getElementById(`ok-${key}`);
       if (!el2) {
         el2 = document.createElement("div");
@@ -4014,7 +3990,7 @@ var __publicField = (obj, key, value) => {
         el2.innerText = key;
         el2.className = "ok";
         el2.style.top = `${y10}px`;
-        dom.ok.appendChild(el2);
+        ok2.appendChild(el2);
       }
       if (typeof val.status === "boolean")
         el2.style.backgroundColor = val.status ? "lightgreen" : "lightcoral";
@@ -52869,10 +52845,29 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
   };
   optimisedConfig.face["scale"] = 1.5;
   optimisedConfig.face["insightface"] = { enabled: true, modelPath: "insightface-mobilenet-swish.json" };
-  const log = (messageOutputElement, ...msg) => {
-    messageOutputElement.innerHTML += msg.join(" ") + "\n";
+  function DebugLogger(debug, value) {
+    if (debug) {
+      console.log(value);
+    }
+  }
+  const log = (...msg) => {
     console.log(...msg);
   };
+  function logMessages(messageOutputElement, ...args) {
+    const out = messageOutputElement;
+    if (!out)
+      return;
+    out.innerText = "";
+    Array.prototype.forEach.call(args, function(msg) {
+      if (msg instanceof Error) {
+        msg = "Error: " + msg.message;
+      } else if (typeof msg !== "string") {
+        msg = JSON.stringify(msg, null, 2);
+      }
+      out.innerHTML += msg + "\r\n";
+      DebugLogger(true, msg);
+    });
+  }
   const drawOptions = {
     faceLabels: `face
       confidence: [score]%
@@ -52892,9 +52887,19 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
     gestureLabels: "[where] [who]: [what]"
   };
   class SecureCitizenCamera {
-    constructor(config3, type = ContainerType.Minimal) {
-      __publicField(this, "dom");
+    constructor(config3, override, optional) {
+      __publicField(this, "video");
+      // this needs to be something that can be provided, or searched for in the HTML - 
+      // in this case if it is not defined (video) we let human manage the video feed later on
+      __publicField(this, "canvas");
+      // this needs to be something that can be provided, or searched for in the HTML
+      __publicField(this, "fps");
+      // this needs to be something that can be provided, or searched for in the HTML
+      // in this case if it is not defined (fps) we dont output fps values from Human
+      __publicField(this, "ok");
+      // this needs to be something that can be provided, or searched for in the HTML
       __publicField(this, "log");
+      // this needs to be something that can be provided, or searched for in the HTML
       __publicField(this, "human");
       // const matchOptions = { order: 2, multiplier: 1000, min: 0.0, max: 1.0 }; // for embedding model
       __publicField(this, "matchOptions", { order: 2, multiplier: 25, min: 0.2, max: 0.8 });
@@ -52933,46 +52938,46 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
       // holds information used to calculate performance and possible memory leaks
       __publicField(this, "startTime", 0);
       this.debug = config3.debug ?? false;
-      console.log("Debug Mode: " + this.debug);
-      switch (type) {
-        case ContainerType.Full:
-          this.dom = new IFullDomContainer();
-          break;
-        case ContainerType.Minimal:
-          this.dom = new IDomContainer();
-          break;
+      log("Debug Mode: " + this.debug);
+      if (override) {
+        this.canvas = override.canvas;
+        log("Found Override: " + this.canvas.id);
+        this.ok = override.ok;
+        log("Found Override: " + this.ok.id);
+        this.log = override.log;
+        log("Found Override: " + this.log.id);
+      } else {
+        this.canvas = document.getElementById("canvas");
+        this.ok = document.getElementById("ok");
+        this.log = document.getElementById("messageOutput");
       }
-      this.sourceDomElements();
+      if (!(this.canvas || this.ok || this.log))
+        throw Error("This library requires some configured HTML capabilities to operate");
+      if (this.debug) {
+        this.ok.style.visibility = "visible";
+      } else {
+        this.ok.style.visibility = "hidden";
+      }
       this.human = new Human(optimisedConfig);
+      if ((optional == null ? void 0 : optional.video) !== void 0) {
+        this.video = optional.video;
+      }
+      if ((optional == null ? void 0 : optional.fps) !== void 0) {
+        this.fps = optional.fps;
+        log("Found FPS Config: " + this.fps.id);
+      }
       this.human.env.perfadd = false;
-      this.human.draw.options.lineHeight = 20;
+      this.human.draw.options.lineHeight = 16;
       if (this.debug) {
         this.human.draw.options.drawPoints = true;
-      }
-    }
-    sourceDomElements() {
-      this.dom.canvas = document.getElementById("canvas");
-      this.dom.fps = document.getElementById("fps");
-      this.dom.ok = document.getElementById("ok");
-      this.log = document.getElementById(DEFAULT_MESSAGE_OUTSINK);
-      if (this.dom instanceof IFullDomContainer) {
-        this.dom.match = document.getElementById("match");
-        this.dom.name = document.getElementById("name");
-        this.dom.save = document.getElementById("save");
-        this.dom.delete = document.getElementById("delete");
-        this.dom.retry = document.getElementById("retry");
-        this.dom.source = document.getElementById("source");
-      }
-      if (this.debug) {
-        this.dom.ok.style.visibility = "hidden";
       }
     }
     async validationLoop() {
       var _a3, _b2;
       const interpolated = this.human.next(this.human.result);
-      this.human.draw.canvas(this.human.webcam.element, this.dom.canvas);
+      this.human.draw.canvas(this.human.webcam.element, this.canvas);
       if (this.debug) {
-        await this.human.draw.all(this.dom.canvas, interpolated, drawOptions);
+        await this.human.draw.all(this.canvas, interpolated, drawOptions);
       }
       const now2 = this.human.now();
       ok$1.detectFPS.val = Math.round(1e4 / (now2 - this.timestamp.detect)) / 10;
@@ -53008,13 +53013,9 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
         ok$1.distance.status = ok$1.distance.val >= this.options.distanceMin && ok$1.distance.val <= this.options.distanceMax;
         ok$1.descriptor.val = ((_a3 = this.human.result.face[0].embedding) == null ? void 0 : _a3.length) || 0;
         ok$1.descriptor.status = ok$1.descriptor.val > 0;
-        ok$1.age.val = this.human.result.face[0].age || 0;
-        ok$1.age.status = ok$1.age.val > 0;
-        ok$1.gender.val = this.human.result.face[0].genderScore || 0;
-        ok$1.gender.status = ok$1.gender.val >= this.options.minConfidence;
       }
       ok$1.timeout.status = ok$1.elapsedMs.val <= this.options.maxTime;
-      drawValidationTests(this.dom);
+      drawValidationTests(this.ok);
       if (allOk() || !ok$1.timeout.status) {
         (_b2 = this.human.webcam.element) == null ? void 0 : _b2.pause();
         return this.human.result.face[0];
@@ -53029,20 +53030,25 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
     }
     async detectFace() {
       var _a3, _b2, _c3, _d3, _e;
-      this.dom.canvas.style.height = "";
-      (_a3 = this.dom.canvas.getContext("2d")) == null ? void 0 : _a3.clearRect(0, 0, this.options.minSize, this.options.minSize);
+      this.canvas.style.height = "";
+      (_a3 = this.canvas.getContext("2d")) == null ? void 0 : _a3.clearRect(0, 0, this.options.minSize, this.options.minSize);
       if (!((_c3 = (_b2 = this.current) == null ? void 0 : _b2.face) == null ? void 0 : _c3.tensor) || !((_e = (_d3 = this.current) == null ? void 0 : _d3.face) == null ? void 0 : _e.embedding))
         return false;
-      console.log("face record:", this.current.face);
-      await this.human.tf.browser.toPixels(this.current.face.tensor, this.dom.canvas);
+      log("face record:", this.current.face);
+      log(
+        `detected face: ${this.current.face.gender} ${this.current.face.age || 0}y distance ${100 * (this.current.face.distance || 0)}cm/${Math.round(
+          100 * (this.current.face.distance || 0) / 2.54
+        )}in`
+      );
+      await this.human.tf.browser.toPixels(this.current.face.tensor, this.canvas);
       this.human.tf.dispose(this.current.face.tensor);
       return true;
     }
     // async function drawLoop() {
     //     // main screen refresh loop
     //     const interpolated = this.human.next() // get smoothened result using last-known results which are continously updated based on input webcam video
-    //     this.human.draw.canvas(this.human.webcam.element!, this.dom.canvas) // draw webcam video to screen canvas // better than using procesed image as this loop happens faster than processing loop
-    //     await this.human.draw.all(this.dom.canvas, interpolated) // draw labels, boxes, lines, etc.
+    //     this.human.draw.canvas(this.human.webcam.element!, this.canvas) // draw webcam video to screen canvas // better than using procesed image as this loop happens faster than processing loop
+    //     await this.human.draw.all(this.canvas, interpolated) // draw labels, boxes, lines, etc.
     //     setTimeout(drawLoop, 30) // use to slow down refresh from max refresh rate to target of 1000/30 ~ 30 fps
     // }
     async main() {
@@ -53054,14 +53060,21 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
       ok$1.faceSize.status = false;
       ok$1.antispoofCheck.status = false;
       ok$1.livenessCheck.status = false;
-      ok$1.age.status = false;
-      ok$1.gender.status = false;
       ok$1.elapsedMs.val = 0;
-      await this.human.webcam.start({ crop: true });
+      this.log.innerHTML = `human version: ${this.human.version} | tfjs version: ${this.human.tf.version["tfjs-core"]}<br>platform: ${this.human.env.platform} | agent ${this.human.env.agent}`;
+      if (this.video !== void 0) {
+        await this.human.webcam.start({ element: this.video, crop: true });
+        logMessages(this.log, "Starting WebCam via Video Tag " + this.video.id);
+        log("Starting WebCam via Video Tag " + this.video.id);
+      } else {
+        await this.human.webcam.start({ crop: true });
+        logMessages(this.log, "Starting WebCam Automagically");
+        log("Starting WebCam Automagically");
+      }
       this.human.video(this.human.webcam.element);
-      this.dom.canvas.width = this.human.webcam.width;
-      this.dom.canvas.height = this.human.webcam.height;
-      this.dom.canvas.onclick = async () => {
+      this.canvas.width = this.human.webcam.width;
+      this.canvas.height = this.human.webcam.height;
+      this.canvas.onclick = async () => {
         if (this.human.webcam.paused) {
           await this.human.webcam.play();
         } else
@@ -53069,24 +53082,24 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
       };
       this.startTime = this.human.now();
       this.current.face = await this.validationLoop();
-      this.dom.canvas.width = ((_b2 = (_a3 = this.current.face) == null ? void 0 : _a3.tensor) == null ? void 0 : _b2.shape[1]) || this.options.minSize;
-      this.dom.canvas.height = ((_d3 = (_c3 = this.current.face) == null ? void 0 : _c3.tensor) == null ? void 0 : _d3.shape[0]) || this.options.minSize;
-      this.dom.canvas.style.width = "";
+      this.canvas.width = ((_b2 = (_a3 = this.current.face) == null ? void 0 : _a3.tensor) == null ? void 0 : _b2.shape[1]) || this.options.minSize;
+      this.canvas.height = ((_d3 = (_c3 = this.current.face) == null ? void 0 : _c3.tensor) == null ? void 0 : _d3.shape[0]) || this.options.minSize;
+      this.canvas.style.width = "";
       if (!allOk()) {
+        logMessages(this.log, "did not find valid face");
         return false;
       }
       return this.detectFace();
     }
     async init() {
       var _a3, _b2, _c3, _d3;
-      log(this.log, "human version:", this.human.version, "| tfjs version:", this.human.tf.version["tfjs-core"]);
-      log(this.log, "options:", JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, "").replace(/,/g, " "));
-      log(this.log, "initializing webcam...");
-      log(this.log, "loading human models...");
+      logMessages(this.log, "human version:", this.human.version, "| tfjs version:", this.human.tf.version["tfjs-core"]);
+      logMessages(this.log, "options:", JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, "").replace(/,/g, " "));
+      logMessages(this.log, "initializing webcam...");
+      logMessages(this.log, "loading human models...");
       await this.human.load();
-      log(this.log, "initializing this.human...");
-      log(this.log, "face embedding model:", ((_b2 = (_a3 = optimisedConfig.face) == null ? void 0 : _a3.description) == null ? void 0 : _b2.enabled) ? "faceres" : "", ((_c3 = optimisedConfig.face["mobilefacenet"]) == null ? void 0 : _c3.enabled) ? "mobilefacenet" : "", ((_d3 = optimisedConfig.face["insightface"]) == null ? void 0 : _d3.enabled) ? "insightface" : "");
-      log(this.log, "loading face database...");
+      logMessages(this.log, "initializing this.human...");
+      logMessages(this.log, "face embedding model:", ((_b2 = (_a3 = optimisedConfig.face) == null ? void 0 : _a3.description) == null ? void 0 : _b2.enabled) ? "faceres" : "", ((_c3 = optimisedConfig.face["mobilefacenet"]) == null ? void 0 : _c3.enabled) ? "mobilefacenet" : "", ((_d3 = optimisedConfig.face["insightface"]) == null ? void 0 : _d3.enabled) ? "insightface" : "");
       await this.human.warmup();
       await this.main();
     }
@@ -53096,12 +53109,10 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
     const camera = new SecureCitizenCamera(config3);
     camera.init();
   }
-  function authinit(config3) {
-    return new SecureCitizenUserManager(config3.clientId);
-  }
   const scCameraModule = {
-    init,
-    authinit
+    quickInit: init,
+    SecureCitizenCamera,
+    SecureCitizenUserManager
   };
   return scCameraModule;
 });

@@ -1,22 +1,3 @@
-export class IDomContainer {
-    canvas: HTMLCanvasElement
-    fps: HTMLPreElement
-    ok: HTMLDivElement
-}
-
-export class IFullDomContainer extends IDomContainer {
-    match: HTMLDivElement
-    name: HTMLInputElement
-    save: HTMLSpanElement
-    delete: HTMLSpanElement
-    retry: HTMLDivElement
-    source: HTMLCanvasElement
-}
-
-export enum ContainerType {
-    Minimal,
-    Full
-}
 
 export const ok: Record<string, { status: boolean | undefined; val: number }> = {
     // must meet all rules
@@ -29,8 +10,8 @@ export const ok: Record<string, { status: boolean | undefined; val: number }> = 
     antispoofCheck: { status: false, val: 0 },
     livenessCheck: { status: false, val: 0 },
     distance: { status: false, val: 0 },
-    age: { status: false, val: 0 },
-    gender: { status: false, val: 0 },
+    // age: { status: false, val: 0 },
+    // gender: { status: false, val: 0 },
     timeout: { status: true, val: 0 },
     descriptor: { status: false, val: 0 },
     elapsedMs: { status: undefined, val: 0 }, // total time while waiting for valid face
@@ -48,11 +29,11 @@ ok.faceConfidence.status &&
 ok.antispoofCheck.status &&
 ok.livenessCheck.status &&
 ok.distance.status &&
-ok.descriptor.status &&
-ok.age.status &&
-ok.gender.status
+ok.descriptor.status
+// ok.age.status &&
+// ok.gender.status
 
-export function drawValidationTests(dom: IDomContainer) {
+export function drawValidationTests(ok: HTMLDivElement) {
     let y = 32
     for (const [key, val] of Object.entries(ok)) {
         let el = document.getElementById(`ok-${key}`)
@@ -62,7 +43,7 @@ export function drawValidationTests(dom: IDomContainer) {
             el.innerText = key
             el.className = 'ok'
             el.style.top = `${y}px`
-            dom.ok.appendChild(el)
+            ok.appendChild(el)
         }
         if (typeof val.status === 'boolean')
             el.style.backgroundColor = val.status ? 'lightgreen' : 'lightcoral'
