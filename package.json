@@ -1,6 +1,6 @@
 {
     "name": "@securecitizen/sc-camera-module",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "description": "This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.",
     "files": [
         "dist"
