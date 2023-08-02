@@ -182,7 +182,7 @@ class SecureCitizenCamera {
             ?.clearRect(0, 0, this.options.minSize, this.options.minSize)
         if (!this.current?.face?.tensor || !this.current?.face?.embedding) return false
         
-        console.log('face record:', this.current.face) // eslint-disable-line no-console
+        console.log('face record:', this.current.face); // eslint-disable-line no-console
         
         // log(this.log,
         //     `detected face: ${this.current.face.gender} ${
@@ -192,8 +192,9 @@ class SecureCitizenCamera {
         //     )}in`
         // )
     
-        await this.human.tf.browser.toPixels(this.current.face.tensor, this.dom.canvas)
+        await this.human.tf.browser.toPixels(this.current.face.tensor, this.dom.canvas);
         this.human.tf.dispose(this.current.face.tensor);
+        return true;
     }
     
     // async function drawLoop() {

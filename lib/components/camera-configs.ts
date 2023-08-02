@@ -53,7 +53,7 @@ const optimisedConfig: Partial<H.Config> = {
         detector: { rotation: false, return: true, mask: false }, // return tensor is used to get detected face image
         mesh: { enabled: true },
         attention: { enabled: false }, // TODO: need to see how this works ??
-        description: { enabled: true }, // default model for face descriptor extraction is faceres
+        description: { enabled: false }, // default model for face descriptor extraction is faceres
         // mobilefacenet: { enabled: true, modelPath: 'https://vladmandic.github.io/human-models/models/mobilefacenet.json' }, // alternative model
         // insightface: { enabled: true, modelPath: 'https://vladmandic.github.io/insightface/models/insightface-mobilenet-swish.json' }, // alternative model
         iris: { enabled: true }, // needed to determine gaze direction
