@@ -1,14 +1,14 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.14
+ * version: v2.0.15
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-02T14:21:28.417Z 
+ * build date: 2023-08-02T14:41:54.894Z 
  */
 (function(global2, factory) {
-  typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, global2["sc-camera-module"] = factory());
-})(this, function() {
+  typeof exports === "object" && typeof module !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2["sc-camera-module"] = {}));
+})(this, function(exports2) {
   var _a2, _b, _c2, _d2;
   "use strict";var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -60,7 +60,7 @@ var __publicField = (obj, key, value) => {
     default: __viteBrowserExternal
   }, Symbol.toStringTag, { value: "Module" }));
   const require$$0 = /* @__PURE__ */ getAugmentedNamespace(__viteBrowserExternal$1);
-  (function(module2, exports2) {
+  (function(module2, exports3) {
     (function(root, factory) {
       {
         module2.exports = factory();
@@ -663,7 +663,7 @@ var __publicField = (obj, key, value) => {
   var coreExports = core.exports;
   const CryptoJS = /* @__PURE__ */ getDefaultExportFromCjs(coreExports);
   var sha256$1 = { exports: {} };
-  (function(module2, exports2) {
+  (function(module2, exports3) {
     (function(root, factory) {
       {
         module2.exports = factory(coreExports);
@@ -779,7 +779,7 @@ var __publicField = (obj, key, value) => {
   var sha256Exports = sha256$1.exports;
   const sha256 = /* @__PURE__ */ getDefaultExportFromCjs(sha256Exports);
   var encBase64 = { exports: {} };
-  (function(module2, exports2) {
+  (function(module2, exports3) {
     (function(root, factory) {
       {
         module2.exports = factory(coreExports);
@@ -882,7 +882,7 @@ var __publicField = (obj, key, value) => {
   var encBase64Exports = encBase64.exports;
   const Base64 = /* @__PURE__ */ getDefaultExportFromCjs(encBase64Exports);
   var encUtf8 = { exports: {} };
-  (function(module2, exports2) {
+  (function(module2, exports3) {
     (function(root, factory) {
       {
         module2.exports = factory(coreExports);
@@ -53102,9 +53102,10 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
     camera.init();
   }
   const scCameraModule = {
-    quickInit: init,
-    SecureCitizenCamera,
-    SecureCitizenUserManager
+    quickInit: init
   };
-  return scCameraModule;
+  exports2.SecureCitizenCamera = SecureCitizenCamera;
+  exports2.SecureCitizenUserManager = SecureCitizenUserManager;
+  exports2.default = scCameraModule;
+  Object.defineProperties(exports2, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
 });
