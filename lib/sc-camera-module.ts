@@ -35,8 +35,11 @@ function init(config: InitConfig): void {
   // return camera;
 }
 
-export default {
-  quickInit: init,
+export {
   SecureCitizenCamera,
   SecureCitizenUserManager
+}
+
+export default {
+  quickInit: init
 }
