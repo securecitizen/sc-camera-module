@@ -1,5 +1,3 @@
-import { DEFAULT_MESSAGE_OUTSINK } from './defaults'
-import { IDomContainer } from './detection'
 
 const errorToFriendly: { [key: string]: string } = {
     FACE_ANGLE_TOO_LARGE: 'Please face the camera',
@@ -14,14 +12,12 @@ function DebugLogger(debug: boolean, value: string) : void {
     if (debug) { console.log(value) };
   }
 
-const log = (messageOutputElement: HTMLPreElement, ...msg: any[]) => {
-    // helper method to output messages
-    messageOutputElement.innerHTML += msg.join(' ') + '\n'
+const log = (...msg: any[]) => {
     console.log(...msg) // eslint-disable-line no-console
 }
 
-function logMessages(...args: any[]) {
-    const out = document.getElementById(DEFAULT_MESSAGE_OUTSINK);
+function logMessages(messageOutputElement: HTMLPreElement, ...args: any[]) {
+    const out = messageOutputElement;
     if(!out) return;
     out.innerText = "";
 

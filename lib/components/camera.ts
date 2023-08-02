@@ -1,14 +1,18 @@
-import { ContainerType, IDomContainer, IFullDomContainer, allOk, drawValidationTests, ok } from "../utils/detection";
+import { allOk, drawValidationTests, ok } from "../utils/detection";
 import * as H from '@vladmandic/human'
 import humanConfig from './camera-configs'
-import { log } from "../utils/errors";
+import { log, logMessages } from "../utils/errors";
 import drawOptions from "./draw-templates";
 import { InitConfig } from "../utils/configuration";
-import { DEFAULT_MESSAGE_OUTSINK } from "../utils/defaults";
 
 class SecureCitizenCamera {
-    public dom: IFullDomContainer | IDomContainer;
-    public log: HTMLPreElement;
+    public video: HTMLVideoElement | undefined // this needs to be something that can be provided, or searched for in the HTML - 
+    // in this case if it is not defined (video) we let human manage the video feed later on
+    public canvas: HTMLCanvasElement // this needs to be something that can be provided, or searched for in the HTML
+    public fps: HTMLPreElement | undefined // this needs to be something that can be provided, or searched for in the HTML
+    // in this case if it is not defined (fps) we dont output fps values from Human
+    public ok: HTMLDivElement // this needs to be something that can be provided, or searched for in the HTML
+    public log: HTMLPreElement; // this needs to be something that can be provided, or searched for in the HTML
     public human: H.Human;
     // const matchOptions = { order: 2, multiplier: 1000, min: 0.0, max: 1.0 }; // for embedding model
     public matchOptions = { order: 2, multiplier: 25, min: 0.2, max: 0.8 } // for faceres model
@@ -40,67 +44,79 @@ class SecureCitizenCamera {
     public timestamp = { detect: 0, draw: 0 } // holds information used to calculate performance and possible memory leaks
     public startTime = 0
 
-    protected sourceDomElements(): void {
-        // grab instances of dom objects so we dont have to look them up later
-        
-        this.dom.canvas = document.getElementById('canvas') as HTMLCanvasElement;
-        this.dom.fps = document.getElementById('fps') as HTMLPreElement;
-        this.dom.ok = document.getElementById('ok') as HTMLDivElement;
-
-        
-        this.log = document.getElementById(DEFAULT_MESSAGE_OUTSINK) as HTMLPreElement;
-
-        // Add additional elements if full
-        if(this.dom instanceof IFullDomContainer) {
-            this.dom.match = document.getElementById('match') as HTMLDivElement;
-            this.dom.name = document.getElementById('name') as HTMLInputElement;
-            this.dom.save =  document.getElementById('save') as HTMLSpanElement;
-            this.dom.delete = document.getElementById('delete') as HTMLSpanElement;
-            this.dom.retry = document.getElementById('retry') as HTMLDivElement;
-            this.dom.source = document.getElementById('source') as HTMLCanvasElement;
+    constructor(
+        config: InitConfig,
+        override?: {
+            canvas: HTMLCanvasElement,
+            ok: HTMLDivElement,
+            log: HTMLPreElement,
+        },
+        optional?: {
+            fps?: HTMLPreElement | undefined,
+            video?: HTMLVideoElement | undefined
         }
-
-        if(this.debug) {
-            this.dom.ok.style.visibility = 'hidden';
-        }
-    }
-
-    constructor(config: InitConfig, type: ContainerType = ContainerType.Minimal)
+        )
     {
         // configure debug to what has been provided in the config
         this.debug = config.debug ?? false;
 
-        console.log('Debug Mode: ' + this.debug);
+        log('Debug Mode: ' + this.debug);
 
-        switch(type) {
-            case ContainerType.Full:
-                this.dom = new IFullDomContainer();
-                break;
-            case ContainerType.Minimal:
-                this.dom = new IDomContainer();
-                break;
+        // check to see 
+        // grab instances of dom objects so we dont have to look them up later
+        
+        if(override) {
+                this.canvas = override.canvas;  
+                log('Found Override: ' + this.canvas.id)
+                this.ok = override.ok;
+                log('Found Override: ' + this.ok.id)
+                this.log = override.log;
+                log('Found Override: ' + this.log.id)
+        } else {
+            this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
+            this.ok = document.getElementById('ok') as HTMLDivElement;
+            this.log = document.getElementById('messageOutput') as HTMLPreElement;
         }
 
-        this.sourceDomElements();
+        if(!(this.canvas || this.ok || this.log )) throw Error("This library requires some configured HTML capabilities to operate");
+
+        if(this.debug) {
+            this.ok.style.visibility = 'visible';
+        }
+         else {
+            this.ok.style.visibility = 'hidden';
+        }
 
         this.human = new H.Human(humanConfig);
+
+        if(optional?.video !== undefined) {
+            this.video = optional.video;
+        }
+
+        if(optional?.fps !== undefined) {
+            this.fps = optional.fps;
+            log('Found FPS Config: ' + this.fps.id)
+        }
         
         this.human.env.perfadd = false // is performance data showing instant or total values
         // this.human.draw.options.font = 'small-caps 18px "Lato"'; // set font used to draw labels when using draw methods
-        this.human.draw.options.lineHeight = 20;
+        this.human.draw.options.lineHeight = 16;
 
         if(this.debug) {
             this.human.draw.options.drawPoints = true; // draw points on face mesh
-        }
+        } 
+        // else {
+        //     this.human.draw.options.drawPoints = false; // dont draw points on face mesh
+        // }
     }
 
     public async validationLoop(): Promise<H.FaceResult> {
         // main screen refresh loop
         const interpolated = this.human.next(this.human.result) // smoothen result using last-known results
-        this.human.draw.canvas(this.human.webcam.element!, this.dom.canvas) // draw canvas to screen
+        this.human.draw.canvas(this.human.webcam.element!, this.canvas) // draw canvas to screen
     
         if(this.debug) {
-            await this.human.draw.all(this.dom.canvas, interpolated, drawOptions) // draw labels, boxes, lines, etc.
+            await this.human.draw.all(this.canvas, interpolated, drawOptions) // draw labels, boxes, lines, etc.
         }
         
         const now = this.human.now()
@@ -153,14 +169,14 @@ class SecureCitizenCamera {
                 ok.distance.val <= this.options.distanceMax
             ok.descriptor.val = this.human.result.face[0].embedding?.length || 0
             ok.descriptor.status = ok.descriptor.val > 0
-            ok.age.val = this.human.result.face[0].age || 0
-            ok.age.status = ok.age.val > 0
-            ok.gender.val = this.human.result.face[0].genderScore || 0
-            ok.gender.status = ok.gender.val >= this.options.minConfidence
+            // ok.age.val = this.human.result.face[0].age || 0
+            // ok.age.status = ok.age.val > 0
+            // ok.gender.val = this.human.result.face[0].genderScore || 0
+            // ok.gender.status = ok.gender.val >= this.options.minConfidence
         }
         // run again
         ok.timeout.status = ok.elapsedMs.val <= this.options.maxTime
-        drawValidationTests(this.dom)
+        drawValidationTests(this.ok)
         if (allOk() || !ok.timeout.status) {
             // all criteria met
             this.human.webcam.element?.pause()
@@ -175,24 +191,24 @@ class SecureCitizenCamera {
         })
     }
     
-    public async detectFace() {
-        this.dom.canvas.style.height = ''
-        this.dom.canvas
+    public async detectFace(): Promise<boolean> {
+        this.canvas.style.height = ''
+        this.canvas
             .getContext('2d')
-            ?.clearRect(0, 0, this.options.minSize, this.options.minSize)
-        if (!this.current?.face?.tensor || !this.current?.face?.embedding) return false
+            ?.clearRect(0, 0, this.options.minSize, this.options.minSize);
         
-        console.log('face record:', this.current.face); // eslint-disable-line no-console
+        if (!this.current?.face?.tensor || !this.current?.face?.embedding) return false;
         
-        // log(this.log,
-        //     `detected face: ${this.current.face.gender} ${
-        //         this.current.face.age || 0
-        //     }y distance ${100 * (this.current.face.distance || 0)}cm/${Math.round(
-        //         (100 * (this.current.face.distance || 0)) / 2.54
-        //     )}in`
-        // )
+        log('face record:', this.current.face); // eslint-disable-line no-console
+        
+        log(`detected face: ${this.current.face.gender} ${
+                this.current.face.age || 0
+            }y distance ${100 * (this.current.face.distance || 0)}cm/${Math.round(
+                (100 * (this.current.face.distance || 0)) / 2.54
+            )}in`
+        )
     
-        await this.human.tf.browser.toPixels(this.current.face.tensor, this.dom.canvas);
+        await this.human.tf.browser.toPixels(this.current.face.tensor, this.canvas);
         this.human.tf.dispose(this.current.face.tensor);
         return true;
     }
@@ -200,8 +216,8 @@ class SecureCitizenCamera {
     // async function drawLoop() {
     //     // main screen refresh loop
     //     const interpolated = this.human.next() // get smoothened result using last-known results which are continously updated based on input webcam video
-    //     this.human.draw.canvas(this.human.webcam.element!, this.dom.canvas) // draw webcam video to screen canvas // better than using procesed image as this loop happens faster than processing loop
-    //     await this.human.draw.all(this.dom.canvas, interpolated) // draw labels, boxes, lines, etc.
+    //     this.human.draw.canvas(this.human.webcam.element!, this.canvas) // draw webcam video to screen canvas // better than using procesed image as this loop happens faster than processing loop
+    //     await this.human.draw.all(this.canvas, interpolated) // draw labels, boxes, lines, etc.
     //     setTimeout(drawLoop, 30) // use to slow down refresh from max refresh rate to target of 1000/30 ~ 30 fps
     // }
     
@@ -213,17 +229,30 @@ class SecureCitizenCamera {
         ok.faceSize.status = false
         ok.antispoofCheck.status = false
         ok.livenessCheck.status = false
-        ok.age.status = false
-        ok.gender.status = false
+        // ok.age.status = false
+        // ok.gender.status = false
         ok.elapsedMs.val = 0
     
         // main entry point
-        // this.log.innerHTML = `human version: ${this.human.version} | tfjs version: ${this.human.tf.version['tfjs-core']}<br>platform: ${this.human.env.platform} | agent ${this.human.env.agent}`
-        await this.human.webcam.start({ crop: true }) // find webcam and start it
+        this.log.innerHTML = `human version: ${this.human.version} | tfjs version: ${this.human.tf.version['tfjs-core']}<br>platform: ${this.human.env.platform} | agent ${this.human.env.agent}`
+        
+        // check if we were given an HTML element (checked and set during constructor)
+        if(this.video !== undefined) 
+        {
+            await this.human.webcam.start({ element: this.video, crop: true }) // find video element and start it
+            logMessages(this.log, "Starting WebCam via Video Tag " + this.video.id);
+            log("Starting WebCam via Video Tag " + this.video.id);
+        } 
+        else {
+            await this.human.webcam.start({ crop: true }) // find webcam and start it
+            logMessages(this.log, "Starting WebCam Automagically");
+            log("Starting WebCam Automagically");
+        }
+
         this.human.video(this.human.webcam.element!) // instruct human to continously detect video frames
-        this.dom.canvas.width = this.human.webcam.width // set canvas resolution to input webcam native resolution
-        this.dom.canvas.height = this.human.webcam.height
-        this.dom.canvas.onclick = async () => {
+        this.canvas.width = this.human.webcam.width // set canvas resolution to input webcam native resolution
+        this.canvas.height = this.human.webcam.height
+        this.canvas.onclick = async () => {
             // pause when clicked on screen and resume on next click
             if (this.human.webcam.paused) {
               await this.human.webcam.play();
@@ -232,26 +261,25 @@ class SecureCitizenCamera {
         }
         this.startTime = this.human.now()
         this.current.face = await this.validationLoop() // start validation/draw loop
-        this.dom.canvas.width = this.current.face?.tensor?.shape[1] || this.options.minSize
-        this.dom.canvas.height = this.current.face?.tensor?.shape[0] || this.options.minSize
-        this.dom.canvas.style.width = ''
+        this.canvas.width = this.current.face?.tensor?.shape[1] || this.options.minSize
+        this.canvas.height = this.current.face?.tensor?.shape[0] || this.options.minSize
+        this.canvas.style.width = ''
         if (!allOk()) {
             // is all criteria met?
-            // log(this.log, 'did not find valid face')
+            logMessages(this.log, 'did not find valid face')
             return false
         }
         return this.detectFace()
     }
 
     public async init() {
-        log(this.log, 'human version:', this.human.version, '| tfjs version:', this.human.tf.version['tfjs-core']);
-        log(this.log, 'options:', JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
-        log(this.log, 'initializing webcam...');
-        log(this.log, 'loading human models...');
+        logMessages(this.log, 'human version:', this.human.version, '| tfjs version:', this.human.tf.version['tfjs-core']);
+        logMessages(this.log, 'options:', JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, '').replace(/,/g, ' '));
+        logMessages(this.log, 'initializing webcam...');
+        logMessages(this.log, 'loading human models...');
         await this.human.load(); // preload all models
-        log(this.log, 'initializing this.human...');
-        log(this.log, 'face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
-        log(this.log, 'loading face database...');
+        logMessages(this.log, 'initializing this.human...');
+        logMessages(this.log, 'face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
         await this.human.warmup(); // warmup function to initialize backend for future faster detection
         await this.main();
       }
