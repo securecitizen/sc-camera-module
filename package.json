@@ -5,24 +5,20 @@
     "files": [
         "dist"
     ],
-    "main": "./dist/sc-camera-module.umd.js",
+    "main": "./dist/sc-camera-module.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/securecitizen/sc-camera-module"
     },
-    "module": "./dist/sc-camera-module.es.js",
-    "browser": "./dist/sc-camera-module.es.js",
-    "unpkg": "./dist/sc-camera-module.es.js",
+    "module": "./dist/sc-camera-module.js",
+    "browser": "./dist/sc-camera-module.js",
+    "unpkg": "./dist/sc-camera-module.js",
     "types": "./dist/sc-camera-module.d.ts",
     "exports": {
         ".": {
             "import": {
                 "types": "./dist/sc-camera-module.d.ts",
-                "default": "./dist/sc-camera-module.es.js"
-            },
-            "require": {
-                "types": "./dist/sc-camera-module.d.ts",
-                "default": "./dist/sc-camera-module.umd.js"
+                "default": "./dist/sc-camera-module.js"
             }
         }
     },

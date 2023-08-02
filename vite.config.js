@@ -17,8 +17,9 @@ module.exports = defineConfig({
                 'lib/sc-camera-module.ts'
             ),
             name: 'sc-camera-module',
+            formats: ['es'],
             fileName: (format) =>
-                `sc-camera-module.${format}.js`,
+                `sc-camera-module.js`,
         },
         minify: false,
     },
