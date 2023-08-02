@@ -1,10 +1,10 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.9
+ * version: v2.0.10
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-01T18:14:15.244Z 
+ * build date: 2023-08-02T10:20:42.382Z 
  */
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
