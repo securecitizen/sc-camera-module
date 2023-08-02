@@ -16,8 +16,14 @@
     "types": "./dist/sc-camera-module.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/sc-camera-module.es.js",
-            "require": "./dist/sc-camera-module.umd.js"
+            "import": {
+                "types": "./dist/sc-camera-module.d.ts",
+                "default": "./dist/sc-camera-module.es.js"
+            },
+            "require": {
+                "types": "./dist/sc-camera-module.d.ts",
+                "default": "./dist/sc-camera-module.umd.js"
+            }
         }
     },
     "scripts": {

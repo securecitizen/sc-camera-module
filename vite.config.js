@@ -3,7 +3,7 @@ const path = require('path')
 const { defineConfig } = require('vite')
 import banner from 'vite-plugin-banner'
 import dts from "vite-plugin-dts";
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
+// import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import pkg from './package.json'
 
 // Now in UTC time. Format time as YYYY-MM-DDTHH:mm:ss.sssZ.
