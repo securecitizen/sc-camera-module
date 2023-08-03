@@ -1,11 +1,11 @@
 import * as H from '@vladmandic/human';
 import { InitConfig } from "../utils/configuration";
 declare class SecureCitizenCamera {
-    video: HTMLVideoElement | undefined;
-    canvas: HTMLCanvasElement;
-    fps: HTMLPreElement | undefined;
-    ok: HTMLDivElement;
-    log: HTMLPreElement;
+    videoElement: HTMLVideoElement | undefined;
+    canvasElement: HTMLCanvasElement;
+    fpsElement: HTMLPreElement | undefined;
+    okElement: HTMLDivElement;
+    messageElement: HTMLPreElement;
     human: H.Human;
     matchOptions: {
         order: number;
@@ -44,12 +44,12 @@ declare class SecureCitizenCamera {
     };
     startTime: number;
     constructor(config: InitConfig, override?: {
-        canvas: HTMLCanvasElement;
-        ok: HTMLDivElement;
-        log: HTMLPreElement;
+        canvasElement?: HTMLCanvasElement | undefined;
+        okElement?: HTMLDivElement | undefined;
+        messageElement?: HTMLPreElement | undefined;
     }, optional?: {
-        fps?: HTMLPreElement | undefined;
-        video?: HTMLVideoElement | undefined;
+        fpsElement?: HTMLPreElement | undefined;
+        videoElement?: HTMLVideoElement | undefined;
     });
     validationLoop(): Promise<H.FaceResult>;
     detectFace(): Promise<boolean>;

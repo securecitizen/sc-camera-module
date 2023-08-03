@@ -3,4 +3,4 @@ export declare const ok: Record<string, {
     val: number;
 }>;
 export declare const allOk: () => boolean | undefined;
-export declare function drawValidationTests(ok: HTMLDivElement): void;
+export declare function drawValidationTests(okElement: HTMLDivElement): void;

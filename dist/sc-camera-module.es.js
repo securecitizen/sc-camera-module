@@ -1,10 +1,10 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.15
+ * version: v2.0.16
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-02T14:41:54.894Z 
+ * build date: 2023-08-03T08:41:09.890Z 
  */
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -3969,9 +3969,9 @@ const ok$1 = {
   // mark redraw fps performance
 };
 const allOk = () => ok$1.faceCount.status && ok$1.faceSize.status && ok$1.blinkDetected.status && ok$1.facingCenter.status && ok$1.lookingCenter.status && ok$1.faceConfidence.status && ok$1.antispoofCheck.status && ok$1.livenessCheck.status && ok$1.distance.status && ok$1.descriptor.status;
-function drawValidationTests(ok2) {
+function drawValidationTests(okElement) {
   let y10 = 32;
-  for (const [key, val] of Object.entries(ok2)) {
+  for (const [key, val] of Object.entries(ok$1)) {
     let el2 = document.getElementById(`ok-${key}`);
     if (!el2) {
       el2 = document.createElement("div");
@@ -3979,7 +3979,7 @@ function drawValidationTests(ok2) {
       el2.innerText = key;
       el2.className = "ok";
       el2.style.top = `${y10}px`;
-      ok2.appendChild(el2);
+      okElement.appendChild(el2);
     }
     if (typeof val.status === "boolean")
       el2.style.backgroundColor = val.status ? "lightgreen" : "lightcoral";
@@ -52877,17 +52877,17 @@ const drawOptions = {
 };
 class SecureCitizenCamera {
   constructor(config3, override, optional) {
-    __publicField(this, "video");
+    __publicField(this, "videoElement");
     // this needs to be something that can be provided, or searched for in the HTML - 
     // in this case if it is not defined (video) we let human manage the video feed later on
-    __publicField(this, "canvas");
+    __publicField(this, "canvasElement");
     // this needs to be something that can be provided, or searched for in the HTML
-    __publicField(this, "fps");
+    __publicField(this, "fpsElement");
     // this needs to be something that can be provided, or searched for in the HTML
     // in this case if it is not defined (fps) we dont output fps values from Human
-    __publicField(this, "ok");
+    __publicField(this, "okElement");
     // this needs to be something that can be provided, or searched for in the HTML
-    __publicField(this, "log");
+    __publicField(this, "messageElement");
     // this needs to be something that can be provided, or searched for in the HTML
     __publicField(this, "human");
     // const matchOptions = { order: 2, multiplier: 1000, min: 0.0, max: 1.0 }; // for embedding model
@@ -52929,31 +52929,29 @@ class SecureCitizenCamera {
     this.debug = config3.debug ?? false;
     log("Debug Mode: " + this.debug);
     if (override) {
-      this.canvas = override.canvas;
-      log("Found Override: " + this.canvas.id);
-      this.ok = override.ok;
-      log("Found Override: " + this.ok.id);
-      this.log = override.log;
-      log("Found Override: " + this.log.id);
+      if (!(override.canvasElement || override.okElement || override.messageElement)) {
+        throw Error("This library requires some configured HTML capabilities to operate, if overriding these HTML objects need to exist");
+      }
+      this.canvasElement = override.canvasElement;
+      log("Found Override: " + this.canvasElement.id);
+      this.okElement = override.okElement;
+      log("Found Override: " + this.okElement.id);
+      this.messageElement = override.messageElement;
+      log("Found Override: " + this.messageElement.id);
     } else {
-      this.canvas = document.getElementById("canvas");
-      this.ok = document.getElementById("ok");
-      this.log = document.getElementById("messageOutput");
+      this.canvasElement = document.getElementById("canvas");
+      this.okElement = document.getElementById("ok");
+      this.messageElement = document.getElementById("messageOutput");
     }
-    if (!(this.canvas || this.ok || this.log))
+    if (!(this.canvasElement || this.okElement || this.messageElement))
       throw Error("This library requires some configured HTML capabilities to operate");
-    if (this.debug) {
-      this.ok.style.visibility = "visible";
-    } else {
-      this.ok.style.visibility = "hidden";
-    }
     this.human = new Human(optimisedConfig);
-    if ((optional == null ? void 0 : optional.video) !== void 0) {
-      this.video = optional.video;
+    if ((optional == null ? void 0 : optional.videoElement) !== void 0) {
+      this.videoElement = optional.videoElement;
     }
-    if ((optional == null ? void 0 : optional.fps) !== void 0) {
-      this.fps = optional.fps;
-      log("Found FPS Config: " + this.fps.id);
+    if ((optional == null ? void 0 : optional.fpsElement) !== void 0) {
+      this.fpsElement = optional.fpsElement;
+      log("Found FPS Config: " + this.fpsElement.id);
     }
     this.human.env.perfadd = false;
     this.human.draw.options.lineHeight = 16;
@@ -52964,9 +52962,9 @@ class SecureCitizenCamera {
   async validationLoop() {
     var _a3, _b2;
     const interpolated = this.human.next(this.human.result);
-    this.human.draw.canvas(this.human.webcam.element, this.canvas);
+    this.human.draw.canvas(this.human.webcam.element, this.canvasElement);
     if (this.debug) {
-      await this.human.draw.all(this.canvas, interpolated, drawOptions);
+      await this.human.draw.all(this.canvasElement, interpolated, drawOptions);
     }
     const now2 = this.human.now();
     ok$1.detectFPS.val = Math.round(1e4 / (now2 - this.timestamp.detect)) / 10;
@@ -53004,7 +53002,7 @@ class SecureCitizenCamera {
       ok$1.descriptor.status = ok$1.descriptor.val > 0;
     }
     ok$1.timeout.status = ok$1.elapsedMs.val <= this.options.maxTime;
-    drawValidationTests(this.ok);
+    drawValidationTests(this.okElement);
     if (allOk() || !ok$1.timeout.status) {
       (_b2 = this.human.webcam.element) == null ? void 0 : _b2.pause();
       return this.human.result.face[0];
@@ -53019,8 +53017,8 @@ class SecureCitizenCamera {
   }
   async detectFace() {
     var _a3, _b2, _c3, _d3, _e;
-    this.canvas.style.height = "";
-    (_a3 = this.canvas.getContext("2d")) == null ? void 0 : _a3.clearRect(0, 0, this.options.minSize, this.options.minSize);
+    this.canvasElement.style.height = "";
+    (_a3 = this.canvasElement.getContext("2d")) == null ? void 0 : _a3.clearRect(0, 0, this.options.minSize, this.options.minSize);
     if (!((_c3 = (_b2 = this.current) == null ? void 0 : _b2.face) == null ? void 0 : _c3.tensor) || !((_e = (_d3 = this.current) == null ? void 0 : _d3.face) == null ? void 0 : _e.embedding))
       return false;
     log("face record:", this.current.face);
@@ -53029,7 +53027,7 @@ class SecureCitizenCamera {
         100 * (this.current.face.distance || 0) / 2.54
       )}in`
     );
-    await this.human.tf.browser.toPixels(this.current.face.tensor, this.canvas);
+    await this.human.tf.browser.toPixels(this.current.face.tensor, this.canvasElement);
     this.human.tf.dispose(this.current.face.tensor);
     return true;
   }
@@ -53050,20 +53048,20 @@ class SecureCitizenCamera {
     ok$1.antispoofCheck.status = false;
     ok$1.livenessCheck.status = false;
     ok$1.elapsedMs.val = 0;
-    this.log.innerHTML = `human version: ${this.human.version} | tfjs version: ${this.human.tf.version["tfjs-core"]}<br>platform: ${this.human.env.platform} | agent ${this.human.env.agent}`;
-    if (this.video !== void 0) {
-      await this.human.webcam.start({ element: this.video, crop: true });
-      logMessages(this.log, "Starting WebCam via Video Tag " + this.video.id);
-      log("Starting WebCam via Video Tag " + this.video.id);
+    this.messageElement.innerHTML = `human version: ${this.human.version} | tfjs version: ${this.human.tf.version["tfjs-core"]}<br>platform: ${this.human.env.platform} | agent ${this.human.env.agent}`;
+    if (this.videoElement !== void 0) {
+      await this.human.webcam.start({ element: this.videoElement, crop: true });
+      logMessages(this.messageElement, "Starting WebCam via Video Tag " + this.videoElement.id);
+      log("Starting WebCam via Video Tag " + this.videoElement.id);
     } else {
       await this.human.webcam.start({ crop: true });
-      logMessages(this.log, "Starting WebCam Automagically");
+      logMessages(this.messageElement, "Starting WebCam Automagically");
       log("Starting WebCam Automagically");
     }
     this.human.video(this.human.webcam.element);
-    this.canvas.width = this.human.webcam.width;
-    this.canvas.height = this.human.webcam.height;
-    this.canvas.onclick = async () => {
+    this.canvasElement.width = this.human.webcam.width;
+    this.canvasElement.height = this.human.webcam.height;
+    this.canvasElement.onclick = async () => {
       if (this.human.webcam.paused) {
         await this.human.webcam.play();
       } else
@@ -53071,24 +53069,24 @@ class SecureCitizenCamera {
     };
     this.startTime = this.human.now();
     this.current.face = await this.validationLoop();
-    this.canvas.width = ((_b2 = (_a3 = this.current.face) == null ? void 0 : _a3.tensor) == null ? void 0 : _b2.shape[1]) || this.options.minSize;
-    this.canvas.height = ((_d3 = (_c3 = this.current.face) == null ? void 0 : _c3.tensor) == null ? void 0 : _d3.shape[0]) || this.options.minSize;
-    this.canvas.style.width = "";
+    this.canvasElement.width = ((_b2 = (_a3 = this.current.face) == null ? void 0 : _a3.tensor) == null ? void 0 : _b2.shape[1]) || this.options.minSize;
+    this.canvasElement.height = ((_d3 = (_c3 = this.current.face) == null ? void 0 : _c3.tensor) == null ? void 0 : _d3.shape[0]) || this.options.minSize;
+    this.canvasElement.style.width = "";
     if (!allOk()) {
-      logMessages(this.log, "did not find valid face");
+      logMessages(this.messageElement, "did not find valid face");
       return false;
     }
     return this.detectFace();
   }
   async init() {
     var _a3, _b2, _c3, _d3;
-    logMessages(this.log, "human version:", this.human.version, "| tfjs version:", this.human.tf.version["tfjs-core"]);
-    logMessages(this.log, "options:", JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, "").replace(/,/g, " "));
-    logMessages(this.log, "initializing webcam...");
-    logMessages(this.log, "loading human models...");
+    logMessages(this.messageElement, "human version:", this.human.version, "| tfjs version:", this.human.tf.version["tfjs-core"]);
+    logMessages(this.messageElement, "options:", JSON.stringify(this.options).replace(/{|}|"|\[|\]/g, "").replace(/,/g, " "));
+    logMessages(this.messageElement, "initializing webcam...");
+    logMessages(this.messageElement, "loading human models...");
     await this.human.load();
-    logMessages(this.log, "initializing this.human...");
-    logMessages(this.log, "face embedding model:", ((_b2 = (_a3 = optimisedConfig.face) == null ? void 0 : _a3.description) == null ? void 0 : _b2.enabled) ? "faceres" : "", ((_c3 = optimisedConfig.face["mobilefacenet"]) == null ? void 0 : _c3.enabled) ? "mobilefacenet" : "", ((_d3 = optimisedConfig.face["insightface"]) == null ? void 0 : _d3.enabled) ? "insightface" : "");
+    logMessages(this.messageElement, "initializing this.human...");
+    logMessages(this.messageElement, "face embedding model:", ((_b2 = (_a3 = optimisedConfig.face) == null ? void 0 : _a3.description) == null ? void 0 : _b2.enabled) ? "faceres" : "", ((_c3 = optimisedConfig.face["mobilefacenet"]) == null ? void 0 : _c3.enabled) ? "mobilefacenet" : "", ((_d3 = optimisedConfig.face["insightface"]) == null ? void 0 : _d3.enabled) ? "insightface" : "");
     await this.human.warmup();
     await this.main();
   }
