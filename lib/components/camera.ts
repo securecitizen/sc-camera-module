@@ -47,9 +47,9 @@ class SecureCitizenCamera {
     constructor(
         config: InitConfig,
         override?: {
-            canvas: HTMLCanvasElement,
-            ok: HTMLDivElement,
-            log: HTMLPreElement,
+            canvas?: HTMLCanvasElement | undefined,
+            ok?: HTMLDivElement | undefined,
+            log?: HTMLPreElement | undefined,
         },
         optional?: {
             fps?: HTMLPreElement | undefined,
@@ -66,26 +66,32 @@ class SecureCitizenCamera {
         // grab instances of dom objects so we dont have to look them up later
         
         if(override) {
-                this.canvas = override.canvas;  
-                log('Found Override: ' + this.canvas.id)
-                this.ok = override.ok;
-                log('Found Override: ' + this.ok.id)
-                this.log = override.log;
-                log('Found Override: ' + this.log.id)
+            if(!(override.canvas || override.ok || override.log )) {
+                throw Error("This library requires some configured HTML capabilities to operate, if overriding these HTML objects need to exist");
+            }
+            // we can set this to the override values
+            this.canvas = override.canvas!;  
+            log('Found Override: ' + this.canvas.id)
+            this.ok = override.ok!;
+            log('Found Override: ' + this.ok.id)
+            this.log = override.log!;
+            log('Found Override: ' + this.log.id)
         } else {
+            // otherwise we try and fetch this from the HTML itself
             this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
             this.ok = document.getElementById('ok') as HTMLDivElement;
             this.log = document.getElementById('messageOutput') as HTMLPreElement;
         }
 
+        // if the still have not been set to a value as yet, we throw an Error
         if(!(this.canvas || this.ok || this.log )) throw Error("This library requires some configured HTML capabilities to operate");
 
-        if(this.debug) {
-            this.ok.style.visibility = 'visible';
-        }
-         else {
-            this.ok.style.visibility = 'hidden';
-        }
+        // if(this.debug) {
+        //     this.ok.style.visibility = 'visible';
+        // }
+        //  else {
+        //     this.ok.style.visibility = 'hidden';
+        // }
 
         this.human = new H.Human(humanConfig);
 
