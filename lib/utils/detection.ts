@@ -33,7 +33,7 @@ ok.descriptor.status
 // ok.age.status &&
 // ok.gender.status
 
-export function drawValidationTests(ok: HTMLDivElement) {
+export function drawValidationTests(okElement: HTMLDivElement) {
     let y = 32
     for (const [key, val] of Object.entries(ok)) {
         let el = document.getElementById(`ok-${key}`)
@@ -43,7 +43,7 @@ export function drawValidationTests(ok: HTMLDivElement) {
             el.innerText = key
             el.className = 'ok'
             el.style.top = `${y}px`
-            ok.appendChild(el)
+            okElement.appendChild(el)
         }
         if (typeof val.status === 'boolean')
             el.style.backgroundColor = val.status ? 'lightgreen' : 'lightcoral'
