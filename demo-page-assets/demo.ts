@@ -25,9 +25,9 @@ const config = {
 
 
 const override = {
-  canvas: canvasElement,
-  ok: okElement,
-  log: messageElement
+    canvasElement,
+    okElement,
+    messageElement
 }
 
 const camera = new SecureCitizenCamera(config, override);
