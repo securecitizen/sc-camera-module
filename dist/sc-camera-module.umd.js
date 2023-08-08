@@ -1,10 +1,10 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.16
+ * version: v2.0.17
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-03T08:41:09.890Z 
+ * build date: 2023-08-08T09:32:41.842Z 
  */
 (function(global2, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2["sc-camera-module"] = {}));
