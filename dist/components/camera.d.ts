@@ -53,6 +53,10 @@ declare class SecureCitizenCamera {
     });
     validationLoop(): Promise<H.FaceResult>;
     detectFace(): Promise<boolean>;
+    /**
+    * SubscribeToPhotoTaken
+    */
+    SubscribeToPhotoTaken(f: Function): void;
     main(): Promise<boolean>;
     init(): Promise<void>;
 }

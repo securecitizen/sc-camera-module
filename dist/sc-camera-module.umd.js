@@ -1,10 +1,10 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.17
+ * version: v2.0.18
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-08T09:32:41.842Z 
+ * build date: 2023-08-23T18:24:22.022Z 
  */
 (function(global2, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2["sc-camera-module"] = {}));
@@ -3826,6 +3826,7 @@ var __publicField = (obj, key, value) => {
     }
   };
   const DEFAULT_CLIENT_ID = "sc-app-beta";
+  const DEFAULT_AUTHORITY = "https://localhost:44310";
   Log.setLogger(console);
   Log.setLevel(Log.INFO);
   const whatPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
@@ -3833,7 +3834,7 @@ var __publicField = (obj, key, value) => {
   const SecureCitizenOIDC = {
     stateStore: new WebStorageStateStore({ store: window.localStorage }),
     userStore: new WebStorageStateStore({ store: window.localStorage }),
-    authority: "https://sts.dev.securecitizen.cloud",
+    authority: DEFAULT_AUTHORITY,
     client_id: DEFAULT_CLIENT_ID,
     //client_id: 'interactive.public.short',
     // redirect_uri: url + "/index.html",
@@ -3842,7 +3843,7 @@ var __publicField = (obj, key, value) => {
     post_logout_redirect_uri: url,
     response_type: "code",
     //response_mode: 'fragment',
-    scope: "openid profile offline_access",
+    scope: "openid sc-camera",
     //scope: 'openid profile api offline_access',
     popup_redirect_uri: url + "/scauth/popup-signin.html",
     popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
@@ -5100,29 +5101,29 @@ var __publicField = (obj, key, value) => {
       function m(C, S, k) {
         var _ = [];
         S = S == true ? { entropy: true } : S || {};
-        var E = g(h(S.entropy ? [C, b(e8)] : C == null ? x() : C, 3), _), R = new d(_), D = function() {
-          for (var P = R.g(n8), O = i, M = 0; P < p; )
-            P = (P + M) * o8, O *= o8, M = R.g(1);
+        var E = g(h(S.entropy ? [C, b(e8)] : C == null ? x() : C, 3), _), R10 = new d(_), D = function() {
+          for (var P = R10.g(n8), O = i, M = 0; P < p; )
+            P = (P + M) * o8, O *= o8, M = R10.g(1);
           for (; P >= u; )
             P /= 2, O /= 2, M >>>= 1;
           return (P + M) / O;
         };
         return D.int32 = function() {
-          return R.g(4) | 0;
+          return R10.g(4) | 0;
         }, D.quick = function() {
-          return R.g(4) / 4294967296;
-        }, D.double = D, g(b(R.S), e8), (S.pass || k || function(P, O, M, L) {
-          return L && (L.S && f(L, R), P.state = function() {
-            return f(R, {});
+          return R10.g(4) / 4294967296;
+        }, D.double = D, g(b(R10.S), e8), (S.pass || k || function(P, O, M, L) {
+          return L && (L.S && f(L, R10), P.state = function() {
+            return f(R10, {});
           }), M ? (t8[a] = P, O) : P;
         })(D, E, "global" in S ? S.global : this == t8, S.state);
       }
       function d(C) {
-        var S, k = C.length, _ = this, E = 0, R = _.i = _.j = 0, D = _.S = [];
+        var S, k = C.length, _ = this, E = 0, R10 = _.i = _.j = 0, D = _.S = [];
         for (k || (C = [k++]); E < o8; )
           D[E] = E++;
         for (E = 0; E < o8; E++)
-          D[E] = D[R = c & R + C[E % k] + (S = D[E])], D[R] = S;
+          D[E] = D[R10 = c & R10 + C[E % k] + (S = D[E])], D[R10] = S;
         (_.g = function(P) {
           for (var O, M = 0, L = _.i, B = _.j, z = _.S; P--; )
             O = z[L = c & L + 1], M = M * o8 + z[c & (z[L] = z[B = c & B + O]) + (z[B] = O)];
@@ -5138,7 +5139,7 @@ var __publicField = (obj, key, value) => {
           for (E in C)
             try {
               k.push(h(C[E], S - 1));
-            } catch (R) {
+            } catch (R10) {
             }
         return k.length ? k : _ == "string" ? C : C + "\0";
       }
@@ -5223,7 +5224,7 @@ var __publicField = (obj, key, value) => {
         function _(F) {
           return u.locateFile ? u.locateFile(F, k) : k + F;
         }
-        var E, R, D;
+        var E, R10, D;
         function O(F) {
           if (F instanceof Tu)
             return;
@@ -5234,7 +5235,7 @@ var __publicField = (obj, key, value) => {
           b ? k = L.dirname(k) + "/" : k = __dirname + "/", E = (V, ue) => (V = Mp(V) ? new URL(V) : L.normalize(V), M.readFileSync(V, ue ? void 0 : "utf8")), D = (V) => {
             var ue = E(V, true);
             return ue.buffer || (ue = new Uint8Array(ue)), ue;
-          }, R = (V, ue, Ee) => {
+          }, R10 = (V, ue, Ee) => {
             V = Mp(V) ? new URL(V) : L.normalize(V), M.readFile(V, function(Be, Le) {
               Be ? Ee(Be) : ue(Le.buffer);
             });
@@ -5264,7 +5265,7 @@ var __publicField = (obj, key, value) => {
           }, b && (D = (F) => {
             var V = new XMLHttpRequest();
             return V.open("GET", F, false), V.responseType = "arraybuffer", V.send(null), new Uint8Array(V.response);
-          }), R = (F, V, ue) => {
+          }), R10 = (F, V, ue) => {
             var Ee = new XMLHttpRequest();
             Ee.open("GET", F, true), Ee.responseType = "arraybuffer", Ee.onload = () => {
               if (Ee.status == 200 || Ee.status == 0 && Ee.response) {
@@ -5440,9 +5441,9 @@ var __publicField = (obj, key, value) => {
               }).catch(function() {
                 return Cm(hr);
               });
-            if (R)
+            if (R10)
               return new Promise(function(F, V) {
-                R(hr, function(ue) {
+                R10(hr, function(ue) {
                   F(new Uint8Array(ue));
                 }, V);
               });
@@ -9978,8 +9979,8 @@ var __publicField = (obj, key, value) => {
       [p, l, u, c] = r8;
     else
       throw new Error(`Unknown dataFormat ${i}`);
-    let [m, d, , f] = e8, [h, g] = wl(t8), [x, b] = wl(o8), C = ac(m, x), S = ac(d, b), { padInfo: k, outHeight: _, outWidth: E } = K4(n8, u, c, h, g, C, S, s, i), R = a ? f * l : f, D;
-    return i === "channelsFirst" ? D = [p, R, _, E] : i === "channelsLast" && (D = [p, _, E, R]), { batchSize: p, dataFormat: i, inHeight: u, inWidth: c, inChannels: l, outHeight: _, outWidth: E, outChannels: R, padInfo: k, strideHeight: h, strideWidth: g, filterHeight: m, filterWidth: d, effectiveFilterHeight: C, effectiveFilterWidth: S, dilationHeight: x, dilationWidth: b, inShape: r8, outShape: D, filterShape: e8 };
+    let [m, d, , f] = e8, [h, g] = wl(t8), [x, b] = wl(o8), C = ac(m, x), S = ac(d, b), { padInfo: k, outHeight: _, outWidth: E } = K4(n8, u, c, h, g, C, S, s, i), R10 = a ? f * l : f, D;
+    return i === "channelsFirst" ? D = [p, R10, _, E] : i === "channelsLast" && (D = [p, _, E, R10]), { batchSize: p, dataFormat: i, inHeight: u, inWidth: c, inChannels: l, outHeight: _, outWidth: E, outChannels: R10, padInfo: k, strideHeight: h, strideWidth: g, filterHeight: m, filterWidth: d, effectiveFilterHeight: C, effectiveFilterWidth: S, dilationHeight: x, dilationWidth: b, inShape: r8, outShape: D, filterShape: e8 };
   }
   function $k(r8, e8, t8, o8, n8, s = false, a = "channelsLast", i) {
     let [p, u, c, l, m] = [-1, -1, -1, -1, -1];
@@ -9989,8 +9990,8 @@ var __publicField = (obj, key, value) => {
       [p, m, u, c, l] = r8;
     else
       throw new Error(`Unknown dataFormat ${a}`);
-    let [d, f, h, , g] = e8, [x, b, C] = $w(t8), [S, k, _] = $w(o8), E = ac(d, S), R = ac(f, k), D = ac(h, _), { padInfo: P, outDepth: O, outHeight: M, outWidth: L } = q4(n8, u, c, l, x, b, C, E, R, D, i), B = s ? g * m : g, z;
-    return a === "channelsFirst" ? z = [p, B, O, M, L] : a === "channelsLast" && (z = [p, O, M, L, B]), { batchSize: p, dataFormat: a, inDepth: u, inHeight: c, inWidth: l, inChannels: m, outDepth: O, outHeight: M, outWidth: L, outChannels: B, padInfo: P, strideDepth: x, strideHeight: b, strideWidth: C, filterDepth: d, filterHeight: f, filterWidth: h, effectiveFilterDepth: E, effectiveFilterHeight: R, effectiveFilterWidth: D, dilationDepth: S, dilationHeight: k, dilationWidth: _, inShape: r8, outShape: z, filterShape: e8 };
+    let [d, f, h, , g] = e8, [x, b, C] = $w(t8), [S, k, _] = $w(o8), E = ac(d, S), R10 = ac(f, k), D = ac(h, _), { padInfo: P, outDepth: O, outHeight: M, outWidth: L } = q4(n8, u, c, l, x, b, C, E, R10, D, i), B = s ? g * m : g, z;
+    return a === "channelsFirst" ? z = [p, B, O, M, L] : a === "channelsLast" && (z = [p, O, M, L, B]), { batchSize: p, dataFormat: a, inDepth: u, inHeight: c, inWidth: l, inChannels: m, outDepth: O, outHeight: M, outWidth: L, outChannels: B, padInfo: P, strideDepth: x, strideHeight: b, strideWidth: C, filterDepth: d, filterHeight: f, filterWidth: h, effectiveFilterDepth: E, effectiveFilterHeight: R10, effectiveFilterWidth: D, dilationDepth: S, dilationHeight: k, dilationWidth: _, inShape: r8, outShape: z, filterShape: e8 };
   }
   function G4(r8, e8, t8, o8, n8) {
     o8 == null && (o8 = Rw(r8, e8, t8));
@@ -11890,28 +11891,28 @@ Expected: ${s}.`);
         try {
           rt(_, g.outShape);
         } catch (E) {
-          let R = `Error in fused conv2d: PReLU activation weights (${_}) is not compatible with the output shape of the conv2d (${g.outShape}).`;
-          throw Error(R);
+          let R10 = `Error in fused conv2d: PReLU activation weights (${_}) is not compatible with the output shape of the conv2d (${g.outShape}).`;
+          throw Error(R10);
         }
       b = v(u, "prelu weights", "fused conv2d");
     }
     let C = (_, E) => {
       $(n8 === "NHWC", () => `Error in gradient of fused conv2D: got dataFormat of ${n8} but only NHWC is currently supported.`);
-      let [R, D, P, O] = E, M = Yu(_, P, p);
+      let [R10, D, P, O] = E, M = Yu(_, P, p);
       $(zu(s), () => `Error in gradient of fused conv2D: dilation rates greater than 1 are not yet supported in gradients. Got dilations '${s}'`);
-      let L = hd(D.shape, M, R, t8, o8), B = G1(D, M, R.shape, t8, o8), z = [L, B];
+      let L = hd(D.shape, M, R10, t8, o8), B = G1(D, M, R10.shape, t8, o8), z = [L, B];
       if (O != null) {
         let U = Qu(O, M);
         z.push(U);
       }
       return z;
     }, S = { x: d, filter: m, bias: x, preluActivationWeights: b }, k = { strides: t8, pad: o8, dataFormat: n8, dilations: s, dimRoundingMode: a, activation: p, leakyreluAlpha: c };
-    return i == null ? vr((E, R, D) => {
+    return i == null ? vr((E, R10, D) => {
       let P = T.runKernel(Io, S, k);
-      return D([R, E, P]), f && (P = W(P, [P.shape[1], P.shape[2], P.shape[3]])), { value: P, gradFunc: C };
-    })(d, m) : vr((E, R, D, P) => {
+      return D([R10, E, P]), f && (P = W(P, [P.shape[1], P.shape[2], P.shape[3]])), { value: P, gradFunc: C };
+    })(d, m) : vr((E, R10, D, P) => {
       let O = T.runKernel(Io, S, k);
-      return P([R, E, O, D]), f && (O = W(O, [O.shape[1], O.shape[2], O.shape[3]])), { value: O, gradFunc: C };
+      return P([R10, E, O, D]), f && (O = W(O, [O.shape[1], O.shape[2], O.shape[3]])), { value: O, gradFunc: C };
     })(d, m, x);
   }
   var H1 = N({ fusedConv2d_: P6 });
@@ -11944,19 +11945,19 @@ Expected: ${s}.`);
     u != null && (x = v(u, "prelu weights", "fused depthwiseConv2d"));
     let b = (k, _) => {
       $(zu(s), () => `Error in gradient of fused depthwiseConv2d: dilation rates greater than 1 are not yet supported. Got dilations '${s}'`);
-      let [E, R, D, P] = _, O = Yu(k, D, p), M = q1(R.shape, O, E, t8, o8, s, a), L = K1(R, O, E.shape, t8, o8, s, a);
+      let [E, R10, D, P] = _, O = Yu(k, D, p), M = q1(R10.shape, O, E, t8, o8, s, a), L = K1(R10, O, E.shape, t8, o8, s, a);
       if (P != null) {
         let B = Qu(g, O);
         return [M, L, B];
       }
       return [M, L];
     }, C = { x: d, filter: m, bias: g, preluActivationWeights: x }, S = { strides: t8, pad: o8, dataFormat: n8, dilations: s, dimRoundingMode: a, activation: p, leakyreluAlpha: c };
-    return i == null ? vr((_, E, R) => {
+    return i == null ? vr((_, E, R10) => {
       let D = T.runKernel(vo, C, S);
-      return R([E, _, D]), f && (D = W(D, [D.shape[1], D.shape[2], D.shape[3]])), { value: D, gradFunc: b };
-    })(d, m) : vr((_, E, R, D) => {
+      return R10([E, _, D]), f && (D = W(D, [D.shape[1], D.shape[2], D.shape[3]])), { value: D, gradFunc: b };
+    })(d, m) : vr((_, E, R10, D) => {
       let P = T.runKernel(vo, C, S);
-      return D([E, _, P, R]), f && (P = W(P, [P.shape[1], P.shape[2], P.shape[3]])), { value: P, gradFunc: b };
+      return D([E, _, P, R10]), f && (P = W(P, [P.shape[1], P.shape[2], P.shape[3]])), { value: P, gradFunc: b };
     })(d, m, g);
   }
   var j1 = N({ fusedDepthwiseConv2d_: L6 });
@@ -11973,7 +11974,7 @@ Expected: ${s}.`);
     n8 != null && (_ = v(n8, "bias", "fused matMul"), [_] = Oe(_, p), rt(C, _.shape));
     let E;
     a != null && (E = v(a, "prelu weights", "fused matMul"));
-    let R = (O, M) => {
+    let R10 = (O, M) => {
       let [L, B, z, U] = M, j = Yu(W(O, z.shape), z, s), q, Y;
       if (!t8 && !o8 ? (q = Ze(j, B, false, true), Y = Ze(L, j, true, false)) : !t8 && o8 ? (q = Ze(j, B, false, false), Y = Ze(j, L, true, false)) : t8 && !o8 ? (q = Ze(B, j, false, true), Y = Ze(L, j, false, false)) : (q = Ze(B, j, true, true), Y = Ze(j, L, true, true)), n8 != null) {
         let J = Qu(U, j);
@@ -11983,10 +11984,10 @@ Expected: ${s}.`);
     }, D = { a: S, b: k, bias: _, preluActivationWeights: E }, P = { transposeA: t8, transposeB: o8, activation: s, leakyreluAlpha: i };
     return n8 == null ? vr((M, L, B) => {
       let z = T.runKernel(So, D, P);
-      return B([M, L, z]), { value: W(z, C), gradFunc: R };
+      return B([M, L, z]), { value: W(z, C), gradFunc: R10 };
     })(S, k) : vr((M, L, B, z) => {
       let U = T.runKernel(So, D, P);
-      return z([M, L, U, B]), { value: W(U, C), gradFunc: R };
+      return z([M, L, U, B]), { value: W(U, C), gradFunc: R10 };
     })(S, k, _);
   }
   var X1 = N({ fusedMatMul_: B6 });
@@ -12274,11 +12275,11 @@ Expected: ${s}.`);
             let D = Te(S, Ze(k, Ze(_, S)));
             s = bt([Xe(s, [0, 0], [u, o8]), D], 0);
           }
-          let E = fc(k), R = Xe(n8, [0, u], [t8, n8.shape[1] - u]);
+          let E = fc(k), R10 = Xe(n8, [0, u], [t8, n8.shape[1] - u]);
           if (u === 0)
-            n8 = Te(R, Ze(Ze(R, i), E));
+            n8 = Te(R10, Ze(Ze(R10, i), E));
           else {
-            let D = Te(R, Ze(Ze(R, i), E));
+            let D = Te(R10, Ze(Ze(R10, i), E));
             n8 = bt([Xe(n8, [0, 0], [t8, u]), D], 1);
           }
           return [i, s, n8];
@@ -13443,7 +13444,7 @@ Manifest JSON has weights with names: ${i.join(", ")}.`);
       if (S && m.strides[C] <= 0)
         throw Error("only stride 1 allowed on non-range indexing.");
       h = h && m.strides[C] === 1;
-      let R = !!(m.beginMask & 1 << C && m.endMask & 1 << C);
+      let R10 = !!(m.beginMask & 1 << C && m.endMask & 1 << C);
       if (m.beginValid && m.endValid) {
         if (S) {
           let M = m.begin[C] < 0 ? k + m.begin[C] : m.begin[C];
@@ -13454,9 +13455,9 @@ Manifest JSON has weights with names: ${i.join(", ")}.`);
         let O = m.strides[C] === 1 && m.begin[C] === 0 && m.end[C] === k;
         d = d && O, f = f && (C === 0 && m.strides[C] === 1 || O);
       } else
-        d = d && m.strides[C] === 1 && R, f = f && (C === 0 && m.strides[C] === 1 || R);
+        d = d && m.strides[C] === 1 && R10, f = f && (C === 0 && m.strides[C] === 1 || R10);
       let D, P = false;
-      if (m.beginValid && m.endValid ? (D = m.end[C] - m.begin[C], P = true) : S ? (D = 1, P = true) : R && k >= 0 && (m.strides[C] < 0 ? D = -k : D = k, P = true), P) {
+      if (m.beginValid && m.endValid ? (D = m.end[C] - m.begin[C], P = true) : S ? (D = 1, P = true) : R10 && k >= 0 && (m.strides[C] < 0 ? D = -k : D = k, P = true), P) {
         let O;
         D === 0 || D < 0 != m.strides[C] < 0 ? O = 0 : O = Math.trunc(D / m.strides[C]) + (D % m.strides[C] !== 0 ? 1 : 0), g.push(O);
       } else
@@ -16390,8 +16391,8 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     } : ({ inputs: n8, backend: s }) => {
       let { a, b: i } = n8, p = s;
       if (a.dtype === "complex64" || i.dtype === "complex64") {
-        let u = Ro({ inputs: { x: a }, backend: p, attrs: { dtype: "complex64" } }), c = p.data.get(u.dataId), l = c.complexTensorInfos.real, m = c.complexTensorInfos.imag, d = p.data.get(l.dataId).values, f = p.data.get(m.dataId).values, h = Ro({ inputs: { x: i }, backend: p, attrs: { dtype: "complex64" } }), g = p.data.get(h.dataId), x = g.complexTensorInfos.real, b = g.complexTensorInfos.imag, C = p.data.get(x.dataId).values, S = p.data.get(b.dataId).values, [k, _, E] = t8(a.shape, i.shape, d, f, C, S), R = p.makeTensorInfo(E, "float32", k), D = p.makeTensorInfo(E, "float32", _), P = Kt({ inputs: { real: R, imag: D }, backend: p });
-        return p.disposeIntermediateTensorInfo(u), p.disposeIntermediateTensorInfo(h), p.disposeIntermediateTensorInfo(R), p.disposeIntermediateTensorInfo(D), P;
+        let u = Ro({ inputs: { x: a }, backend: p, attrs: { dtype: "complex64" } }), c = p.data.get(u.dataId), l = c.complexTensorInfos.real, m = c.complexTensorInfos.imag, d = p.data.get(l.dataId).values, f = p.data.get(m.dataId).values, h = Ro({ inputs: { x: i }, backend: p, attrs: { dtype: "complex64" } }), g = p.data.get(h.dataId), x = g.complexTensorInfos.real, b = g.complexTensorInfos.imag, C = p.data.get(x.dataId).values, S = p.data.get(b.dataId).values, [k, _, E] = t8(a.shape, i.shape, d, f, C, S), R10 = p.makeTensorInfo(E, "float32", k), D = p.makeTensorInfo(E, "float32", _), P = Kt({ inputs: { real: R10, imag: D }, backend: p });
+        return p.disposeIntermediateTensorInfo(u), p.disposeIntermediateTensorInfo(h), p.disposeIntermediateTensorInfo(R10), p.disposeIntermediateTensorInfo(D), P;
       } else {
         let u = p.data.get(a.dataId).values, c = p.data.get(i.dataId).values, l = o8 || a.dtype, [m, d] = e8(a.shape, i.shape, u, c, l);
         return p.makeTensorInfo(d, l, m);
@@ -16403,16 +16404,16 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
       let i = w.assertAndGetBroadcastShape(e8, t8), p = y.sizeFromShape(i), u = i.length, c = y.computeStrides(i), l = y.getTypedArrayFromDType("float32", p), m = y.getTypedArrayFromDType("float32", p), d = w.getBroadcastDims(e8, i), f = w.getBroadcastDims(t8, i), h = w.mergeRealAndImagArrays(o8, n8), g = w.mergeRealAndImagArrays(s, a), x = e8.length, b = y.computeStrides(e8), C = t8.length, S = y.computeStrides(t8);
       if (d.length + f.length === 0)
         for (let k = 0; k < l.length; k++) {
-          let _ = k % h.length, E = k % g.length, R = r8(h[_ * 2], h[_ * 2 + 1], g[E * 2], g[E * 2 + 1]);
-          l[k] = R.real, m[k] = R.imag;
+          let _ = k % h.length, E = k % g.length, R10 = r8(h[_ * 2], h[_ * 2 + 1], g[E * 2], g[E * 2 + 1]);
+          l[k] = R10.real, m[k] = R10.imag;
         }
       else
         for (let k = 0; k < l.length; k++) {
           let _ = y.indexToLoc(k, u, c), E = _.slice(-x);
           d.forEach((M) => E[M] = 0);
-          let R = y.locToIndex(E, x, b), D = _.slice(-C);
+          let R10 = y.locToIndex(E, x, b), D = _.slice(-C);
           f.forEach((M) => D[M] = 0);
-          let P = y.locToIndex(D, C, S), O = r8(h[R * 2], h[R * 2 + 1], g[P * 2], g[P * 2 + 1]);
+          let P = y.locToIndex(D, C, S), O = r8(h[R10 * 2], h[R10 * 2 + 1], g[P * 2], g[P * 2 + 1]);
           l[k] = O.real, m[k] = O.imag;
         }
       return [l, m, i];
@@ -17061,8 +17062,8 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
       for (let S = 0; S < i; ++S) {
         let k = r8[S * l], _ = C[k], E = (k === 0 ? 0 : f[k - 1]) + _;
         C[k]++;
-        for (let R = 0; R < l; ++R)
-          x[E * l + R] = r8[S * l + R];
+        for (let R10 = 0; R10 < l; ++R10)
+          x[E * l + R10] = r8[S * l + R10];
         b[E] = o8[S], c[S] = E;
       }
       for (let S = 0; S < p; ++S)
@@ -17462,15 +17463,15 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     Q([n8, s], "matMul");
     let p = n8.shape.length, u = s.shape.length, c = a ? n8.shape[p - 2] : n8.shape[p - 1], l = i ? s.shape[u - 1] : s.shape[u - 2], m = a ? n8.shape[p - 1] : n8.shape[p - 2], d = i ? s.shape[u - 2] : s.shape[u - 1], f = n8.shape.slice(0, -2), h = s.shape.slice(0, -2), g = y.sizeFromShape(f), x = y.sizeFromShape(h), C = Ir.assertAndGetBroadcastShape(n8.shape.slice(0, -2), s.shape.slice(0, -2)).concat([m, d]);
     y.assert(c === l, () => `Error in matMul: inner shapes (${c}) and (${l}) of Tensors with shapes ${n8.shape} and ${s.shape} and transposeA=${a} and transposeB=${i} must match.`);
-    let S = a ? [g, c, m] : [g, m, c], k = i ? [x, d, l] : [x, l, d], _ = Ve({ inputs: { x: n8 }, backend: t8, attrs: { shape: S } }), E = Ve({ inputs: { x: s }, backend: t8, attrs: { shape: k } }), R = a ? _.shape[1] : _.shape[2], D = a ? _.shape[2] : _.shape[1], P = i ? E.shape[1] : E.shape[2], O = Math.max(g, x), M = t8.data.get(_.dataId).values, L = t8.data.get(E.dataId).values, B = y.computeStrides(_.shape), z = y.computeStrides(E.shape), [U, j, q] = a ? [B[0], 1, B[1]] : [B[0], B[1], 1], [Y, J, re] = i ? [1, z[1], z[0]] : [z[1], 1, z[0]], ne = D * P, ee = me([O, D, P], _.dtype), oe = ee.values, ie = t8.blockSize;
+    let S = a ? [g, c, m] : [g, m, c], k = i ? [x, d, l] : [x, l, d], _ = Ve({ inputs: { x: n8 }, backend: t8, attrs: { shape: S } }), E = Ve({ inputs: { x: s }, backend: t8, attrs: { shape: k } }), R10 = a ? _.shape[1] : _.shape[2], D = a ? _.shape[2] : _.shape[1], P = i ? E.shape[1] : E.shape[2], O = Math.max(g, x), M = t8.data.get(_.dataId).values, L = t8.data.get(E.dataId).values, B = y.computeStrides(_.shape), z = y.computeStrides(E.shape), [U, j, q] = a ? [B[0], 1, B[1]] : [B[0], B[1], 1], [Y, J, re] = i ? [1, z[1], z[0]] : [z[1], 1, z[0]], ne = D * P, ee = me([O, D, P], _.dtype), oe = ee.values, ie = t8.blockSize;
     for (let le = 0; le < O; le++) {
       let be = le % g, _e = le % x;
       for (let ve = 0; ve < D; ve += ie) {
         let Fe = Math.min(ve + ie, D);
         for (let Pe = 0; Pe < P; Pe += ie) {
           let st = Math.min(Pe + ie, P);
-          for (let lt = 0; lt < R; lt += ie) {
-            let Ue = Math.min(lt + ie, R);
+          for (let lt = 0; lt < R10; lt += ie) {
+            let Ue = Math.min(lt + ie, R10);
             for (let mt = ve; mt < Fe; mt++)
               for (let it = Pe; it < st; it++) {
                 let gt = 0;
@@ -17607,8 +17608,8 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     for (let S = 0; S < n8.batchSize; ++S) {
       let k = S * x, _ = S * o8[0];
       for (let E = 0; E < n8.inChannels; ++E)
-        for (let R = 0; R < n8.outHeight; ++R) {
-          let D = R * a - m, P = Math.max(0, D), O = Math.min(n8.inHeight, c + D), M = k + R * b;
+        for (let R10 = 0; R10 < n8.outHeight; ++R10) {
+          let D = R10 * a - m, P = Math.max(0, D), O = Math.min(n8.inHeight, c + D), M = k + R10 * b;
           for (let L = 0; L < n8.outWidth; ++L) {
             let B = L * i - d, z = Math.max(0, B), U = Math.min(n8.inWidth, l + B), j = f, q = 0, Y = 0;
             for (let re = P; re < O; re += p) {
@@ -17637,13 +17638,13 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
             S += u;
           let k = Math.min(o8.inHeight, l + C);
           for (let _ = 0; _ < o8.outWidth; ++_) {
-            let E = _ * p - f, R = E;
-            for (; R < 0; )
-              R += c;
+            let E = _ * p - f, R10 = E;
+            for (; R10 < 0; )
+              R10 += c;
             let D = Math.min(o8.inWidth, m + E), P = Number.NEGATIVE_INFINITY, O = -1;
             for (let M = S; M < k; M += u) {
               let L = M - C;
-              for (let B = R; B < D; B += c) {
+              for (let B = R10; B < D; B += c) {
                 let z = B - E, U = h.get(g, M, B, x);
                 U > P && (P = U, n8 ? O = s ? ((g * o8.inHeight + M) * o8.inWidth + B) * o8.inChannels + x : (M * o8.inWidth + B) * o8.inChannels + x : O = L * m + z);
               }
@@ -17654,7 +17655,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     return a;
   }
   function Lf(r8, e8, t8, o8, n8, s) {
-    let a = n8.strideDepth, i = n8.strideHeight, p = n8.strideWidth, u = n8.dilationDepth, c = n8.dilationHeight, l = n8.dilationWidth, m = n8.effectiveFilterDepth, d = n8.effectiveFilterHeight, f = n8.effectiveFilterWidth, h = n8.padInfo.front, g = n8.padInfo.top, x = n8.padInfo.left, b = s === "max" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY, C = me(n8.outShape, t8), S = C.values, k = n8.outShape[1] * n8.outShape[2] * n8.outShape[3] * n8.outShape[4], _ = n8.outShape[2] * n8.outShape[3] * n8.outShape[4], E = n8.outShape[3] * n8.outShape[4], R = n8.outShape[4];
+    let a = n8.strideDepth, i = n8.strideHeight, p = n8.strideWidth, u = n8.dilationDepth, c = n8.dilationHeight, l = n8.dilationWidth, m = n8.effectiveFilterDepth, d = n8.effectiveFilterHeight, f = n8.effectiveFilterWidth, h = n8.padInfo.front, g = n8.padInfo.top, x = n8.padInfo.left, b = s === "max" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY, C = me(n8.outShape, t8), S = C.values, k = n8.outShape[1] * n8.outShape[2] * n8.outShape[3] * n8.outShape[4], _ = n8.outShape[2] * n8.outShape[3] * n8.outShape[4], E = n8.outShape[3] * n8.outShape[4], R10 = n8.outShape[4];
     for (let D = 0; D < n8.batchSize; ++D) {
       let P = D * k, O = D * o8[0];
       for (let M = 0; M < n8.inChannels; ++M)
@@ -17672,7 +17673,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
               let oe = ee * p - x, ie = oe;
               for (; ie < 0; )
                 ie += l;
-              let le = Math.min(n8.inWidth, f + oe), be = ne + ee * R, _e = b, ve = 0, Fe = 0;
+              let le = Math.min(n8.inWidth, f + oe), be = ne + ee * R10, _e = b, ve = 0, Fe = 0;
               for (let st = z; st < U; st += u) {
                 let lt = O + st * o8[1];
                 for (let Ue = J; Ue < re; Ue += c) {
@@ -17709,7 +17710,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
             let _ = k * n8 - d, E = _;
             for (; E < 0; )
               E += i;
-            let R = Math.min(e8.inHeight, c + _);
+            let R10 = Math.min(e8.inHeight, c + _);
             for (let D = 0; D < e8.outWidth; ++D) {
               let P = D * s - f, O = P;
               for (; O < 0; )
@@ -17717,7 +17718,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
               let M = Math.min(e8.inWidth, l + P), L = Number.NEGATIVE_INFINITY, B = -1;
               for (let z = C; z < S; z += a) {
                 let U = z - b;
-                for (let j = E; j < R; j += i) {
+                for (let j = E; j < R10; j += i) {
                   let q = j - _;
                   for (let Y = O; Y < M; Y += p) {
                     let J = Y - P, re = r8.get(h, z, j, Y, g);
@@ -17756,13 +17757,13 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function fY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { dy: n8, input: s } = e8, { filterSize: a, strides: i, pad: p, dimRoundingMode: u } = o8;
     Q([n8, s], "avgPool3DGrad");
-    let c = w.computePool3DInfo(s.shape, a, i, 1, p, u), l = c.strideDepth, m = c.strideHeight, d = c.strideWidth, f = c.filterDepth, h = c.filterHeight, g = c.filterWidth, x = c.dilationDepth, b = c.dilationHeight, C = c.dilationWidth, S = c.effectiveFilterDepth, k = c.effectiveFilterHeight, _ = c.effectiveFilterWidth, E = S - 1 - c.padInfo.front, R = _ - 1 - c.padInfo.left, D = k - 1 - c.padInfo.top, P = me(s.shape, "float32"), O = 1 / (f * h * g), M = t8.bufferSync(n8);
+    let c = w.computePool3DInfo(s.shape, a, i, 1, p, u), l = c.strideDepth, m = c.strideHeight, d = c.strideWidth, f = c.filterDepth, h = c.filterHeight, g = c.filterWidth, x = c.dilationDepth, b = c.dilationHeight, C = c.dilationWidth, S = c.effectiveFilterDepth, k = c.effectiveFilterHeight, _ = c.effectiveFilterWidth, E = S - 1 - c.padInfo.front, R10 = _ - 1 - c.padInfo.left, D = k - 1 - c.padInfo.top, P = me(s.shape, "float32"), O = 1 / (f * h * g), M = t8.bufferSync(n8);
     for (let L = 0; L < c.batchSize; ++L)
       for (let B = 0; B < c.inChannels; ++B)
         for (let z = 0; z < c.inDepth; ++z)
           for (let U = 0; U < c.inHeight; ++U)
             for (let j = 0; j < c.inWidth; ++j) {
-              let q = z - E, Y = U - D, J = j - R, re = 0;
+              let q = z - E, Y = U - D, J = j - R10, re = 0;
               for (let ne = 0; ne < S; ne += x) {
                 let ee = (q + ne) / l;
                 if (!(ee < 0 || ee >= c.outDepth || Math.floor(ee) !== ee))
@@ -17786,7 +17787,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function hY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { dy: n8, input: s } = e8, a = s;
     Q([n8, s], "avgPoolGrad");
-    let { filterSize: i, strides: p, pad: u } = o8, c = w.computePool2DInfo(a.shape, i, p, 1, u), l = c.strideHeight, m = c.strideWidth, d = c.filterHeight, f = c.filterWidth, h = c.dilationHeight, g = c.dilationWidth, x = c.effectiveFilterHeight, b = c.effectiveFilterWidth, C = b - 1 - c.padInfo.left, S = x - 1 - c.padInfo.top, k = me(a.shape, "float32"), _ = 1 / (d * f), E = t8.data.get(n8.dataId).values, R = me(n8.shape, "float32", E);
+    let { filterSize: i, strides: p, pad: u } = o8, c = w.computePool2DInfo(a.shape, i, p, 1, u), l = c.strideHeight, m = c.strideWidth, d = c.filterHeight, f = c.filterWidth, h = c.dilationHeight, g = c.dilationWidth, x = c.effectiveFilterHeight, b = c.effectiveFilterWidth, C = b - 1 - c.padInfo.left, S = x - 1 - c.padInfo.top, k = me(a.shape, "float32"), _ = 1 / (d * f), E = t8.data.get(n8.dataId).values, R10 = me(n8.shape, "float32", E);
     for (let D = 0; D < c.batchSize; ++D)
       for (let P = 0; P < c.inChannels; ++P)
         for (let O = 0; O < c.inHeight; ++O)
@@ -17799,7 +17800,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
                   let Y = (B + q) / m;
                   if (Y < 0 || Y >= c.outWidth || Math.floor(Y) !== Y)
                     continue;
-                  let J = R.get(D, j, Y, P);
+                  let J = R10.get(D, j, Y, P);
                   z += J;
                 }
             }
@@ -17814,8 +17815,8 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     let { varianceEpsilon: u } = o8;
     u == null && (u = 1e-3);
     let c = t8.data.get(n8.dataId).values, l = t8.data.get(i.dataId).values, m = t8.data.get(p.dataId).values, d = s ? t8.data.get(s.dataId).values : new Float32Array([1]), f = a ? t8.data.get(a.dataId).values : new Float32Array([0]), h = new Float32Array(c.length), g = f.length, x = d.length, b = m.length, C = l.length, S = 0, k = 0, _ = 0, E = 0;
-    for (let R = 0; R < c.length; ++R)
-      h[R] = f[S++] + (c[R] - l[k++]) * d[_++] / Math.sqrt(m[E++] + u), S >= g && (S = 0), k >= C && (k = 0), _ >= x && (_ = 0), E >= b && (E = 0);
+    for (let R10 = 0; R10 < c.length; ++R10)
+      h[R10] = f[S++] + (c[R10] - l[k++]) * d[_++] / Math.sqrt(m[E++] + u), S >= g && (S = 0), k >= C && (k = 0), _ >= x && (_ = 0), E >= b && (E = 0);
     return t8.makeTensorInfo(n8.shape, n8.dtype, h);
   }
   var Y_ = { kernelName: In, backendName: "cpu", kernelFunc: gY };
@@ -17880,7 +17881,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function cI(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { x: n8, filter: s } = e8, { strides: a, pad: i, dataFormat: p, dilations: u, dimRoundingMode: c } = o8;
     Q([n8, s], "conv2d");
-    let l = w.convertConv2DDataFormat(p), m = w.computeConv2DInfo(n8.shape, s.shape, a, u, i, c, false, l), d = m.filterHeight, f = m.filterWidth, h = m.dilationHeight, g = m.dilationWidth, x = m.padInfo.left, b = m.padInfo.top, C = m.dataFormat === "channelsLast", S = new tt(m.outShape, n8.dtype), k = y.computeStrides(n8.shape), _ = y.computeStrides(s.shape), E = k[0], R = C ? k[1] : k[2], D = C ? k[2] : 1, P = C ? 1 : k[1], O = S.strides[0], M = C ? S.strides[1] : S.strides[2], L = C ? S.strides[2] : 1, B = C ? 1 : S.strides[1], z = t8.data.get(n8.dataId).values, U = t8.data.get(s.dataId).values, j = S.values;
+    let l = w.convertConv2DDataFormat(p), m = w.computeConv2DInfo(n8.shape, s.shape, a, u, i, c, false, l), d = m.filterHeight, f = m.filterWidth, h = m.dilationHeight, g = m.dilationWidth, x = m.padInfo.left, b = m.padInfo.top, C = m.dataFormat === "channelsLast", S = new tt(m.outShape, n8.dtype), k = y.computeStrides(n8.shape), _ = y.computeStrides(s.shape), E = k[0], R10 = C ? k[1] : k[2], D = C ? k[2] : 1, P = C ? 1 : k[1], O = S.strides[0], M = C ? S.strides[1] : S.strides[2], L = C ? S.strides[2] : 1, B = C ? 1 : S.strides[1], z = t8.data.get(n8.dataId).values, U = t8.data.get(s.dataId).values, j = S.values;
     for (let q = 0; q < m.batchSize; ++q) {
       let Y = q * E, J = q * O;
       for (let re = 0; re < m.outHeight; ++re) {
@@ -17889,7 +17890,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
           let ie = ee + oe * h;
           if (ie < 0 || ie >= m.inHeight)
             continue;
-          let le = oe * _[0], be = Y + ie * R;
+          let le = oe * _[0], be = Y + ie * R10;
           for (let _e = 0; _e < m.outWidth; ++_e) {
             let ve = ne + _e * L, Fe = _e * m.strideWidth - x;
             for (let Pe = 0; Pe < f; ++Pe) {
@@ -17914,7 +17915,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function SY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { x: n8, dy: s } = e8, { strides: a, pad: i, dataFormat: p, dimRoundingMode: u, filterShape: c } = o8;
     Q([n8, s], "conv2dBackpropFilter");
-    let l = w.convertConv2DDataFormat(p), m = w.computeConv2DInfo(n8.shape, c, a, 1, i, u, false, l), { strideHeight: d, strideWidth: f, filterHeight: h, filterWidth: g } = m, x = m.dataFormat === "channelsLast", b = new tt(m.filterShape, "float32"), C = m.padInfo.left, S = m.padInfo.top, k = t8.data.get(n8.dataId).values, _ = t8.data.get(s.dataId).values, E = new tt(n8.shape, n8.dtype, k), R = new tt(s.shape, s.dtype, _);
+    let l = w.convertConv2DDataFormat(p), m = w.computeConv2DInfo(n8.shape, c, a, 1, i, u, false, l), { strideHeight: d, strideWidth: f, filterHeight: h, filterWidth: g } = m, x = m.dataFormat === "channelsLast", b = new tt(m.filterShape, "float32"), C = m.padInfo.left, S = m.padInfo.top, k = t8.data.get(n8.dataId).values, _ = t8.data.get(s.dataId).values, E = new tt(n8.shape, n8.dtype, k), R10 = new tt(s.shape, s.dtype, _);
     for (let D = 0; D < h; ++D) {
       let P = Math.max(0, Math.ceil((S - D) / d)), O = Math.min(m.outHeight, (m.inHeight + S - D) / d);
       for (let M = 0; M < g; ++M) {
@@ -17927,7 +17928,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
                 let J = D + Y * d - S;
                 for (let re = L; re < B; ++re) {
                   let ne = M + re * f - C;
-                  x ? j += E.get(q, J, ne, z) * R.get(q, Y, re, U) : j += E.get(q, z, J, ne) * R.get(q, U, Y, re);
+                  x ? j += E.get(q, J, ne, z) * R10.get(q, Y, re, U) : j += E.get(q, z, J, ne) * R10.get(q, U, Y, re);
                 }
               }
             b.set(j, D, M, z, U);
@@ -17940,19 +17941,19 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function IY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { dy: n8, filter: s } = e8, { inputShape: a, strides: i, pad: p, dataFormat: u, dimRoundingMode: c } = o8;
     Q([n8, s], "conv2dBackpropInput");
-    let l = y.computeStrides(s.shape), m = y.computeStrides(n8.shape), d = w.convertConv2DDataFormat(u), f = w.computeConv2DInfo(a, s.shape, i, 1, p, c, false, d), h = new tt(f.inShape, "float32"), g = h.values, x = t8.data.get(n8.dataId).values, b = t8.data.get(s.dataId).values, [C, S, k] = l, { batchSize: _, filterHeight: E, filterWidth: R, inChannels: D, inHeight: P, inWidth: O, outChannels: M, outHeight: L, outWidth: B, strideHeight: z, strideWidth: U } = f;
+    let l = y.computeStrides(s.shape), m = y.computeStrides(n8.shape), d = w.convertConv2DDataFormat(u), f = w.computeConv2DInfo(a, s.shape, i, 1, p, c, false, d), h = new tt(f.inShape, "float32"), g = h.values, x = t8.data.get(n8.dataId).values, b = t8.data.get(s.dataId).values, [C, S, k] = l, { batchSize: _, filterHeight: E, filterWidth: R10, inChannels: D, inHeight: P, inWidth: O, outChannels: M, outHeight: L, outWidth: B, strideHeight: z, strideWidth: U } = f;
     d = f.dataFormat;
-    let j = E - 1 - f.padInfo.top, q = R - 1 - f.padInfo.left, Y = d === "channelsLast", J = h.strides[0], re = Y ? h.strides[1] : h.strides[2], ne = Y ? h.strides[2] : 1, ee = Y ? 1 : h.strides[1], oe = m[0], ie = Y ? m[1] : m[2], le = Y ? m[2] : 1, be = Y ? 1 : m[1];
+    let j = E - 1 - f.padInfo.top, q = R10 - 1 - f.padInfo.left, Y = d === "channelsLast", J = h.strides[0], re = Y ? h.strides[1] : h.strides[2], ne = Y ? h.strides[2] : 1, ee = Y ? 1 : h.strides[1], oe = m[0], ie = Y ? m[1] : m[2], le = Y ? m[2] : 1, be = Y ? 1 : m[1];
     for (let _e = 0; _e < _; ++_e)
       for (let ve = 0; ve < D; ++ve)
         for (let Fe = 0; Fe < P; ++Fe) {
           let Pe = Fe - j, st = Math.max(0, Math.ceil(Pe / z)), lt = Math.min(L, (E + Pe) / z);
           for (let Ue = 0; Ue < O; ++Ue) {
-            let mt = Ue - q, it = Math.max(0, Math.ceil(mt / U)), gt = Math.min(B, (R + mt) / U), xt = 0;
+            let mt = Ue - q, it = Math.max(0, Math.ceil(mt / U)), gt = Math.min(B, (R10 + mt) / U), xt = 0;
             for (let Mt = st; Mt < lt; ++Mt) {
               let eo = Mt * z - Pe;
               for (let or = it; or < gt; ++or) {
-                let Tt = or * U - mt, nr = oe * _e + ie * Mt + le * or, sr = C * (E - 1 - eo) + S * (R - 1 - Tt) + k * ve;
+                let Tt = or * U - mt, nr = oe * _e + ie * Mt + le * or, sr = C * (E - 1 - eo) + S * (R10 - 1 - Tt) + k * ve;
                 for (let to = 0; to < M; ++to) {
                   let ro = x[nr + be * to], fr = b[sr + to];
                   xt += ro * fr;
@@ -17969,23 +17970,23 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function vY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { x: n8, filter: s } = e8, { strides: a, pad: i, dilations: p } = o8;
     Q([n8, s], "conv3d");
-    let u = w.computeConv3DInfo(n8.shape, s.shape, a, p, i), { filterDepth: c, filterHeight: l, filterWidth: m, dilationDepth: d, dilationHeight: f, dilationWidth: h, padInfo: g } = u, x = g.front, b = g.left, C = g.top, S = new tt(u.outShape, n8.dtype), k = t8.data.get(n8.dataId).values, _ = t8.data.get(s.dataId).values, E = S.values, R = y.computeStrides(n8.shape), D = y.computeStrides(s.shape);
+    let u = w.computeConv3DInfo(n8.shape, s.shape, a, p, i), { filterDepth: c, filterHeight: l, filterWidth: m, dilationDepth: d, dilationHeight: f, dilationWidth: h, padInfo: g } = u, x = g.front, b = g.left, C = g.top, S = new tt(u.outShape, n8.dtype), k = t8.data.get(n8.dataId).values, _ = t8.data.get(s.dataId).values, E = S.values, R10 = y.computeStrides(n8.shape), D = y.computeStrides(s.shape);
     for (let P = 0; P < u.batchSize; ++P) {
-      let O = P * R[0], M = P * S.strides[0];
+      let O = P * R10[0], M = P * S.strides[0];
       for (let L = 0; L < u.outDepth; ++L) {
         let B = M + L * S.strides[1], z = L * u.strideDepth - x;
         for (let U = 0; U < c; ++U) {
           let j = z + U * d;
           if (j < 0 || j >= u.inDepth)
             continue;
-          let q = U * D[0], Y = O + j * R[1];
+          let q = U * D[0], Y = O + j * R10[1];
           for (let J = 0; J < u.outHeight; ++J) {
             let re = B + J * S.strides[2], ne = J * u.strideHeight - C;
             for (let ee = 0; ee < l; ++ee) {
               let oe = ne + ee * f;
               if (oe < 0 || oe >= u.inHeight)
                 continue;
-              let ie = q + ee * D[1], le = Y + oe * R[2];
+              let ie = q + ee * D[1], le = Y + oe * R10[2];
               for (let be = 0; be < u.outWidth; ++be) {
                 let _e = re + be * u.outChannels, ve = be * u.strideWidth - b;
                 for (let Fe = 0; Fe < m; ++Fe) {
@@ -18012,7 +18013,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function kY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { x: n8, dy: s } = e8, { strides: a, pad: i, filterShape: p } = o8;
     Q([n8, s], "conv3dBackpropFilterV2");
-    let u = y.computeStrides(n8.shape), c = y.computeStrides(s.shape), l = w.computeConv3DInfo(n8.shape, p, a, 1, i), m = l.strideDepth, d = l.strideHeight, f = l.strideWidth, h = l.filterDepth, g = l.filterHeight, x = l.filterWidth, b = new tt(l.filterShape, "float32"), C = b.values, [S, k, _, E] = b.strides, R = t8.data.get(s.dataId).values, [D, P, O, M] = c, L = t8.data.get(n8.dataId).values, [B, z, U, j] = u, q = l.padInfo.front, Y = l.padInfo.left, J = l.padInfo.top;
+    let u = y.computeStrides(n8.shape), c = y.computeStrides(s.shape), l = w.computeConv3DInfo(n8.shape, p, a, 1, i), m = l.strideDepth, d = l.strideHeight, f = l.strideWidth, h = l.filterDepth, g = l.filterHeight, x = l.filterWidth, b = new tt(l.filterShape, "float32"), C = b.values, [S, k, _, E] = b.strides, R10 = t8.data.get(s.dataId).values, [D, P, O, M] = c, L = t8.data.get(n8.dataId).values, [B, z, U, j] = u, q = l.padInfo.front, Y = l.padInfo.left, J = l.padInfo.top;
     for (let re = 0; re < h; ++re) {
       let ne = Math.max(0, Math.ceil((q - re) / m)), ee = Math.min(l.outDepth, (l.inDepth + q - re) / m), oe = re * S;
       for (let ie = 0; ie < g; ++ie) {
@@ -18031,7 +18032,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
                     let to = (ie + nr * d - J) * U + or, ro = nr * O + Tt;
                     for (let fr = Fe; fr < Pe; ++fr) {
                       let Lo = (ve + fr * f - Y) * j + to, Hs = fr * M + ro;
-                      it += L[Lo + lt] * R[Hs + mt];
+                      it += L[Lo + lt] * R10[Hs + mt];
                     }
                   }
                 }
@@ -18048,7 +18049,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function NY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { dy: n8, filter: s } = e8, { pad: a, strides: i, inputShape: p } = o8;
     Q([n8], "conv3dBackpropInputV2");
-    let u = y.computeStrides(n8.shape), c = y.computeStrides(s.shape), l = w.computeConv3DInfo(p, s.shape, i, 1, a), m = new tt(l.inShape, "float32"), d = m.values, [f, h, g, x] = m.strides, b = t8.data.get(n8.dataId).values, [C, S, k, _] = u, E = t8.data.get(s.dataId).values, [R, D, P, O] = c, { batchSize: M, filterDepth: L, filterHeight: B, filterWidth: z, inChannels: U, inDepth: j, inHeight: q, inWidth: Y, outChannels: J, outDepth: re, outHeight: ne, outWidth: ee, strideDepth: oe, strideHeight: ie, strideWidth: le } = l, be = L - 1 - l.padInfo.front, _e = B - 1 - l.padInfo.top, ve = z - 1 - l.padInfo.left;
+    let u = y.computeStrides(n8.shape), c = y.computeStrides(s.shape), l = w.computeConv3DInfo(p, s.shape, i, 1, a), m = new tt(l.inShape, "float32"), d = m.values, [f, h, g, x] = m.strides, b = t8.data.get(n8.dataId).values, [C, S, k, _] = u, E = t8.data.get(s.dataId).values, [R10, D, P, O] = c, { batchSize: M, filterDepth: L, filterHeight: B, filterWidth: z, inChannels: U, inDepth: j, inHeight: q, inWidth: Y, outChannels: J, outDepth: re, outHeight: ne, outWidth: ee, strideDepth: oe, strideHeight: ie, strideWidth: le } = l, be = L - 1 - l.padInfo.front, _e = B - 1 - l.padInfo.top, ve = z - 1 - l.padInfo.left;
     for (let Fe = 0; Fe < M; ++Fe)
       for (let Pe = 0; Pe < U; ++Pe)
         for (let st = 0; st < j; ++st) {
@@ -18062,7 +18063,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
                 for (let ro = xt; ro < Lr; ++ro) {
                   let fr = ro * ie - gt;
                   for (let Ba = or; Ba < Tt; ++Ba) {
-                    let Lo = Ba * le - eo, Hs = C * Fe + S * sr + k * ro + _ * Ba, Yt = R * (L - 1 - to) + D * (B - 1 - fr) + P * (z - 1 - Lo) + O * Pe;
+                    let Lo = Ba * le - eo, Hs = C * Fe + S * sr + k * ro + _ * Ba, Yt = R10 * (L - 1 - to) + D * (B - 1 - fr) + P * (z - 1 - Lo) + O * Pe;
                     for (let za = 0; za < J; ++za) {
                       let tl = b[Hs + za], rl = E[Yt + za];
                       nr += tl * rl;
@@ -18084,7 +18085,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function $Y(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { image: n8, boxes: s, boxInd: a } = e8, { cropSize: i, method: p, extrapolationValue: u } = o8, [c, l, m, d] = n8.shape, f = s.shape[0], [h, g] = i, x = me([f, h, g, d], "float32"), b = t8.data.get(s.dataId).values, C = t8.data.get(a.dataId).values, S = t8.data.get(n8.dataId).values, k = y.computeStrides(n8.shape), _ = y.computeStrides(x.shape);
     for (let E = 0; E < f; E++) {
-      let R = E * 4, D = b[R], P = b[R + 1], O = b[R + 2], M = b[R + 3], L = C[E];
+      let R10 = E * 4, D = b[R10], P = b[R10 + 1], O = b[R10 + 2], M = b[R10 + 3], L = C[E];
       if (L >= c)
         continue;
       let B = h > 1 ? (O - D) * (l - 1) / (h - 1) : 0, z = g > 1 ? (M - P) * (m - 1) / (g - 1) : 0;
@@ -18216,9 +18217,9 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
       for (let b = 0; b < l; ++b) {
         let C = Math.floor(b / s), S = b % s;
         for (let k = 0; k < m; ++k) {
-          let _ = Math.floor(k / s), E = k % s, R = (S * s + E) * d;
+          let _ = Math.floor(k / s), E = k % s, R10 = (S * s + E) * d;
           for (let D = 0; D < d; ++D) {
-            let O = D + R + c * (_ + u * (C + p * x));
+            let O = D + R10 + c * (_ + u * (C + p * x));
             h[g++] = f[O];
           }
         }
@@ -18231,7 +18232,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     Q([n8, s], "depthwiseConv2DNative");
     let c = y.computeStrides(n8.shape), l = y.computeStrides(s.shape), m = p;
     m == null && (m = [1, 1]), y.assert(w.eitherStridesOrDilationsAreOne(a, m), () => `Error in depthwiseConv2d: Either strides or dilations must be 1. Got strides ${a} and dilations '${m}'`);
-    let d = w.computeConv2DInfo(n8.shape, s.shape, a, m, i, u, true), { filterHeight: f, filterWidth: h, dilationHeight: g, dilationWidth: x, padInfo: b } = d, C = b.left, S = b.top, k = d.outChannels / d.inChannels, _ = new tt(d.outShape, n8.dtype), E = t8.data.get(n8.dataId).values, R = t8.data.get(s.dataId).values, D = _.values;
+    let d = w.computeConv2DInfo(n8.shape, s.shape, a, m, i, u, true), { filterHeight: f, filterWidth: h, dilationHeight: g, dilationWidth: x, padInfo: b } = d, C = b.left, S = b.top, k = d.outChannels / d.inChannels, _ = new tt(d.outShape, n8.dtype), E = t8.data.get(n8.dataId).values, R10 = t8.data.get(s.dataId).values, D = _.values;
     for (let P = 0; P < d.batchSize; ++P) {
       let O = P * c[0], M = P * _.strides[0];
       for (let L = 0; L < d.outHeight; ++L) {
@@ -18251,7 +18252,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
               for (let ve = 0; ve < d.inChannels; ++ve) {
                 let Fe = E[le + ve];
                 for (let Pe = 0; Pe < k; ++Pe)
-                  D[be + Pe] += Fe * R[_e + Pe];
+                  D[be + Pe] += Fe * R10[_e + Pe];
                 be += k, _e += k;
               }
             }
@@ -18266,21 +18267,21 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { x: n8, dy: s } = e8, { strides: a, dilations: i, pad: p, dimRoundingMode: u, filterShape: c } = o8;
     Q([n8, s], "depthwiseConv2dNativeBackpropFilter");
     let l = w.computeConv2DInfo(n8.shape, c, a, i, p, u, true), { strideHeight: m, strideWidth: d, filterHeight: f, filterWidth: h } = l, g = new tt(l.filterShape, "float32"), x = l.padInfo.left, b = l.padInfo.top, C = l.outChannels / l.inChannels, S = t8.data.get(n8.dataId).values, k = new tt(n8.shape, n8.dtype, S), _ = t8.data.get(s.dataId).values, E = new tt(s.shape, s.dtype, _);
-    for (let R = 0; R < f; ++R) {
-      let D = Math.max(0, Math.ceil((b - R) / m)), P = Math.min(l.outHeight, (l.inHeight + b - R) / m);
+    for (let R10 = 0; R10 < f; ++R10) {
+      let D = Math.max(0, Math.ceil((b - R10) / m)), P = Math.min(l.outHeight, (l.inHeight + b - R10) / m);
       for (let O = 0; O < h; ++O) {
         let M = Math.max(0, Math.ceil((x - O) / d)), L = Math.min(l.outWidth, (l.inWidth + x - O) / d);
         for (let B = 0; B < l.outChannels; ++B) {
           let z = Math.trunc(B / C), U = B % C, j = 0;
           for (let q = 0; q < l.batchSize; ++q)
             for (let Y = D; Y < P; ++Y) {
-              let J = R + Y * m - b;
+              let J = R10 + Y * m - b;
               for (let re = M; re < L; ++re) {
                 let ne = O + re * d - x;
                 j += k.get(q, J, ne, z) * E.get(q, Y, re, B);
               }
             }
-          g.set(j, R, O, z, U);
+          g.set(j, R10, O, z, U);
         }
       }
     }
@@ -18290,7 +18291,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function PY(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { dy: n8, filter: s } = e8, { strides: a, dilations: i, pad: p, dimRoundingMode: u, inputShape: c } = o8;
     Q([n8, s], "depthwiseConv2DNativeBackpropInput");
-    let l = y.computeStrides(n8.shape), m = y.computeStrides(s.shape), d = w.computeConv2DInfo(c, s.shape, a, i, p, u, true), f = new tt(d.inShape, "float32"), h = f.values, [g, x, b] = f.strides, C = t8.data.get(n8.dataId).values, [S, k, _] = l, E = t8.data.get(s.dataId).values, [R, D, P] = m, { batchSize: O, filterHeight: M, filterWidth: L, inChannels: B, inHeight: z, inWidth: U, outChannels: j, outHeight: q, outWidth: Y, strideHeight: J, strideWidth: re } = d, ne = M - 1 - d.padInfo.top, ee = L - 1 - d.padInfo.left, oe = j / B;
+    let l = y.computeStrides(n8.shape), m = y.computeStrides(s.shape), d = w.computeConv2DInfo(c, s.shape, a, i, p, u, true), f = new tt(d.inShape, "float32"), h = f.values, [g, x, b] = f.strides, C = t8.data.get(n8.dataId).values, [S, k, _] = l, E = t8.data.get(s.dataId).values, [R10, D, P] = m, { batchSize: O, filterHeight: M, filterWidth: L, inChannels: B, inHeight: z, inWidth: U, outChannels: j, outHeight: q, outWidth: Y, strideHeight: J, strideWidth: re } = d, ne = M - 1 - d.padInfo.top, ee = L - 1 - d.padInfo.left, oe = j / B;
     for (let ie = 0; ie < O; ++ie)
       for (let le = 0; le < B; ++le)
         for (let be = 0; be < z; ++be) {
@@ -18300,7 +18301,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
             for (let it = ve; it < Fe; ++it) {
               let gt = it * J - _e;
               for (let xt = lt; xt < Ue; ++xt) {
-                let Lr = xt * re - st, Mt = S * ie + k * it + _ * xt, eo = R * (M - 1 - gt) + D * (L - 1 - Lr) + P * le;
+                let Lr = xt * re - st, Mt = S * ie + k * it + _ * xt, eo = R10 * (M - 1 - gt) + D * (L - 1 - Lr) + P * le;
                 for (let or = 0; or < oe; ++or) {
                   let Tt = le * oe + or, nr = C[Mt + Tt], sr = E[eo + or];
                   mt += nr * sr;
@@ -18322,7 +18323,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   }
   var C$ = { kernelName: ra, backendName: "cpu", kernelFunc: OY };
   var w$ = { kernelName: dn, backendName: "cpu", kernelFunc: ({ inputs: r8, backend: e8, attrs: t8 }) => {
-    let { x: o8, filter: n8 } = r8, { strides: s, pad: a, dilations: i } = t8, p = e8, u = p.data.get(o8.dataId).values, c = o8.shape.length, l = p.data.get(n8.dataId).values, m = n8.shape.length, { batchSize: d, inHeight: f, inWidth: h, inChannels: g, outHeight: x, outWidth: b, padInfo: C, strideHeight: S, strideWidth: k, filterHeight: _, filterWidth: E, dilationHeight: R, dilationWidth: D, outShape: P } = w.computeDilation2DInfo(o8.shape, n8.shape, s, a, "NHWC", i), O = y.sizeFromShape(P), M = P.length, L = y.getArrayFromDType(o8.dtype, O);
+    let { x: o8, filter: n8 } = r8, { strides: s, pad: a, dilations: i } = t8, p = e8, u = p.data.get(o8.dataId).values, c = o8.shape.length, l = p.data.get(n8.dataId).values, m = n8.shape.length, { batchSize: d, inHeight: f, inWidth: h, inChannels: g, outHeight: x, outWidth: b, padInfo: C, strideHeight: S, strideWidth: k, filterHeight: _, filterWidth: E, dilationHeight: R10, dilationWidth: D, outShape: P } = w.computeDilation2DInfo(o8.shape, n8.shape, s, a, "NHWC", i), O = y.sizeFromShape(P), M = P.length, L = y.getArrayFromDType(o8.dtype, O);
     for (let z = 0; z < d; ++z)
       for (let U = 0; U < x; ++U) {
         let j = U * S - C.top;
@@ -18331,7 +18332,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
           for (let J = 0; J < g; ++J) {
             let re = Number.MIN_SAFE_INTEGER;
             for (let ee = 0; ee < _; ++ee) {
-              let oe = j + ee * R;
+              let oe = j + ee * R10;
               if (oe >= 0 && oe < f)
                 for (let ie = 0; ie < E; ++ie) {
                   let le = Y + ie * D;
@@ -18349,7 +18350,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     return { dataId: p.write(y.toTypedArray(L, o8.dtype), P, o8.dtype), shape: P, dtype: o8.dtype };
   } };
   var S$ = { kernelName: Mi, backendName: "cpu", kernelFunc: ({ inputs: r8, backend: e8, attrs: t8 }) => {
-    let { x: o8, filter: n8, dy: s } = r8, { strides: a, pad: i, dilations: p } = t8, u = e8, c = y.toNestedArray(o8.shape, u.data.get(o8.dataId).values), l = y.toNestedArray(n8.shape, u.data.get(n8.dataId).values), { batchSize: m, inHeight: d, inWidth: f, inChannels: h, outHeight: g, outWidth: x, padInfo: b, strideHeight: C, strideWidth: S, filterHeight: k, filterWidth: _, dilationHeight: E, dilationWidth: R, outShape: D } = w.computeDilation2DInfo(o8.shape, n8.shape, a, i, "NHWC", p);
+    let { x: o8, filter: n8, dy: s } = r8, { strides: a, pad: i, dilations: p } = t8, u = e8, c = y.toNestedArray(o8.shape, u.data.get(o8.dataId).values), l = y.toNestedArray(n8.shape, u.data.get(n8.dataId).values), { batchSize: m, inHeight: d, inWidth: f, inChannels: h, outHeight: g, outWidth: x, padInfo: b, strideHeight: C, strideWidth: S, filterHeight: k, filterWidth: _, dilationHeight: E, dilationWidth: R10, outShape: D } = w.computeDilation2DInfo(o8.shape, n8.shape, a, i, "NHWC", p);
     y.assert(s.rank === D.length, () => `Error in ${Mi}, dy must have the same rank as output ${D.length}, but got ${s.rank}`);
     let P = y.toNestedArray(D, u.data.get(s.dataId).values), O = y.makeZerosNestedTypedArray(n8.shape, n8.dtype);
     for (let L = 0; L < m; ++L)
@@ -18363,7 +18364,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
               let ee = z + ne * E;
               if (ee >= 0 && ee < d)
                 for (let oe = 0; oe < _; ++oe) {
-                  let ie = j + oe * R;
+                  let ie = j + oe * R10;
                   if (ie >= 0 && ie < f) {
                     let le = c[L][ee][ie][q] + l[ne][oe][q];
                     le > Y && (Y = le, J = ne, re = oe);
@@ -18377,7 +18378,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     return { dataId: u.write(y.toTypedArray(O, o8.dtype), n8.shape, n8.dtype), shape: n8.shape, dtype: n8.dtype };
   } };
   var I$ = { kernelName: Oi, backendName: "cpu", kernelFunc: ({ inputs: r8, backend: e8, attrs: t8 }) => {
-    let { x: o8, filter: n8, dy: s } = r8, { strides: a, pad: i, dilations: p } = t8, u = e8, c = y.toNestedArray(o8.shape, u.data.get(o8.dataId).values), l = y.toNestedArray(n8.shape, u.data.get(n8.dataId).values), { batchSize: m, inHeight: d, inWidth: f, inChannels: h, outHeight: g, outWidth: x, padInfo: b, strideHeight: C, strideWidth: S, filterHeight: k, filterWidth: _, dilationHeight: E, dilationWidth: R, outShape: D } = w.computeDilation2DInfo(o8.shape, n8.shape, a, i, "NHWC", p);
+    let { x: o8, filter: n8, dy: s } = r8, { strides: a, pad: i, dilations: p } = t8, u = e8, c = y.toNestedArray(o8.shape, u.data.get(o8.dataId).values), l = y.toNestedArray(n8.shape, u.data.get(n8.dataId).values), { batchSize: m, inHeight: d, inWidth: f, inChannels: h, outHeight: g, outWidth: x, padInfo: b, strideHeight: C, strideWidth: S, filterHeight: k, filterWidth: _, dilationHeight: E, dilationWidth: R10, outShape: D } = w.computeDilation2DInfo(o8.shape, n8.shape, a, i, "NHWC", p);
     y.assert(s.rank === D.length, () => `Error in ${Oi}, dy must have the same rank as output ${D.length}, but got ${s.rank}`);
     let P = y.toNestedArray(D, u.data.get(s.dataId).values), O = y.makeZerosNestedTypedArray(o8.shape, o8.dtype);
     for (let L = 0; L < m; ++L)
@@ -18391,7 +18392,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
               let ee = z + ne * E;
               if (ee >= 0 && ee < d)
                 for (let oe = 0; oe < _; ++oe) {
-                  let ie = j + oe * R;
+                  let ie = j + oe * R10;
                   if (ie >= 0 && ie < f) {
                     let le = c[L][ee][ie][q] + l[ne][oe][q];
                     le > Y && (Y = le, J = ee, re = ie);
@@ -18507,8 +18508,8 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     for (let g = 0; g < n8; g++) {
       let x = Ao({ inputs: { x: i }, backend: t8, attrs: { begin: [g, 0], size: [1, s] } }), b = Ao({ inputs: { x: p }, backend: t8, attrs: { begin: [g, 0], size: [1, s] } }), C = Kt({ inputs: { real: x, imag: b }, backend: t8 }), { real: S, imag: k } = jY(C, e8, t8), _ = w.mergeRealAndImagArrays(S, k);
       for (let E = 0; E < s; E++) {
-        let R = w.getComplexWithIndex(_, E);
-        l[g * s + E] = R.real, m[g * s + E] = R.imag;
+        let R10 = w.getComplexWithIndex(_, E);
+        l[g * s + E] = R10.real, m[g * s + E] = R10.imag;
       }
       t8.disposeIntermediateTensorInfo(x), t8.disposeIntermediateTensorInfo(b), t8.disposeIntermediateTensorInfo(C);
     }
@@ -18535,7 +18536,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function mI(r8, e8, t8, o8, n8) {
     if (t8 === 1)
       return { real: r8, imag: e8 };
-    let s = w.mergeRealAndImagArrays(r8, e8), a = t8 / 2, i = w.complexWithEvenIndex(s), p = i.real, u = i.imag, c = [p.length], l = n8.makeTensorInfo(c, "float32", p), m = n8.makeTensorInfo(c, "float32", u), d = Kt({ inputs: { real: l, imag: m }, backend: n8 }), f = w.complexWithOddIndex(s), h = f.real, g = f.imag, x = [h.length], b = n8.makeTensorInfo(x, "float32", h), C = n8.makeTensorInfo(x, "float32", g), S = Kt({ inputs: { real: b, imag: C }, backend: n8 }), k = mI(p, u, a, o8, n8), _ = k.real, E = k.imag, R = [_.length], D = n8.makeTensorInfo(R, "float32", _), P = n8.makeTensorInfo(R, "float32", E), O = Kt({ inputs: { real: D, imag: P }, backend: n8 }), M = mI(h, g, a, o8, n8), L = M.real, B = M.imag, z = [L.length], U = n8.makeTensorInfo(z, "float32", L), j = n8.makeTensorInfo(z, "float32", B), q = Kt({ inputs: { real: U, imag: j }, backend: n8 }), Y = w.exponents(t8, o8), J = [Y.real.length], re = n8.makeTensorInfo(J, "float32", Y.real), ne = n8.makeTensorInfo(J, "float32", Y.imag), ee = Kt({ inputs: { real: re, imag: ne }, backend: n8 }), oe = pp({ inputs: { a: ee, b: q }, backend: n8 }), ie = Aa({ inputs: { a: O, b: oe }, backend: n8 }), le = Ll({ inputs: { a: O, b: oe }, backend: n8 }), be = Eo({ inputs: { input: ie }, backend: n8 }), _e = Eo({ inputs: { input: le }, backend: n8 }), ve = Fa({ inputs: { input: ie }, backend: n8 }), Fe = Fa({ inputs: { input: le }, backend: n8 }), Pe = gu({ inputs: [be, _e], backend: n8, attrs: { axis: 0 } }), st = gu({ inputs: [ve, Fe], backend: n8, attrs: { axis: 0 } }), lt = n8.data.get(Pe.dataId).values, Ue = n8.data.get(st.dataId).values;
+    let s = w.mergeRealAndImagArrays(r8, e8), a = t8 / 2, i = w.complexWithEvenIndex(s), p = i.real, u = i.imag, c = [p.length], l = n8.makeTensorInfo(c, "float32", p), m = n8.makeTensorInfo(c, "float32", u), d = Kt({ inputs: { real: l, imag: m }, backend: n8 }), f = w.complexWithOddIndex(s), h = f.real, g = f.imag, x = [h.length], b = n8.makeTensorInfo(x, "float32", h), C = n8.makeTensorInfo(x, "float32", g), S = Kt({ inputs: { real: b, imag: C }, backend: n8 }), k = mI(p, u, a, o8, n8), _ = k.real, E = k.imag, R10 = [_.length], D = n8.makeTensorInfo(R10, "float32", _), P = n8.makeTensorInfo(R10, "float32", E), O = Kt({ inputs: { real: D, imag: P }, backend: n8 }), M = mI(h, g, a, o8, n8), L = M.real, B = M.imag, z = [L.length], U = n8.makeTensorInfo(z, "float32", L), j = n8.makeTensorInfo(z, "float32", B), q = Kt({ inputs: { real: U, imag: j }, backend: n8 }), Y = w.exponents(t8, o8), J = [Y.real.length], re = n8.makeTensorInfo(J, "float32", Y.real), ne = n8.makeTensorInfo(J, "float32", Y.imag), ee = Kt({ inputs: { real: re, imag: ne }, backend: n8 }), oe = pp({ inputs: { a: ee, b: q }, backend: n8 }), ie = Aa({ inputs: { a: O, b: oe }, backend: n8 }), le = Ll({ inputs: { a: O, b: oe }, backend: n8 }), be = Eo({ inputs: { input: ie }, backend: n8 }), _e = Eo({ inputs: { input: le }, backend: n8 }), ve = Fa({ inputs: { input: ie }, backend: n8 }), Fe = Fa({ inputs: { input: le }, backend: n8 }), Pe = gu({ inputs: [be, _e], backend: n8, attrs: { axis: 0 } }), st = gu({ inputs: [ve, Fe], backend: n8, attrs: { axis: 0 } }), lt = n8.data.get(Pe.dataId).values, Ue = n8.data.get(st.dataId).values;
     return n8.disposeIntermediateTensorInfo(l), n8.disposeIntermediateTensorInfo(m), n8.disposeIntermediateTensorInfo(d), n8.disposeIntermediateTensorInfo(b), n8.disposeIntermediateTensorInfo(C), n8.disposeIntermediateTensorInfo(S), n8.disposeIntermediateTensorInfo(D), n8.disposeIntermediateTensorInfo(P), n8.disposeIntermediateTensorInfo(O), n8.disposeIntermediateTensorInfo(U), n8.disposeIntermediateTensorInfo(j), n8.disposeIntermediateTensorInfo(q), n8.disposeIntermediateTensorInfo(re), n8.disposeIntermediateTensorInfo(ne), n8.disposeIntermediateTensorInfo(ee), n8.disposeIntermediateTensorInfo(oe), n8.disposeIntermediateTensorInfo(ie), n8.disposeIntermediateTensorInfo(le), n8.disposeIntermediateTensorInfo(be), n8.disposeIntermediateTensorInfo(ve), n8.disposeIntermediateTensorInfo(_e), n8.disposeIntermediateTensorInfo(Fe), n8.disposeIntermediateTensorInfo(Pe), n8.disposeIntermediateTensorInfo(st), { real: lt, imag: Ue };
   }
   function YY(r8, e8, t8) {
@@ -18697,8 +18698,8 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
         _ += Math.pow(f[E], 2);
       _ = u * _ + p;
       for (let E = S; E < k; E++) {
-        let R = -2 * u * c * f[E] * h[b] / _;
-        b === E && (R += Math.pow(_, -c)), R *= d[b], g[E] += R;
+        let R10 = -2 * u * c * f[E] * h[b] / _;
+        b === E && (R10 += Math.pow(_, -c)), R10 *= d[b], g[E] += R10;
       }
     }
     return t8.makeTensorInfo(a.shape, n8.dtype, g);
@@ -18742,13 +18743,13 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function y7(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { dy: n8, input: s } = e8, { filterSize: a, strides: i, pad: p, dimRoundingMode: u } = o8;
     Q([n8, s], "maxPool3DGrad");
-    let c = w.computePool3DInfo(s.shape, a, i, 1, p, u), l = t8.bufferSync(s), m = H_(l, c), d = c.strideDepth, f = c.strideHeight, h = c.strideWidth, g = c.dilationDepth, x = c.dilationHeight, b = c.dilationWidth, C = c.effectiveFilterDepth, S = c.effectiveFilterHeight, k = c.effectiveFilterWidth, _ = C - 1 - c.padInfo.front, E = k - 1 - c.padInfo.left, R = S - 1 - c.padInfo.top, D = me(s.shape, "float32"), P = t8.bufferSync(n8);
+    let c = w.computePool3DInfo(s.shape, a, i, 1, p, u), l = t8.bufferSync(s), m = H_(l, c), d = c.strideDepth, f = c.strideHeight, h = c.strideWidth, g = c.dilationDepth, x = c.dilationHeight, b = c.dilationWidth, C = c.effectiveFilterDepth, S = c.effectiveFilterHeight, k = c.effectiveFilterWidth, _ = C - 1 - c.padInfo.front, E = k - 1 - c.padInfo.left, R10 = S - 1 - c.padInfo.top, D = me(s.shape, "float32"), P = t8.bufferSync(n8);
     for (let O = 0; O < c.batchSize; ++O)
       for (let M = 0; M < c.inChannels; ++M)
         for (let L = 0; L < c.inDepth; ++L)
           for (let B = 0; B < c.inHeight; ++B)
             for (let z = 0; z < c.inWidth; ++z) {
-              let U = L - _, j = B - R, q = z - E, Y = 0;
+              let U = L - _, j = B - R10, q = z - E, Y = 0;
               for (let J = 0; J < C; J += g) {
                 let re = (U + J) / d;
                 if (!(re < 0 || re >= c.outDepth || Math.floor(re) !== re))
@@ -18775,7 +18776,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function b7(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { dy: n8, input: s, output: a } = e8, i = s;
     Q([s, a], "maxPoolGrad");
-    let { filterSize: p, strides: u, pad: c, dimRoundingMode: l } = o8, m = w.computePool2DInfo(i.shape, p, u, 1, c, l), d = t8.data.get(i.dataId).values, f = me(m.outShape, i.dtype, Mf(d, i.shape, i.dtype, m).values), h = m.strideHeight, g = m.strideWidth, x = m.dilationHeight, b = m.dilationWidth, C = m.effectiveFilterHeight, S = m.effectiveFilterWidth, k = S - 1 - m.padInfo.left, _ = C - 1 - m.padInfo.top, E = me(i.shape, "float32"), R = t8.data.get(n8.dataId).values, D = me(n8.shape, "float32", R);
+    let { filterSize: p, strides: u, pad: c, dimRoundingMode: l } = o8, m = w.computePool2DInfo(i.shape, p, u, 1, c, l), d = t8.data.get(i.dataId).values, f = me(m.outShape, i.dtype, Mf(d, i.shape, i.dtype, m).values), h = m.strideHeight, g = m.strideWidth, x = m.dilationHeight, b = m.dilationWidth, C = m.effectiveFilterHeight, S = m.effectiveFilterWidth, k = S - 1 - m.padInfo.left, _ = C - 1 - m.padInfo.top, E = me(i.shape, "float32"), R10 = t8.data.get(n8.dataId).values, D = me(n8.shape, "float32", R10);
     for (let P = 0; P < m.batchSize; ++P)
       for (let O = 0; O < m.inChannels; ++O)
         for (let M = 0; M < m.inHeight; ++M)
@@ -19012,9 +19013,9 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     let p = y.computeStrides(n8.shape), [u, c] = i, [l, m, d, f] = n8.shape, h = t8.data.get(n8.dataId).values, g = new Float32Array(y.sizeFromShape([l, u, c, f])), x = [s && u > 1 ? m - 1 : m, s && c > 1 ? d - 1 : d], b = [s && u > 1 ? u - 1 : u, s && c > 1 ? c - 1 : c], C = 0, S = x[0] / b[0], k = x[1] / b[1];
     for (let _ = 0; _ < l; _++)
       for (let E = 0; E < u; E++) {
-        let R;
-        a ? R = S * (E + 0.5) - 0.5 : R = S * E;
-        let D = Math.max(0, Math.floor(R)), P = R - D, O = Math.min(m - 1, Math.ceil(R)), M = _ * p[0] + D * p[1], L = _ * p[0] + O * p[1];
+        let R10;
+        a ? R10 = S * (E + 0.5) - 0.5 : R10 = S * E;
+        let D = Math.max(0, Math.floor(R10)), P = R10 - D, O = Math.min(m - 1, Math.ceil(R10)), M = _ * p[0] + D * p[1], L = _ * p[0] + O * p[1];
         for (let B = 0; B < c; B++) {
           let z;
           a ? z = k * (B + 0.5) - 0.5 : z = k * B;
@@ -19035,7 +19036,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     for (let k = 0; k < p; k++) {
       let _ = k * i[0];
       for (let E = 0; E < m; E++) {
-        let R = E * x, D = Math.floor(R), P = Math.min(Math.ceil(R), u - 1), O = _ + D * i[1], M = _ + P * i[1], L = R - D, B = 1 - L;
+        let R10 = E * x, D = Math.floor(R10), P = Math.min(Math.ceil(R10), u - 1), O = _ + D * i[1], M = _ + P * i[1], L = R10 - D, B = 1 - L;
         for (let z = 0; z < d; z++) {
           let U = z * b, j = Math.floor(U), q = Math.min(Math.ceil(U), c - 1), Y = U - j, J = 1 - Y, re = O + j * i[2], ne = O + q * i[2], ee = M + j * i[2], oe = M + q * i[2], ie = B * J, le = B * Y, be = L * J, _e = L * Y;
           for (let ve = 0; ve < l; ve++) {
@@ -19054,8 +19055,8 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
     let p = y.computeStrides(n8.shape), [u, c] = i, [l, m, d, f] = n8.shape, h = t8.data.get(n8.dataId).values, g = new Float32Array(l * u * c * f), x = [s && u > 1 ? m - 1 : m, s && c > 1 ? d - 1 : d], b = [s && u > 1 ? u - 1 : u, s && c > 1 ? c - 1 : c], C = x[0] / b[0], S = x[1] / b[1], k = 0;
     for (let _ = 0; _ < l; _++) {
       let E = _ * p[0];
-      for (let R = 0; R < u; R++) {
-        let D = a ? C * (R + 0.5) : C * R, P = Math.min(m - 1, s ? Math.round(D) : Math.floor(D));
+      for (let R10 = 0; R10 < u; R10++) {
+        let D = a ? C * (R10 + 0.5) : C * R10, P = Math.min(m - 1, s ? Math.round(D) : Math.floor(D));
         a && (P = Math.max(0, P));
         let O = E + P * p[1];
         for (let M = 0; M < c; M++) {
@@ -19075,13 +19076,13 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   function G7(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { images: n8, dy: s } = e8, { alignCorners: a } = o8;
     Q([s, n8], "resizeNearestNeighborGrad");
-    let i = y.computeStrides(n8.shape), p = y.computeStrides(s.shape), [u, c, l, m] = n8.shape, [, d, f] = s.shape, h = new Float32Array(u * c * l * m), g = t8.data.get(s.dataId).values, x = [a && d > 1 ? c - 1 : c, a && f > 1 ? l - 1 : l], b = [a && d > 1 ? d - 1 : d, a && f > 1 ? f - 1 : f], C = x[0] / b[0], S = x[1] / b[1], k = 1 / C, _ = 1 / S, E = Math.ceil(k) * 2 + 2, R = Math.ceil(_) * 2 + 2;
+    let i = y.computeStrides(n8.shape), p = y.computeStrides(s.shape), [u, c, l, m] = n8.shape, [, d, f] = s.shape, h = new Float32Array(u * c * l * m), g = t8.data.get(s.dataId).values, x = [a && d > 1 ? c - 1 : c, a && f > 1 ? l - 1 : l], b = [a && d > 1 ? d - 1 : d, a && f > 1 ? f - 1 : f], C = x[0] / b[0], S = x[1] / b[1], k = 1 / C, _ = 1 / S, E = Math.ceil(k) * 2 + 2, R10 = Math.ceil(_) * 2 + 2;
     for (let D = 0; D < u; D++) {
       let P = D * i[0];
       for (let O = 0; O < c; O++) {
         let M = P + O * i[1], L = Math.floor(O * k), B = Math.floor(L - E / 2);
         for (let z = 0; z < l; z++) {
-          let U = M + z * i[2], j = Math.floor(z * _), q = Math.floor(j - R / 2);
+          let U = M + z * i[2], j = Math.floor(z * _), q = Math.floor(j - R10 / 2);
           for (let Y = 0; Y < m; Y++) {
             let J = 0;
             for (let re = 0; re < E; re++) {
@@ -19090,7 +19091,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
                 continue;
               let ee = P + ne * p[1], oe = ne * C, ie = Math.min(c - 1, a ? Math.round(oe) : Math.floor(oe));
               if (O === ie)
-                for (let le = 0; le < R; le++) {
+                for (let le = 0; le < R10; le++) {
                   let be = le + q;
                   if (be < 0 || be >= f)
                     continue;
@@ -19126,10 +19127,10 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
       let k = S * l * c * m;
       for (let _ = 0; _ < c; _++) {
         let E = _ * (l * m);
-        for (let R = 0; R < l; R++) {
-          let D = R * m;
+        for (let R10 = 0; R10 < l; R10++) {
+          let D = R10 * m;
           for (let P = 0; P < m; P++) {
-            let O = [u, _, R, P], M = O[2], L = O[1], B = (M - d) * x - (L - f) * g, z = (M - d) * g + (L - f) * x;
+            let O = [u, _, R10, P], M = O[2], L = O[1], B = (M - d) * x - (L - f) * g, z = (M - d) * g + (L - f) * x;
             B = Math.round(B + d), z = Math.round(z + f);
             let U = s;
             if (typeof s != "number" && (P === 3 ? U = h : U = s[P]), B >= 0 && B < l && z >= 0 && z < c) {
@@ -19404,7 +19405,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
   }
   var rR = { kernelName: Es, backendName: "cpu", kernelFunc: SQ };
   function IQ(r8) {
-    let { inputs: e8, attrs: t8, backend: o8 } = r8, { image: n8, transforms: s } = e8, { interpolation: a, fillMode: i, fillValue: p, outputShape: u } = t8, [c, l, m, d] = n8.shape, [f, h] = u != null ? u : [l, m], g = [c, f, h, d], x = y.computeStrides(n8.shape), b = x[0], C = x[1], S = x[2], k = y.computeStrides(g), _ = k[0], E = k[1], R = k[2], D = y.getTypedArrayFromDType(n8.dtype, y.sizeFromShape(g));
+    let { inputs: e8, attrs: t8, backend: o8 } = r8, { image: n8, transforms: s } = e8, { interpolation: a, fillMode: i, fillValue: p, outputShape: u } = t8, [c, l, m, d] = n8.shape, [f, h] = u != null ? u : [l, m], g = [c, f, h, d], x = y.computeStrides(n8.shape), b = x[0], C = x[1], S = x[2], k = y.computeStrides(g), _ = k[0], E = k[1], R10 = k[2], D = y.getTypedArrayFromDType(n8.dtype, y.sizeFromShape(g));
     D.fill(p);
     let P = o8.data.get(n8.dataId).values, O = o8.data.get(s.dataId).values;
     for (let L = 0; L < c; ++L) {
@@ -19426,7 +19427,7 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
               default:
                 throw new Error(`Error in Transform: Expect 'nearest' or 'bilinear', but got ${a}`);
             }
-            let oe = L * _ + z * E + U * R + j;
+            let oe = L * _ + z * E + U * R10 + j;
             D[oe] = q;
           }
       return o8.makeTensorInfo(g, n8.dtype, D);
@@ -22948,8 +22949,8 @@ vec2 packedUVfrom3D(int texNumR, int texNumC,
       let { a: p, b: u } = a, c = i;
       if (o8 && p.dtype === "complex64") {
         let f = c.texData.get(p.dataId), h = c.texData.get(u.dataId), [g, x] = [[f.complexTensorInfos.real, h.complexTensorInfos.real], [f.complexTensorInfos.imag, h.complexTensorInfos.imag]].map((C) => {
-          let [S, k] = C, _ = { dataId: S.dataId, dtype: S.dtype, shape: p.shape }, E = { dataId: k.dataId, dtype: k.dtype, shape: u.shape }, R = new Pr(r8, p.shape, u.shape);
-          return c.runWebGLProgram(R, [_, E], dt(S.dtype, k.dtype));
+          let [S, k] = C, _ = { dataId: S.dataId, dtype: S.dtype, shape: p.shape }, E = { dataId: k.dataId, dtype: k.dtype, shape: u.shape }, R10 = new Pr(r8, p.shape, u.shape);
+          return c.runWebGLProgram(R10, [_, E], dt(S.dtype, k.dtype));
         }), b = Or({ inputs: { real: g, imag: x }, backend: c });
         return c.disposeIntermediateTensorInfo(g), c.disposeIntermediateTensorInfo(x), b;
       }
@@ -23357,10 +23358,10 @@ vec2 packedUVfrom3D(int texNumR, int texNumC,
   function vp({ a: r8, b: e8, transposeA: t8, transposeB: o8, backend: n8, bias: s = null, preluActivationWeights: a = null, leakyreluAlpha: i = 0, activation: p = null }) {
     let u = r8.shape.length, c = e8.shape.length, l = t8 ? r8.shape[u - 2] : r8.shape[u - 1], m = o8 ? e8.shape[c - 1] : e8.shape[c - 2], d = t8 ? r8.shape[u - 1] : r8.shape[u - 2], f = o8 ? e8.shape[c - 2] : e8.shape[c - 1], h = r8.shape.slice(0, -2), g = e8.shape.slice(0, -2), x = y.sizeFromShape(h), b = y.sizeFromShape(g), S = Ir.assertAndGetBroadcastShape(r8.shape.slice(0, -2), e8.shape.slice(0, -2)).concat([d, f]);
     y.assert(l === m, () => `Error in matMul: inner shapes (${l}) and (${m}) of Tensors with shapes ${r8.shape} and ${e8.shape} and transposeA=${t8} and transposeB=${o8} must match.`);
-    let k = t8 ? [x, l, d] : [x, d, l], _ = o8 ? [b, f, m] : [b, m, f], E = te({ inputs: { x: r8 }, backend: n8, attrs: { shape: k } }), R = te({ inputs: { x: e8 }, backend: n8, attrs: { shape: _ } }), D = [E, R], P = Math.max(x, b), O = t8 ? E.shape[1] : E.shape[2], M = s != null, L = a != null, B = p === "leakyrelu", z = p != null ? yi(p, true) : null, U = M || L || B || z != null, j;
+    let k = t8 ? [x, l, d] : [x, d, l], _ = o8 ? [b, f, m] : [b, m, f], E = te({ inputs: { x: r8 }, backend: n8, attrs: { shape: k } }), R10 = te({ inputs: { x: e8 }, backend: n8, attrs: { shape: _ } }), D = [E, R10], P = Math.max(x, b), O = t8 ? E.shape[1] : E.shape[2], M = s != null, L = a != null, B = p === "leakyrelu", z = p != null ? yi(p, true) : null, U = M || L || B || z != null, j;
     if ((d === 1 || f === 1) && O > cv && U === false) {
-      let Y = E, J = R;
-      t8 && (Y = Ct({ inputs: { x: E }, backend: n8, attrs: { perm: [0, 2, 1] } }), D.push(Y)), o8 && (J = Ct({ inputs: { x: R }, backend: n8, attrs: { perm: [0, 2, 1] } }), D.push(J));
+      let Y = E, J = R10;
+      t8 && (Y = Ct({ inputs: { x: E }, backend: n8, attrs: { perm: [0, 2, 1] } }), D.push(Y)), o8 && (J = Ct({ inputs: { x: R10 }, backend: n8, attrs: { perm: [0, 2, 1] } }), D.push(J));
       let re = f !== 1, ne = f === 1, ee = Y;
       re && (ee = te({ inputs: { x: Y }, backend: n8, attrs: { shape: [P, O, 1] } }), D.push(ee));
       let oe = f === 1 ? 2 : 1, ie = J;
@@ -23368,7 +23369,7 @@ vec2 packedUVfrom3D(int texNumR, int texNumC,
       let le = Zl({ inputs: { a: ee, b: ie }, backend: n8 });
       j = Ip({ inputs: { x: le }, backend: n8, attrs: { axis: oe, keepDims: true } }), D.push(le);
     } else {
-      let Y = dt(r8.dtype, e8.dtype), J = new Bc(k, _, [P, d, f], t8, o8, M, z, L, B), re = [E, R];
+      let Y = dt(r8.dtype, e8.dtype), J = new Bc(k, _, [P, d, f], t8, o8, M, z, L, B), re = [E, R10];
       if (s != null && re.push(s), L && re.push(a), B) {
         let ne = n8.makeTensorInfo([], "float32", y.createScalarValue(i, "float32"));
         re.push(ne), D.push(ne);
@@ -23524,15 +23525,15 @@ return log(x + sqrt(x * x - 1.0));`;
       let i = this.outputShape, p = i.length, u = Re(p), c = Rt("coords", p), l, m;
       if (a === 1) {
         m = p + 1;
-        let R = Re(m);
+        let R10 = Re(m);
         l = `
-        ${R} sourceLocR = ${R}(${c.join()}, 0);
+        ${R10} sourceLocR = ${R10}(${c.join()}, 0);
         ++${c[p - 1]};
-        ${R} sourceLocG = ${R}(${c.join()}, 0);
+        ${R10} sourceLocG = ${R10}(${c.join()}, 0);
         ++${c[p - 2]};
-        ${R} sourceLocA = ${R}(${c.join()}, 0);
+        ${R10} sourceLocA = ${R10}(${c.join()}, 0);
         --${c[p - 1]};
-        ${R} sourceLocB = ${R}(${c.join()}, 0);
+        ${R10} sourceLocB = ${R10}(${c.join()}, 0);
         --${c[p - 2]};`;
       } else
         m = p, l = `
@@ -23544,7 +23545,7 @@ return log(x + sqrt(x * x - 1.0));`;
         --${c[p - 1]};
         ${u} sourceLocB = coords;
         --${c[p - 2]};`;
-      let d = ["x", "y", "z", "w", "u", "v"].slice(0, m), f = "." + d[m - 1], h = d.map((R) => "int " + R), g = Rt("sourceLocR", m - 1).concat("inIdx.r"), x = Rt("sourceLocG", m - 1).concat("inIdx.g"), b = Rt("sourceLocB", m - 1).concat("inIdx.b"), C = Rt("sourceLocA", m - 1).concat("inIdx.a"), S = o8 === "max" ? "greaterThan" : "lessThan", k = n8 ? "" : `
+      let d = ["x", "y", "z", "w", "u", "v"].slice(0, m), f = "." + d[m - 1], h = d.map((R10) => "int " + R10), g = Rt("sourceLocR", m - 1).concat("inIdx.r"), x = Rt("sourceLocG", m - 1).concat("inIdx.g"), b = Rt("sourceLocB", m - 1).concat("inIdx.b"), C = Rt("sourceLocA", m - 1).concat("inIdx.a"), S = o8 === "max" ? "greaterThan" : "lessThan", k = n8 ? "" : `
           inIdx = round(vec4(getBestIndicesAChannel(${g.join()}),
                              getBestIndicesAChannel(${x.join()}),
                              getBestIndicesAChannel(${b.join()}),
@@ -23683,7 +23684,7 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
       this.outputShape = e8.outShape;
       let h = t8 === "avg", g = `((batch  * ${e8.inHeight} + xR) * ${e8.inWidth} + xC) * ${e8.inChannels} + d`, x = `(xR * ${e8.inWidth} + xC) * ${e8.inChannels} + d`, b = "0.0";
       if (h || (b = "-1.0 / 1e-20"), o8) {
-        let R = ">=";
+        let R10 = ">=";
         this.userCode = `
         const ivec2 strides = ivec2(${i}, ${p});
         const ivec2 pads = ivec2(${d}, ${f});
@@ -23726,7 +23727,7 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
               // use the current value.
               float currMinMaxValue = mix(
                   value, minMaxValue, minMaxValueFound);
-              if (value ${R} currMinMaxValue) {
+              if (value ${R10} currMinMaxValue) {
                 minMaxValue = value;
                 minMaxValueFound = 1.0;
                 minMaxPosition = ${n8 ? s ? g : x : `wR * ${m} + wC`};
@@ -23910,7 +23911,7 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
       }
       let k = "max", _ = `${t8}(${t8}(${t8}(minMaxValue[0], minMaxValue[1]), minMaxValue[2]), minMaxValue[3])`;
       t8 === "avg" && (_ = "avgValue / max(count, 1.0)");
-      let E = Math.floor(a / 4) * 4, R = a % 4, D = `
+      let E = Math.floor(a / 4) * 4, R10 = a % 4, D = `
       if (${C}) {
         avgValue += dot(values, ones);
       } else {
@@ -23980,7 +23981,7 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
             }
 
             int xC = xCCorner + ${E};
-            if (${R === 1}) {
+            if (${R10 === 1}) {
               vec4 values = vec4(
                 getValue(batch, xD, xR, xC, ch),
                 initializationValue,
@@ -23989,7 +23990,7 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
               );
 
               ${D}
-            } else if (${R === 2}) {
+            } else if (${R10 === 2}) {
               vec4 values = vec4(
                 getValue(batch, xD, xR, xC, ch),
                 getValue(batch, xD, xR, xC + ${m}, ch),
@@ -23998,7 +23999,7 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
               );
 
               ${D}
-            } else if (${R === 3}) {
+            } else if (${R10 === 3}) {
               vec4 values = vec4(
                 getValue(batch, xD, xR, xC, ch),
                 getValue(batch, xD, xR, xC + ${m}, ch),
@@ -25130,8 +25131,8 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
       u.shape = u.shape.slice(), u.shape[u.shape.length - 2]++, y.assert(yu(u.shape, k.shape), () => `packed reshape ${u.shape} to ${k.shape} isn't free`);
       let E = te({ inputs: { x: e8 }, backend: o8, attrs: { shape: [1, t8.inChannels, t8.outChannels] } });
       x.push(E);
-      let R = vp({ a: k, b: E, backend: o8, transposeA: f, transposeB: h, bias: n8, activation: i, preluActivationWeights: s, leakyreluAlpha: a }), D = o8.texData.get(R.dataId);
-      y.assert(D.isPacked, () => "batchMatMul result is expected to be packed"), u.shape = _, D.shape = t8.outShape, g = Dt({ inputs: { x: R }, backend: o8 }), g.shape = t8.outShape, x.push(R);
+      let R10 = vp({ a: k, b: E, backend: o8, transposeA: f, transposeB: h, bias: n8, activation: i, preluActivationWeights: s, leakyreluAlpha: a }), D = o8.texData.get(R10.dataId);
+      y.assert(D.isPacked, () => "batchMatMul result is expected to be packed"), u.shape = _, D.shape = t8.outShape, g = Dt({ inputs: { x: R10 }, backend: o8 }), g.shape = t8.outShape, x.push(R10);
     } else {
       let S = t8.outHeight * t8.outWidth, k = te({ inputs: { x: r8 }, backend: o8, attrs: { shape: d ? [t8.batchSize, S, t8.inChannels] : [t8.batchSize, t8.inChannels, S] } }), _ = te({ inputs: { x: e8 }, backend: o8, attrs: { shape: [1, t8.inChannels, t8.outChannels] } }), E = vp({ a: d ? k : _, b: d ? _ : k, transposeA: !d, transposeB: h, backend: o8, bias: n8, activation: i, preluActivationWeights: s, leakyreluAlpha: a });
       g = te({ inputs: { x: E }, backend: o8, attrs: { shape: t8.outShape } }), x.push(k), x.push(_), x.push(E);
@@ -25152,8 +25153,8 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
     }
     let k = te({ inputs: { x: e8 }, backend: o8, attrs: { shape: [1, h, y.sizeFromShape(e8.shape) / h] } });
     S.push(k);
-    let _ = new Oh(x, t8), E = [r8.shape, [t8.padInfo.top, t8.padInfo.left], [t8.strideHeight, t8.strideWidth], [t8.dilationHeight, t8.dilationWidth], [t8.inChannels], [t8.filterWidth * t8.inChannels], [t8.outWidth]], R = o8.runWebGLProgram(_, [r8], "float32", E), D = te({ inputs: { x: R }, backend: o8, attrs: { shape: x } });
-    S.push(R), S.push(D);
+    let _ = new Oh(x, t8), E = [r8.shape, [t8.padInfo.top, t8.padInfo.left], [t8.strideHeight, t8.strideWidth], [t8.dilationHeight, t8.dilationWidth], [t8.inChannels], [t8.filterWidth * t8.inChannels], [t8.outWidth]], R10 = o8.runWebGLProgram(_, [r8], "float32", E), D = te({ inputs: { x: R10 }, backend: o8, attrs: { shape: x } });
+    S.push(R10), S.push(D);
     let P = n8 != null, O = s != null, M = i === "leakyrelu", L = i ? yi(i, true) : null, B = new Bc(f ? D.shape : k.shape, f ? k.shape : D.shape, f ? [t8.batchSize, g, t8.outChannels] : [t8.batchSize, t8.outChannels, g], b, C, P, L, O, M), z = f ? [D, k] : [k, D];
     if (n8 && z.push(n8), O && z.push(s), M) {
       let q = o8.makeTensorInfo([], "float32", y.createScalarValue(a, "float32"));
@@ -26515,32 +26516,32 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
   }
   function TJ(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { x: n8, filter: s, bias: a, preluActivationWeights: i } = e8, { strides: p, pad: u, dataFormat: c, dilations: l, dimRoundingMode: m, activation: d, leakyreluAlpha: f } = o8, h = w.convertConv2DDataFormat(c), g = w.computeConv2DInfo(n8.shape, s.shape, p, l, u, m, false, h), x, b = [], C = a != null, S = i != null, k = d === "leakyrelu", _ = () => {
-      let R = [n8, s], D = (P, O) => {
+      let R10 = [n8, s], D = (P, O) => {
         if (O === "NCHW" && P.shape.length === 1 && P.shape[0] !== 1) {
           let M = te({ inputs: { x: P }, backend: t8, attrs: { shape: [P.shape[0], 1, 1] } });
           return b.push(M), M;
         }
         return P;
       };
-      if (C && R.push(D(a, c)), S && R.push(D(i, c)), k) {
+      if (C && R10.push(D(a, c)), S && R10.push(D(i, c)), k) {
         let P = t8.makeTensorInfo([], "float32", y.createScalarValue(f, "float32"));
-        R.push(P), b.push(P);
+        R10.push(P), b.push(P);
       }
-      return R;
+      return R10;
     };
     if (g.filterHeight === 1 && g.filterWidth === 1 && g.dilationHeight === 1 && g.dilationWidth === 1 && g.strideHeight === 1 && g.strideWidth === 1 && (g.padInfo.type === "SAME" || g.padInfo.type === "VALID"))
       x = Lh({ x: n8, filter: s, convInfo: g, backend: t8, bias: a, activation: d, preluActivationWeights: i, leakyreluAlpha: f });
     else if (g.strideWidth <= 2 && h === "channelsLast" && A().getBool("WEBGL_EXP_CONV")) {
-      let R = d ? yi(d, true) : null, D = new Wc(g, C, R, S, k), P = [[g.padInfo.top, g.padInfo.left], [g.strideHeight, g.strideWidth], [g.dilationHeight, g.dilationWidth], [g.inHeight, g.inWidth]], O = _();
+      let R10 = d ? yi(d, true) : null, D = new Wc(g, C, R10, S, k), P = [[g.padInfo.top, g.padInfo.left], [g.strideHeight, g.strideWidth], [g.dilationHeight, g.dilationWidth], [g.inHeight, g.inWidth]], O = _();
       x = t8.runWebGLProgram(D, O, "float32", P);
     } else if (A().getBool("WEBGL_CONV_IM2COL"))
       x = Bh({ x: n8, filter: s, convInfo: g, backend: t8, bias: a, activation: d, preluActivationWeights: i, leakyreluAlpha: f });
     else {
-      let R = d ? yi(d, false) : null, D = new Vc(g, C, R, S, k), P = _();
+      let R10 = d ? yi(d, false) : null, D = new Vc(g, C, R10, S, k), P = _();
       x = t8.runWebGLProgram(D, P, "float32");
     }
     let E = te({ inputs: { x }, backend: t8, attrs: { shape: g.outShape } });
-    return b.push(x), b.forEach((R) => t8.disposeIntermediateTensorInfo(R)), E;
+    return b.push(x), b.forEach((R10) => t8.disposeIntermediateTensorInfo(R10)), E;
   }
   var cF = { kernelName: Io, backendName: "webgl", kernelFunc: TJ };
   function _J(r8) {
@@ -26553,7 +26554,7 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
     }
     let E;
     x ? E = new Gc(g, S, b, k, _) : E = new Uc(g, S, b, k, _);
-    let R = [[g.padInfo.top, g.padInfo.left], [g.strideHeight, g.strideWidth], [g.dilationHeight, g.dilationWidth], [g.inHeight, g.inWidth]], D = t8.runWebGLProgram(E, C, "float32", R);
+    let R10 = [[g.padInfo.top, g.padInfo.left], [g.strideHeight, g.strideWidth], [g.dilationHeight, g.dilationWidth], [g.inHeight, g.inWidth]], D = t8.runWebGLProgram(E, C, "float32", R10);
     return f.forEach((P) => t8.disposeIntermediateTensorInfo(P)), D;
   }
   var lF = { kernelName: vo, backendName: "webgl", kernelFunc: _J };
@@ -27106,8 +27107,8 @@ return (log(1.0 + x) - log(1.0 - x)) / 2.0;`;
     if (l) {
       if (m) {
         let S = a.texData.get(f.dataId).values, k = new Array(i);
-        for (let R = 0; R < k.length; R++)
-          k[R] = o8.shape[c[R]];
+        for (let R10 = 0; R10 < k.length; R10++)
+          k[R10] = o8.shape[c[R10]];
         let _ = Sp(S, o8.shape, o8.dtype, c, k);
         f = a.makeTensorInfo(k, o8.dtype);
         let E = a.texData.get(f.dataId);
@@ -28532,14 +28533,14 @@ return a / b;`;
       k = te({ inputs: { x: n8 }, backend: t8, attrs: { shape: f } });
     else if (g || x) {
       y.assert(n8.shape.length >= 1, () => `Input must have rank at least 1, got: ${n8.shape.length}`);
-      let E = ct.computeOutShape(b, C, S), R = Ws({ inputs: { x: n8 }, backend: t8, attrs: { begin: b, size: E } });
-      k = te({ inputs: { x: R }, backend: t8, attrs: { shape: f } }), t8.disposeIntermediateTensorInfo(R);
+      let E = ct.computeOutShape(b, C, S), R10 = Ws({ inputs: { x: n8 }, backend: t8, attrs: { begin: b, size: E } });
+      k = te({ inputs: { x: R10 }, backend: t8, attrs: { shape: f } }), t8.disposeIntermediateTensorInfo(R10);
     } else if (t8.shouldExecuteOnCPU([n8])) {
-      let R = t8.readSync(n8.dataId), D = me(n8.shape, n8.dtype, R), P = aD(d, D, S, b);
+      let R10 = t8.readSync(n8.dataId), D = me(n8.shape, n8.dtype, R10), P = aD(d, D, S, b);
       k = t8.makeTensorInfo(f, n8.dtype, P.values);
     } else {
-      let R = new $g(b, S, d);
-      k = t8.runWebGLProgram(R, [n8], n8.dtype);
+      let R10 = new $g(b, S, d);
+      k = t8.runWebGLProgram(R10, [n8], n8.dtype);
     }
     let _ = te({ inputs: { x: k }, backend: t8, attrs: { shape: f } });
     return t8.disposeIntermediateTensorInfo(k), _;
@@ -28751,10 +28752,10 @@ return a / b;`;
     C = Ws({ inputs: { x: C }, backend: t8, attrs: { begin: 0, size: [h, s] } }), Tp(t8, _);
     let E = xv({ inputs: { x: g, indices: C }, backend: t8, attrs: { axis: 1, batchDims: 1 } });
     Tp(t8, g);
-    let R = u.slice(0, -1);
-    R.push(s), _ = C, C = te({ inputs: { x: C }, attrs: { shape: R }, backend: t8 }), Tp(t8, _);
+    let R10 = u.slice(0, -1);
+    R10.push(s), _ = C, C = te({ inputs: { x: C }, attrs: { shape: R10 }, backend: t8 }), Tp(t8, _);
     let D = E;
-    return E = te({ inputs: { x: E }, attrs: { shape: R }, backend: t8 }), Tp(t8, D), [E, C];
+    return E = te({ inputs: { x: E }, attrs: { shape: R10 }, backend: t8 }), Tp(t8, D), [E, C];
   }
   var tP = { kernelName: Es, backendName: "webgl", kernelFunc: Qte };
   var Ag = class {
@@ -29044,12 +29045,12 @@ return a / b;`;
     c != null && (l = Ct({ inputs: { x: n8 }, backend: t8, attrs: { perm: c } }), p.push(l), u = w.getInnerMostAxes(1, i)[0]);
     let m = w.segment_util.computeOutShape(l.shape, u, a), d = y.sizeFromShape([l.shape[u]]), f = te({ inputs: { x: l }, backend: t8, attrs: { shape: [-1, d] } });
     p.push(f);
-    let h = ti(n8.dtype), g = (S, k, _, E, R) => {
-      let D = S.shape[0], P = S.shape[1], O = w.segment_util.segOpComputeOptimalWindowSize(P, R), M = { windowSize: O, inSize: P, batchSize: D, numSegments: R }, L = new Fg(M, k), B = t8.compileAndRun(L, [S, _], E);
-      if (p.push(B), B.shape[1] === R)
+    let h = ti(n8.dtype), g = (S, k, _, E, R10) => {
+      let D = S.shape[0], P = S.shape[1], O = w.segment_util.segOpComputeOptimalWindowSize(P, R10), M = { windowSize: O, inSize: P, batchSize: D, numSegments: R10 }, L = new Fg(M, k), B = t8.compileAndRun(L, [S, _], E);
+      if (p.push(B), B.shape[1] === R10)
         return B;
-      let z = Iv({ backend: t8, attrs: { start: 0, stop: R, step: 1, dtype: "float32" } }), U = vv({ inputs: { x: z }, backend: t8, attrs: { reps: [P / O] } });
-      return p.push(z), p.push(U), g(B, k, U, E, R);
+      let z = Iv({ backend: t8, attrs: { start: 0, stop: R10, step: 1, dtype: "float32" } }), U = vv({ inputs: { x: z }, backend: t8, attrs: { reps: [P / O] } });
+      return p.push(z), p.push(U), g(B, k, U, E, R10);
     }, x = g(f, "unsortedSegmentSum", s, h, a), b = te({ inputs: { x }, backend: t8, attrs: { shape: m } }), C = b;
     if (c != null) {
       p.push(b);
@@ -29080,10 +29081,10 @@ return a / b;`;
       throw new Error("_FusedMatMul for non non-float32 tensors not yet supported.");
     let { transposeA: p, transposeB: u, activation: c, leakyreluAlpha: l } = o8, m = t8.dataIdMap.get(n8.dataId).id, d = t8.dataIdMap.get(s.dataId).id, f = 0;
     if (a != null) {
-      let R = t8.dataIdMap.get(a.dataId);
-      if (R.shape.length !== 1)
-        throw new Error(`_FusedMatMul only supports rank-1 bias but got rank ${R.shape.length}.`);
-      f = R.id;
+      let R10 = t8.dataIdMap.get(a.dataId);
+      if (R10.shape.length !== 1)
+        throw new Error(`_FusedMatMul only supports rank-1 bias but got rank ${R10.shape.length}.`);
+      f = R10.id;
     }
     let h = i == null ? 0 : t8.dataIdMap.get(i.dataId).id, g = Iu[c];
     if (g == null)
@@ -29315,8 +29316,8 @@ return a / b;`;
       throw new Error("BatchMatMul for non non-float32 tensors not yet supported.");
     let p = n8.shape.length, u = s.shape.length, c = a ? n8.shape[p - 2] : n8.shape[p - 1], l = i ? s.shape[u - 1] : s.shape[u - 2], m = a ? n8.shape[p - 1] : n8.shape[p - 2], d = i ? s.shape[u - 2] : s.shape[u - 1], f = n8.shape.slice(0, -2), h = s.shape.slice(0, -2), g = y.sizeFromShape(f), x = y.sizeFromShape(h), C = Ir.assertAndGetBroadcastShape(n8.shape.slice(0, -2), s.shape.slice(0, -2)).concat([m, d]);
     y.assert(c === l, () => `Error in matMul: inner shapes (${c}) and (${l}) of Tensors with shapes ${n8.shape} and ${s.shape} and transposeA=${a} and transposeB=${i} must match.`);
-    let S = a ? [g, c, m] : [g, m, c], k = i ? [x, d, l] : [x, l, d], _ = zt({ inputs: { x: n8 }, backend: t8, attrs: { shape: S } }), E = zt({ inputs: { x: s }, backend: t8, attrs: { shape: k } }), R = t8.dataIdMap.get(_.dataId).id, D = t8.dataIdMap.get(E.dataId).id, P = a ? _.shape[2] : _.shape[1], O = i ? E.shape[1] : E.shape[2], M = Math.max(g, x), L = t8.makeOutput([M, P, O], _.dtype), B = t8.dataIdMap.get(L.dataId).id, z = new Uint8Array(new Int32Array(_.shape).buffer), U = new Uint8Array(new Int32Array(E.shape).buffer);
-    return MP(R, z, _.shape.length, D, U, E.shape.length, a, i, B), t8.disposeData(_.dataId), t8.disposeData(E.dataId), L.shape = C, L;
+    let S = a ? [g, c, m] : [g, m, c], k = i ? [x, d, l] : [x, l, d], _ = zt({ inputs: { x: n8 }, backend: t8, attrs: { shape: S } }), E = zt({ inputs: { x: s }, backend: t8, attrs: { shape: k } }), R10 = t8.dataIdMap.get(_.dataId).id, D = t8.dataIdMap.get(E.dataId).id, P = a ? _.shape[2] : _.shape[1], O = i ? E.shape[1] : E.shape[2], M = Math.max(g, x), L = t8.makeOutput([M, P, O], _.dtype), B = t8.dataIdMap.get(L.dataId).id, z = new Uint8Array(new Int32Array(_.shape).buffer), U = new Uint8Array(new Int32Array(E.shape).buffer);
+    return MP(R10, z, _.shape.length, D, U, E.shape.length, a, i, B), t8.disposeData(_.dataId), t8.disposeData(E.dataId), L.shape = C, L;
   }
   var LP = { kernelName: Zo, backendName: "wasm", setupFunc: Ire, kernelFunc: vre };
   function Po(r8) {
@@ -29444,11 +29445,11 @@ return a / b;`;
     YP = r8.wasm.cwrap(tn, null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   }
   function Ore(r8) {
-    let { inputs: e8, attrs: t8, backend: o8 } = r8, { x: n8, filter: s } = e8, a = o8.dataIdMap.get(n8.dataId).id, i = o8.dataIdMap.get(s.dataId).id, { strides: p, dilations: u, pad: c, dimRoundingMode: l, dataFormat: m } = t8, d = w.convertConv2DDataFormat(m), f = w.computeConv2DInfo(n8.shape, s.shape, p, u, c, l, false, d), h = f.filterHeight, g = f.filterWidth, x = f.padInfo.top, b = f.padInfo.right, C = f.padInfo.bottom, S = f.padInfo.left, k = f.dilationHeight, _ = f.dilationWidth, E = f.strideHeight, R = f.strideWidth, D = f.inChannels, P = f.outChannels, O = f.padInfo.type === "SAME" ? 1 : 0;
+    let { inputs: e8, attrs: t8, backend: o8 } = r8, { x: n8, filter: s } = e8, a = o8.dataIdMap.get(n8.dataId).id, i = o8.dataIdMap.get(s.dataId).id, { strides: p, dilations: u, pad: c, dimRoundingMode: l, dataFormat: m } = t8, d = w.convertConv2DDataFormat(m), f = w.computeConv2DInfo(n8.shape, s.shape, p, u, c, l, false, d), h = f.filterHeight, g = f.filterWidth, x = f.padInfo.top, b = f.padInfo.right, C = f.padInfo.bottom, S = f.padInfo.left, k = f.dilationHeight, _ = f.dilationWidth, E = f.strideHeight, R10 = f.strideWidth, D = f.inChannels, P = f.outChannels, O = f.padInfo.type === "SAME" ? 1 : 0;
     if (f.dataFormat !== "channelsLast")
       throw new Error(`wasm backend Conv2D does not support dataFormat:'${f.dataFormat}'. Please use 'channelsLast'.`);
     let M = o8.makeOutput(f.outShape, "float32"), L = o8.dataIdMap.get(M.dataId).id;
-    return YP(a, n8.shape[0], n8.shape[1], n8.shape[2], i, h, g, x, b, C, S, O, k, _, E, R, D, P, L), M;
+    return YP(a, n8.shape[0], n8.shape[1], n8.shape[2], i, h, g, x, b, C, S, O, k, _, E, R10, D, P, L), M;
   }
   var QP = { kernelName: tn, backendName: "wasm", setupFunc: Pre, kernelFunc: Ore };
   var ZP;
@@ -29456,8 +29457,8 @@ return a / b;`;
     ZP = r8.wasm.cwrap(rn, null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   }
   function Lre(r8) {
-    let { backend: e8, inputs: t8, attrs: o8 } = r8, { dy: n8, filter: s } = t8, { strides: a, pad: i, dataFormat: p, dimRoundingMode: u, inputShape: c } = o8, l = 1, m = w.convertConv2DDataFormat(p), d = w.computeConv2DInfo(c, s.shape, a, l, i, u, false, m), { batchSize: f, filterHeight: h, filterWidth: g, inChannels: x, inHeight: b, inWidth: C, outChannels: S, outHeight: k, outWidth: _, strideHeight: E, strideWidth: R } = d, D = h - 1 - d.padInfo.top, P = g - 1 - d.padInfo.left, O = d.dataFormat === "channelsLast", M = y.computeStrides(d.inShape), L = y.computeStrides(n8.shape), [B, z, U] = y.computeStrides(s.shape), j = M[0], q = O ? M[1] : M[2], Y = O ? M[2] : 1, J = O ? 1 : M[1], re = L[0], ne = O ? L[1] : L[2], ee = O ? L[2] : 1, oe = O ? 1 : L[1], ie = e8.makeOutput(d.inShape, "float32"), le = e8.dataIdMap.get(ie.dataId).id, be = e8.dataIdMap.get(n8.dataId).id, _e = e8.dataIdMap.get(s.dataId).id;
-    return ZP(be, _e, f, h, g, b, C, x, k, _, S, E, R, D, P, B, z, U, j, q, Y, J, re, ne, ee, oe, le), ie;
+    let { backend: e8, inputs: t8, attrs: o8 } = r8, { dy: n8, filter: s } = t8, { strides: a, pad: i, dataFormat: p, dimRoundingMode: u, inputShape: c } = o8, l = 1, m = w.convertConv2DDataFormat(p), d = w.computeConv2DInfo(c, s.shape, a, l, i, u, false, m), { batchSize: f, filterHeight: h, filterWidth: g, inChannels: x, inHeight: b, inWidth: C, outChannels: S, outHeight: k, outWidth: _, strideHeight: E, strideWidth: R10 } = d, D = h - 1 - d.padInfo.top, P = g - 1 - d.padInfo.left, O = d.dataFormat === "channelsLast", M = y.computeStrides(d.inShape), L = y.computeStrides(n8.shape), [B, z, U] = y.computeStrides(s.shape), j = M[0], q = O ? M[1] : M[2], Y = O ? M[2] : 1, J = O ? 1 : M[1], re = L[0], ne = O ? L[1] : L[2], ee = O ? L[2] : 1, oe = O ? 1 : L[1], ie = e8.makeOutput(d.inShape, "float32"), le = e8.dataIdMap.get(ie.dataId).id, be = e8.dataIdMap.get(n8.dataId).id, _e = e8.dataIdMap.get(s.dataId).id;
+    return ZP(be, _e, f, h, g, b, C, x, k, _, S, E, R10, D, P, B, z, U, j, q, Y, J, re, ne, ee, oe, le), ie;
   }
   var JP = { kernelName: rn, backendName: "wasm", setupFunc: Mre, kernelFunc: Lre };
   var eO;
@@ -29587,11 +29588,11 @@ return a / b;`;
     yO = r8.wasm.cwrap(mn, null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   }
   function roe(r8) {
-    let { inputs: e8, attrs: t8, backend: o8 } = r8, { x: n8, filter: s } = e8, a = o8.dataIdMap.get(n8.dataId).id, i = o8.dataIdMap.get(s.dataId).id, { strides: p, dilations: u, pad: c, dimRoundingMode: l } = t8, m = u == null ? [1, 1] : u, d = w.computeConv2DInfo(n8.shape, s.shape, p, m, c, l, true), f = d.filterHeight, h = d.filterWidth, g = d.padInfo.top, x = d.padInfo.right, b = d.padInfo.bottom, C = d.padInfo.left, S = d.dilationHeight, k = d.dilationWidth, _ = d.strideHeight, E = d.strideWidth, R = d.inChannels, D = d.outChannels, P = d.padInfo.type === "SAME" ? 1 : 0;
+    let { inputs: e8, attrs: t8, backend: o8 } = r8, { x: n8, filter: s } = e8, a = o8.dataIdMap.get(n8.dataId).id, i = o8.dataIdMap.get(s.dataId).id, { strides: p, dilations: u, pad: c, dimRoundingMode: l } = t8, m = u == null ? [1, 1] : u, d = w.computeConv2DInfo(n8.shape, s.shape, p, m, c, l, true), f = d.filterHeight, h = d.filterWidth, g = d.padInfo.top, x = d.padInfo.right, b = d.padInfo.bottom, C = d.padInfo.left, S = d.dilationHeight, k = d.dilationWidth, _ = d.strideHeight, E = d.strideWidth, R10 = d.inChannels, D = d.outChannels, P = d.padInfo.type === "SAME" ? 1 : 0;
     if (d.dataFormat !== "channelsLast")
       throw new Error(`wasm backend DepthwiseConv2dNative does not support dataFormat:'${d.dataFormat}'. Please use 'channelsLast'.`);
     let O = o8.makeOutput(d.outShape, "float32"), M = o8.dataIdMap.get(O.dataId).id;
-    return yO(a, n8.shape[0], n8.shape[1], n8.shape[2], i, f, h, g, x, b, C, P, S, k, _, E, R, D, M), O;
+    return yO(a, n8.shape[0], n8.shape[1], n8.shape[2], i, f, h, g, x, b, C, P, S, k, _, E, R10, D, M), O;
   }
   var bO = { kernelName: mn, backendName: "wasm", setupFunc: toe, kernelFunc: roe };
   var CO;
@@ -29704,11 +29705,11 @@ return a / b;`;
         throw new Error(`FusedConv2D bias shape (${ee.shape}) does not match the number of output channels (${C})`);
       S = ee.id;
     }
-    let k = h.filterHeight, _ = h.filterWidth, E = h.padInfo.top, R = h.padInfo.right, D = h.padInfo.bottom, P = h.padInfo.left, O = h.dilationHeight, M = h.dilationWidth, L = h.strideHeight, B = h.strideWidth, z = h.inChannels, U = h.padInfo.type === "SAME" ? 1 : 0, j = h.batchSize, q = h.inHeight, Y = h.inWidth;
+    let k = h.filterHeight, _ = h.filterWidth, E = h.padInfo.top, R10 = h.padInfo.right, D = h.padInfo.bottom, P = h.padInfo.left, O = h.dilationHeight, M = h.dilationWidth, L = h.strideHeight, B = h.strideWidth, z = h.inChannels, U = h.padInfo.type === "SAME" ? 1 : 0, j = h.batchSize, q = h.inHeight, Y = h.inWidth;
     if (l !== "NHWC")
       throw new Error(`wasm backend FusedConv2D does not support dataFormat:'${l}'. Please use 'NHWC'.`);
     let J = o8.makeOutput(h.outShape, "float32"), re = o8.dataIdMap.get(J.dataId).id, ne = i == null ? 0 : o8.dataIdMap.get(i.dataId).id;
-    return UO(x, j, q, Y, b, k, _, S, E, R, D, P, U, O, M, L, B, z, C, g, ne, f || 0, re), J;
+    return UO(x, j, q, Y, b, k, _, S, E, R10, D, P, U, O, M, L, B, z, C, g, ne, f || 0, re), J;
   }
   var GO = { kernelName: Io, backendName: "wasm", setupFunc: boe, kernelFunc: Coe };
   var HO;
@@ -29728,11 +29729,11 @@ return a / b;`;
         throw new Error(`FusedDepthwiseConv2D bias shape (${ee.shape}) does not match the number of output channels (${C})`);
       S = ee.id;
     }
-    let k = h.filterHeight, _ = h.filterWidth, E = h.padInfo.top, R = h.padInfo.right, D = h.padInfo.bottom, P = h.padInfo.left, O = h.dilationHeight, M = h.dilationWidth, L = h.strideHeight, B = h.strideWidth, z = h.inChannels, U = h.padInfo.type === "SAME" ? 1 : 0, j = h.batchSize, q = h.inHeight, Y = h.inWidth;
+    let k = h.filterHeight, _ = h.filterWidth, E = h.padInfo.top, R10 = h.padInfo.right, D = h.padInfo.bottom, P = h.padInfo.left, O = h.dilationHeight, M = h.dilationWidth, L = h.strideHeight, B = h.strideWidth, z = h.inChannels, U = h.padInfo.type === "SAME" ? 1 : 0, j = h.batchSize, q = h.inHeight, Y = h.inWidth;
     if (l !== "NHWC")
       throw new Error(`wasm backend FusedDepthwiseConv2D does not support dataFormat:'${l}'. Please use 'NHWC'.`);
     let J = o8.makeOutput(h.outShape, "float32"), re = o8.dataIdMap.get(J.dataId).id, ne = i == null ? 0 : o8.dataIdMap.get(i.dataId).id;
-    return HO(x, j, q, Y, b, k, _, S, E, R, D, P, U, O, M, L, B, z, C, g, ne, f || 0, re), J;
+    return HO(x, j, q, Y, b, k, _, S, E, R10, D, P, U, O, M, L, B, z, C, g, ne, f || 0, re), J;
   }
   var KO = { kernelName: vo, backendName: "wasm", setupFunc: woe, kernelFunc: Soe };
   var qO;
@@ -29760,8 +29761,8 @@ return a / b;`;
     let l = w.segment_util.collectGatherOpShapeInfo(n8, s, p, i), m = zt({ inputs: { x: n8 }, attrs: { shape: [l.batchSize, l.outerSize, l.dimSize, l.sliceSize] }, backend: e8 }), d = y.sizeFromShape(s.shape), f = zt({ inputs: { x: s }, attrs: { shape: [l.batchSize, d / l.batchSize] }, backend: e8 }), h = [l.batchSize, l.outerSize, d / l.batchSize, l.sliceSize], g = e8.makeOutput(h, n8.dtype);
     if (y.sizeFromShape(n8.shape) === 0)
       return g;
-    let x = m.shape.length - 1, C = e8.dataIdMap.get(m.dataId).id, k = e8.dataIdMap.get(f.dataId).id, _ = e8.dataIdMap.get(g.dataId).id, E = new Uint8Array(new Int32Array(y.computeStrides(m.shape)).buffer), R = new Uint8Array(new Int32Array(y.computeStrides(h)).buffer);
-    return XO(C, we[n8.dtype], E, x, k, l.batchSize, R, _), e8.disposeData(m.dataId), e8.disposeData(f.dataId), g.shape = l.outputShape, g;
+    let x = m.shape.length - 1, C = e8.dataIdMap.get(m.dataId).id, k = e8.dataIdMap.get(f.dataId).id, _ = e8.dataIdMap.get(g.dataId).id, E = new Uint8Array(new Int32Array(y.computeStrides(m.shape)).buffer), R10 = new Uint8Array(new Int32Array(y.computeStrides(h)).buffer);
+    return XO(C, we[n8.dtype], E, x, k, l.batchSize, R10, _), e8.disposeData(m.dataId), e8.disposeData(f.dataId), g.shape = l.outputShape, g;
   }
   var YO = { kernelName: sa, backendName: "wasm", setupFunc: koe, kernelFunc: Noe };
   var Toe = false;
@@ -29865,8 +29866,8 @@ return a / b;`;
     let { filterSize: a, strides: i, pad: p, dimRoundingMode: u } = t8, c = w.computePool2DInfo(n8.shape, a, i, 1, p, u), l = c.filterHeight, m = c.filterWidth, d = c.padInfo.top, f = c.padInfo.right, h = c.padInfo.bottom, g = c.padInfo.left, x = c.dilationHeight, b = c.dilationWidth, C = c.strideHeight, S = c.strideWidth, k = c.inChannels, _ = c.outChannels;
     if (c.dataFormat !== "channelsLast")
       throw new Error(`wasm backend does not support dataFormat:'${c.dataFormat}'. Please use 'channelsLast'.`);
-    let E = o8.makeOutput(c.outShape, "float32"), R = o8.dataIdMap.get(E.dataId).id;
-    return wM(s, n8.shape[0], n8.shape[1], n8.shape[2], l, m, d, f, h, g, x, b, C, S, k, _, R), E;
+    let E = o8.makeOutput(c.outShape, "float32"), R10 = o8.dataIdMap.get(E.dataId).id;
+    return wM(s, n8.shape[0], n8.shape[1], n8.shape[2], l, m, d, f, h, g, x, b, C, S, k, _, R10), E;
   }
   var SM = { kernelName: Wn, backendName: "wasm", setupFunc: Hoe, kernelFunc: Koe };
   var IM;
@@ -30253,7 +30254,7 @@ return a / b;`;
     VL = r8.wasm.cwrap("SparseFillEmptyRows", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   }
   function ese(r8) {
-    let { backend: e8, inputs: t8 } = r8, { indices: o8, values: n8, denseShape: s, defaultValue: a } = t8, i = o8.shape[0], p = o8.shape[1], u = e8.readSync(s.dataId)[0], c = [i + u, p], l = e8.dataIdMap.get(o8.dataId).id, m = e8.dataIdMap.get(n8.dataId).id, d = e8.dataIdMap.get(a.dataId).id, f = e8.makeOutput(c, o8.dtype), h = e8.dataIdMap.get(f.dataId).id, g = e8.makeOutput(c.slice(0, 1), n8.dtype), x = e8.dataIdMap.get(g.dataId).id, b = e8.makeOutput([u], "bool"), C = e8.dataIdMap.get(b.dataId).id, S = e8.makeOutput([i], o8.dtype), k = e8.dataIdMap.get(S.dataId).id, _ = e8.makeOutput([4], "int32"), E = e8.dataIdMap.get(_.dataId).id, R = VL(l, m, we[n8.dtype], i, u, p, d, h, x, C, k, E), D = e8.readSync(_.dataId), P;
+    let { backend: e8, inputs: t8 } = r8, { indices: o8, values: n8, denseShape: s, defaultValue: a } = t8, i = o8.shape[0], p = o8.shape[1], u = e8.readSync(s.dataId)[0], c = [i + u, p], l = e8.dataIdMap.get(o8.dataId).id, m = e8.dataIdMap.get(n8.dataId).id, d = e8.dataIdMap.get(a.dataId).id, f = e8.makeOutput(c, o8.dtype), h = e8.dataIdMap.get(f.dataId).id, g = e8.makeOutput(c.slice(0, 1), n8.dtype), x = e8.dataIdMap.get(g.dataId).id, b = e8.makeOutput([u], "bool"), C = e8.dataIdMap.get(b.dataId).id, S = e8.makeOutput([i], o8.dtype), k = e8.dataIdMap.get(S.dataId).id, _ = e8.makeOutput([4], "int32"), E = e8.dataIdMap.get(_.dataId).id, R10 = VL(l, m, we[n8.dtype], i, u, p, d, h, x, C, k, E), D = e8.readSync(_.dataId), P;
     switch (D[0]) {
       case 1: {
         P = w.getSparseFillEmptyRowsIndicesDenseShapeMismatch(D[1]);
@@ -30272,7 +30273,7 @@ return a / b;`;
     if (e8.disposeData(_.dataId), P)
       throw e8.disposeData(f.dataId), e8.disposeData(g.dataId), e8.disposeData(b.dataId), e8.disposeData(S.dataId), new Error(P);
     let O = f, M = g;
-    return R !== c[0] && (O = Po({ inputs: { x: f }, attrs: { begin: 0, size: [R, p] }, backend: e8 }), M = Po({ inputs: { x: g }, attrs: { begin: 0, size: R }, backend: e8 }), e8.disposeData(f.dataId), e8.disposeData(g.dataId)), [O, M, b, S];
+    return R10 !== c[0] && (O = Po({ inputs: { x: f }, attrs: { begin: 0, size: [R10, p] }, backend: e8 }), M = Po({ inputs: { x: g }, attrs: { begin: 0, size: R10 }, backend: e8 }), e8.disposeData(f.dataId), e8.disposeData(g.dataId)), [O, M, b, S];
   }
   var WL = { kernelName: Hi, backendName: "wasm", setupFunc: Jne, kernelFunc: ese };
   var UL;
@@ -30412,8 +30413,8 @@ return a / b;`;
       let _ = ct.computeOutShape(b, C, S), E = Po({ inputs: { x: n8 }, backend: e8, attrs: { begin: b, size: _ } });
       k = zt({ inputs: { x: E }, backend: e8, attrs: { shape: f } }), e8.disposeData(E.dataId);
     } else {
-      let _ = e8.makeOutput(d, "float32"), E = e8.dataIdMap.get(n8.dataId).id, R = new Uint8Array(new Int32Array(y.computeStrides(n8.shape)).buffer), D = new Uint8Array(new Int32Array(b).buffer), P = new Uint8Array(new Int32Array(C).buffer), O = new Uint8Array(new Int32Array(S).buffer), M = new Uint8Array(new Int32Array(d).buffer), L = new Uint8Array(new Int32Array(y.computeStrides(d)).buffer), B = e8.dataIdMap.get(_.dataId).id;
-      rB(E, R, n8.shape.length, D, P, O, M, L, d.length, B), k = zt({ inputs: { x: _ }, backend: e8, attrs: { shape: f } }), e8.disposeData(_.dataId);
+      let _ = e8.makeOutput(d, "float32"), E = e8.dataIdMap.get(n8.dataId).id, R10 = new Uint8Array(new Int32Array(y.computeStrides(n8.shape)).buffer), D = new Uint8Array(new Int32Array(b).buffer), P = new Uint8Array(new Int32Array(C).buffer), O = new Uint8Array(new Int32Array(S).buffer), M = new Uint8Array(new Int32Array(d).buffer), L = new Uint8Array(new Int32Array(y.computeStrides(d)).buffer), B = e8.dataIdMap.get(_.dataId).id;
+      rB(E, R10, n8.shape.length, D, P, O, M, L, d.length, B), k = zt({ inputs: { x: _ }, backend: e8, attrs: { shape: f } }), e8.disposeData(_.dataId);
     }
     return k;
   }
@@ -30505,7 +30506,7 @@ return a / b;`;
     yB = r8.wasm.cwrap(Rs, null, ["number", "number", "bool", "number", "number", "number", "number", "number", "number", "array", "number", "array", "number", "number", "number", "number", "number"]);
   }
   function Nse(r8) {
-    let { backend: e8, inputs: t8, attrs: o8 } = r8, { image: n8, transforms: s } = t8, { interpolation: a, fillMode: i, fillValue: p, outputShape: u } = o8, [c, l, m, d] = n8.shape, [f, h] = u != null ? u : [l, m], g = [c, f, h, d], x = new Uint8Array(new Int32Array(y.computeStrides(n8.shape)).buffer), b = new Uint8Array(new Int32Array(y.computeStrides(g)).buffer), C = e8.makeOutput(g, n8.dtype), S = e8.dataIdMap.get(C.dataId).id, _ = e8.dataIdMap.get(n8.dataId).id, R = e8.dataIdMap.get(s.dataId).id, D = a === "nearest" ? 1 : 2, P;
+    let { backend: e8, inputs: t8, attrs: o8 } = r8, { image: n8, transforms: s } = t8, { interpolation: a, fillMode: i, fillValue: p, outputShape: u } = o8, [c, l, m, d] = n8.shape, [f, h] = u != null ? u : [l, m], g = [c, f, h, d], x = new Uint8Array(new Int32Array(y.computeStrides(n8.shape)).buffer), b = new Uint8Array(new Int32Array(y.computeStrides(g)).buffer), C = e8.makeOutput(g, n8.dtype), S = e8.dataIdMap.get(C.dataId).id, _ = e8.dataIdMap.get(n8.dataId).id, R10 = e8.dataIdMap.get(s.dataId).id, D = a === "nearest" ? 1 : 2, P;
     switch (i) {
       case "constant":
         P = 1;
@@ -30523,7 +30524,7 @@ return a / b;`;
         P = 1;
         break;
     }
-    return yB(_, R, s.shape[0] > 1, c, f, h, d, m, l, x, n8.shape.length - 1, b, g.length - 1, D, P, p, S), C;
+    return yB(_, R10, s.shape[0] > 1, c, f, h, d, m, l, x, n8.shape.length - 1, b, g.length - 1, D, P, p, S), C;
   }
   var bB = { kernelName: Rs, backendName: "wasm", setupFunc: kse, kernelFunc: Nse };
   function Tse(r8) {
@@ -31528,11 +31529,11 @@ return a / b;`;
         let x = h.getContext("webgpu");
         return x.configure({ device: this.device, format: "bgra8unorm", usage: GPUTextureUsage.COPY_DST, alphaMode: s[g] }), x.getCurrentTexture();
       }).map((h, g) => {
-        let x = c * 4, b = (R, D, P) => {
-          this.ensureCommandEncoderReady(), this.commandEncoder.copyBufferToTexture({ buffer: a, bytesPerRow: x, offset: P }, { texture: h }, { width: R, height: D }), this.submitQueue();
+        let x = c * 4, b = (R10, D, P) => {
+          this.ensureCommandEncoderReady(), this.commandEncoder.copyBufferToTexture({ buffer: a, bytesPerRow: x, offset: P }, { texture: h }, { width: R10, height: D }), this.submitQueue();
           let O = d.getContext("2d", { willReadFrequently: true });
-          O.clearRect(0, 0, R, D), O.drawImage(m[g], 0, 0);
-          let M = O.getImageData(0, 0, R, D).data, L = s[g], B = new Uint8ClampedArray(u, P, R * D * 4);
+          O.clearRect(0, 0, R10, D), O.drawImage(m[g], 0, 0);
+          let M = O.getImageData(0, 0, R10, D).data, L = s[g], B = new Uint8ClampedArray(u, P, R10 * D * 4);
           for (let z = 0; z < B.length; z += 4)
             if (L === "premultiplied")
               B[z + 3] = M[z + 3];
@@ -31541,7 +31542,7 @@ return a / b;`;
               B[z] = M[z + 2], B[z + 1] = M[z + 1], B[z + 2] = U;
             }
         }, C = Math.floor(p / (c * l)), S = c, k = l, _ = 0;
-        for (let R = 0; R < C; R++)
+        for (let R10 = 0; R10 < C; R10++)
           b(S, k, _), _ += c * l * 4;
         let E = p % (c * l);
         k = Math.floor(E / c), k > 0 && (b(S, k, _), _ += k * (c * 4)), S = E % c, S > 0 && b(S, 1, _);
@@ -32790,7 +32791,7 @@ return a / b;`;
   function Ap({ a: r8, b: e8, transposeA: t8, transposeB: o8, backend: n8, bias: s = null, preluActivationWeights: a = null, leakyreluAlpha: i = 0, activation: p = null }) {
     let u = r8.shape.length, c = e8.shape.length, l = t8 ? r8.shape[u - 2] : r8.shape[u - 1], m = o8 ? e8.shape[c - 1] : e8.shape[c - 2], d = t8 ? r8.shape[u - 1] : r8.shape[u - 2], f = o8 ? e8.shape[c - 2] : e8.shape[c - 1], h = r8.shape.slice(0, -2), g = e8.shape.slice(0, -2), x = y.sizeFromShape(h), b = y.sizeFromShape(g), S = Ir.assertAndGetBroadcastShape(r8.shape.slice(0, -2), e8.shape.slice(0, -2)).concat([d, f]);
     y.assert(l === m, () => `Error in matMul: inner shapes (${l}) and (${m}) of Tensors with shapes ${r8.shape} and ${e8.shape} and transposeA=${t8} and transposeB=${o8} must match.`);
-    let k = t8 ? [x, l, d] : [x, d, l], _ = o8 ? [b, f, m] : [b, m, f], E = pe({ inputs: { x: r8 }, backend: n8, attrs: { shape: k } }), R = pe({ inputs: { x: e8 }, backend: n8, attrs: { shape: _ } }), D = [E, R], P = Math.max(x, b), O = [E, R], M = [{ type: "int32", data: [d] }, { type: "int32", data: [f] }, { type: "int32", data: [l] }], L, B, z = [P, d, f], U = A().get("WEBGPU_MATMUL_PROGRAM_TYPE");
+    let k = t8 ? [x, l, d] : [x, d, l], _ = o8 ? [b, f, m] : [b, m, f], E = pe({ inputs: { x: r8 }, backend: n8, attrs: { shape: k } }), R10 = pe({ inputs: { x: e8 }, backend: n8, attrs: { shape: _ } }), D = [E, R10], P = Math.max(x, b), O = [E, R10], M = [{ type: "int32", data: [d] }, { type: "int32", data: [f] }, { type: "int32", data: [l] }], L, B, z = [P, d, f], U = A().get("WEBGPU_MATMUL_PROGRAM_TYPE");
     if (U < 0) {
       let q = A().getNumber("WEBGPU_THRESHOLD_TO_INCREASE_WORKGROUPS_FOR_MATMUL"), Y = q > 0 ? q : n8.thresholdToIncreaseWorkgroups, J = P * Math.ceil(d / 32) * Math.ceil(f / 32);
       J <= Y || d <= 8 && J <= Y * 2 ? P * d * f <= 128 ? U = Mo.MatMulReduceProgram : P === 1 && m >= 2e3 ? U = Mo.MatMulSplitKProgram : U = Mo.MatMulSmallOutputSizeProgram : U = Mo.MatMulPackedProgram;
@@ -34153,7 +34154,7 @@ return a / b;`;
     return g;
   }
   function due({ x: r8, filter: e8, convInfo: t8, backend: o8, bias: n8 = null, preluActivationWeights: s = null, leakyreluAlpha: a = 0, activation: i = null }) {
-    let { filterWidth: p, filterHeight: u, inChannels: c, strideWidth: l, strideHeight: m, padInfo: d, outWidth: f, outHeight: h, dilationWidth: g, dilationHeight: x, dataFormat: b } = t8, C = b === "channelsLast", S = p * u * c, k = h * f, _ = C ? [t8.batchSize, k, S] : [t8.batchSize, S, k], E = new hx(_, C), R = [{ type: "int32", data: [d.top, d.left] }, { type: "int32", data: [m, l] }, { type: "int32", data: [x, g] }, { type: "int32", data: [f] }, { type: "int32", data: [c * p] }, { type: "int32", data: [c] }], D = o8.runWebGPUProgram(E, [r8], r8.dtype, R), P = [];
+    let { filterWidth: p, filterHeight: u, inChannels: c, strideWidth: l, strideHeight: m, padInfo: d, outWidth: f, outHeight: h, dilationWidth: g, dilationHeight: x, dataFormat: b } = t8, C = b === "channelsLast", S = p * u * c, k = h * f, _ = C ? [t8.batchSize, k, S] : [t8.batchSize, S, k], E = new hx(_, C), R10 = [{ type: "int32", data: [d.top, d.left] }, { type: "int32", data: [m, l] }, { type: "int32", data: [x, g] }, { type: "int32", data: [f] }, { type: "int32", data: [c * p] }, { type: "int32", data: [c] }], D = o8.runWebGPUProgram(E, [r8], r8.dtype, R10), P = [];
     P.push(D);
     let O = pe({ inputs: { x: e8 }, backend: o8, attrs: { shape: [1, S, -1] } });
     if (P.push(O), s != null) {
@@ -34181,10 +34182,10 @@ return a / b;`;
     if (m)
       g = new fx(t8, p, i, u);
     else {
-      let _ = c ? t8.outHeight * t8.outWidth : t8.outChannels, E = c ? t8.outChannels : t8.outHeight * t8.outWidth, R = t8.filterHeight * t8.filterWidth * t8.inChannels;
-      b.push({ type: "int32", data: [_] }, { type: "int32", data: [E] }, { type: "int32", data: [R] });
+      let _ = c ? t8.outHeight * t8.outWidth : t8.outChannels, E = c ? t8.outChannels : t8.outHeight * t8.outWidth, R10 = t8.filterHeight * t8.filterWidth * t8.inChannels;
+      b.push({ type: "int32", data: [_] }, { type: "int32", data: [E] }, { type: "int32", data: [R10] });
       let D = o8.adapterInfo.isIntel();
-      g = new dx(t8, _, E, R, p, i, u, D);
+      g = new dx(t8, _, E, R10, p, i, u, D);
     }
     let C = [], S = [r8, e8];
     p && (!c && n8.shape.length === 1 && (n8 = pe({ inputs: { x: n8 }, backend: o8, attrs: { shape: [n8.shape[0], 1, 1] } }), C.push(n8)), S.push(n8)), u && (!c && s.shape.length === 1 && (s = pe({ inputs: { x: s }, backend: o8, attrs: { shape: [s.shape[0], 1, 1] } }), C.push(s)), S.push(s)), i === "leakyrelu" && (b.push({ type: "float32", data: [a] }), g.uniforms += " alpha : f32,");
@@ -35608,8 +35609,8 @@ return a / b;`;
         let P = GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING, O = "rgba8unorm", M = t8.textureManager.acquireTexture(m[1], m[0], O, P);
         t8.queue.copyExternalImageToTexture({ source: n8 }, { texture: M }, [m[1], m[0]]), b = M;
       }
-      let C = y.sizeFromShape(m), S = y.computeStrides(m), k = new Mx(m, s, d), _ = [{ type: "uint32", data: [C] }, { type: "uint32", data: [s] }, { type: "uint32", data: [...S] }], E = t8.makeTensorInfo([l, c], "int32"), R = t8.tensorMap.get(E.dataId);
-      R.resource = b;
+      let C = y.sizeFromShape(m), S = y.computeStrides(m), k = new Mx(m, s, d), _ = [{ type: "uint32", data: [C] }, { type: "uint32", data: [s] }, { type: "uint32", data: [...S] }], E = t8.makeTensorInfo([l, c], "int32"), R10 = t8.tensorMap.get(E.dataId);
+      R10.resource = b;
       let D = t8.runWebGPUProgram(k, [E], "int32", _);
       return t8.disposeData(E.dataId), D;
     }
@@ -35731,8 +35732,8 @@ return a / b;`;
     l.push(m), l.push(d);
     let f = [u.batchSize, u.outerSize, c / u.batchSize, u.sliceSize];
     if (t8.shouldExecuteOnCPU([n8, s])) {
-      let C = t8.tensorMap.get(d.dataId).values, S = me(d.shape, d.dtype, C), _ = t8.tensorMap.get(m.dataId).values, E = me(m.shape, m.dtype, _), R = iz(E, S, f);
-      return l.forEach((D) => t8.disposeData(D.dataId)), t8.makeTensorInfo(u.outputShape, R.dtype, R.values);
+      let C = t8.tensorMap.get(d.dataId).values, S = me(d.shape, d.dtype, C), _ = t8.tensorMap.get(m.dataId).values, E = me(m.shape, m.dtype, _), R10 = iz(E, S, f);
+      return l.forEach((D) => t8.disposeData(D.dataId)), t8.makeTensorInfo(u.outputShape, R10.dtype, R10.values);
     }
     let h = new zx(m.shape, f), g = t8.runWebGPUProgram(h, [m, d], m.dtype);
     l.push(g);
@@ -36986,7 +36987,7 @@ return a / b;`;
   function tce(r8) {
     let { inputs: e8, backend: t8, attrs: o8 } = r8, { sparseIndices: n8, sparseValues: s, defaultValue: a } = e8, { outputShape: i } = o8, { sliceRank: p, numUpdates: u, sliceSize: c, strides: l, outputSize: m } = w.calculateShapes(s, n8, i), d = false;
     if (s.dtype === "string") {
-      let R = t8.bufferSync(n8), D = t8.bufferSync(s), P = y.decodeString(t8.readSync(a.dataId)[0]), O = Sz(R, D, i, m, c, u, p, l, P, d);
+      let R10 = t8.bufferSync(n8), D = t8.bufferSync(s), P = y.decodeString(t8.readSync(a.dataId)[0]), O = Sz(R10, D, i, m, c, u, p, l, P, d);
       return t8.makeTensorInfo(i, O.dtype, O.values);
     }
     let f = [m / c, c], h = pe({ inputs: { x: n8 }, backend: t8, attrs: { shape: [u, p] } }), g = s.shape.length ? pe({ inputs: { x: s }, backend: t8, attrs: { shape: [u, c] } }) : At({ inputs: { x: s }, backend: t8 }), x = g.dtype, b = t8.makeTensorInfo([], x, y.makeZerosTypedArray(1, x)), C = pe({ inputs: { x: a }, backend: t8, attrs: { shape: Array(f.length).fill(1) } }), S = xm({ inputs: { x: C }, backend: t8, attrs: { reps: f } }), k = y.sizeFromShape([u, c]), _ = [{ type: "int32", data: [p] }, { type: "int32", data: l }, { type: "int32", data: [k] }];
@@ -36995,18 +36996,18 @@ return a / b;`;
         break;
       case 1:
         {
-          let R = new La([u, c], p, h.shape.length, g.shape.length, l, f, x, d);
-          t8.runWebGPUProgram(R, [g, h], x, _, S);
+          let R10 = new La([u, c], p, h.shape.length, g.shape.length, l, f, x, d);
+          t8.runWebGPUProgram(R10, [g, h], x, _, S);
         }
         break;
       default:
         {
-          let R = new La([u, c], p, h.shape.length, b.shape.length, l, f, x, d);
-          t8.runWebGPUProgram(R, [b, h], x, _, S);
+          let R10 = new La([u, c], p, h.shape.length, b.shape.length, l, f, x, d);
+          t8.runWebGPUProgram(R10, [b, h], x, _, S);
         }
         {
-          let R = new La([u, c], p, h.shape.length, g.shape.length, l, f, x);
-          t8.runWebGPUProgram(R, [g, h], x, _, S);
+          let R10 = new La([u, c], p, h.shape.length, g.shape.length, l, f, x);
+          t8.runWebGPUProgram(R10, [g, h], x, _, S);
         }
     }
     let E = pe({ inputs: { x: S }, backend: t8, attrs: { shape: i } });
@@ -37069,10 +37070,10 @@ return a / b;`;
       let _ = ct.computeOutShape(b, C, S), E = Gs({ inputs: { x: n8 }, backend: t8, attrs: { begin: b, size: _ } });
       k = pe({ inputs: { x: E }, backend: t8, attrs: { shape: f } }), t8.disposeData(E.dataId);
     } else if (t8.shouldExecuteOnCPU([n8])) {
-      let E = t8.readSync(n8.dataId), R = me(n8.shape, n8.dtype, E), D = kz(d, R, S, b);
+      let E = t8.readSync(n8.dataId), R10 = me(n8.shape, n8.dtype, E), D = kz(d, R10, S, b);
       k = t8.makeTensorInfo(f, n8.dtype, D.values);
     } else {
-      let E = new uy(d), R = [{ type: "int32", data: b }, { type: "int32", data: S }], D = t8.runWebGPUProgram(E, [n8], n8.dtype, R);
+      let E = new uy(d), R10 = [{ type: "int32", data: b }, { type: "int32", data: S }], D = t8.runWebGPUProgram(E, [n8], n8.dtype, R10);
       k = pe({ inputs: { x: D }, backend: t8, attrs: { shape: f } }), t8.disposeData(D.dataId);
     }
     return k;
@@ -37268,8 +37269,8 @@ return a / b;`;
     if (p === 1)
       return [n8, Vt({ attrs: { shape: i, dtype: "int32", value: 0 }, backend: t8 })];
     let c = y.sizeFromShape(i) / p, l = pe({ inputs: { x: n8 }, attrs: { shape: [c, p] }, backend: t8 }), m = kU(s), d = kU(p), f = null, h = () => f === null ? [l, l] : [l, f], g = (k, _, E) => {
-      let R = h(), D = new py(E), O = [{ type: "int32", data: [p] }, { type: "int32", data: [f === null ? 1 : 0] }, { type: "float32", data: [Number.NEGATIVE_INFINITY] }, { type: "int32", data: [k] }, { type: "int32", data: [_] }], M = f;
-      f = t8.runWebGPUProgram(D, R, "int32", O), el(t8, M);
+      let R10 = h(), D = new py(E), O = [{ type: "int32", data: [p] }, { type: "int32", data: [f === null ? 1 : 0] }, { type: "float32", data: [Number.NEGATIVE_INFINITY] }, { type: "int32", data: [k] }, { type: "int32", data: [_] }], M = f;
+      f = t8.runWebGPUProgram(D, R10, "int32", O), el(t8, M);
     };
     for (let k = 1; k < m; k *= 2) {
       let _ = k * 2;
@@ -52799,13 +52800,15 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
   _checkSanity = /* @__PURE__ */ new WeakMap();
   _sanity = /* @__PURE__ */ new WeakMap();
   _loops = /* @__PURE__ */ new WeakMap();
+  const BACKEND = "webgl";
+  const MODEL_BASE_PATH = "/models";
   const optimisedConfig = {
     // user configuration for human, used to fine-tune behavior
     cacheSensitivity: 0,
-    modelBasePath: "models",
+    modelBasePath: MODEL_BASE_PATH,
     // models can be loaded directly from cdn as well
     debug: false,
-    backend: "webgl",
+    backend: BACKEND,
     filter: { enabled: true, equalization: true, flip: false },
     // lets run with histogram equilizer
     face: {
@@ -52879,6 +52882,387 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
     fingerLabels: "[label]",
     gestureLabels: "[where] [who]: [what]"
   };
+  var events = { exports: {} };
+  var R = typeof Reflect === "object" ? Reflect : null;
+  var ReflectApply = R && typeof R.apply === "function" ? R.apply : function ReflectApply2(target, receiver, args) {
+    return Function.prototype.apply.call(target, receiver, args);
+  };
+  var ReflectOwnKeys;
+  if (R && typeof R.ownKeys === "function") {
+    ReflectOwnKeys = R.ownKeys;
+  } else if (Object.getOwnPropertySymbols) {
+    ReflectOwnKeys = function ReflectOwnKeys2(target) {
+      return Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target));
+    };
+  } else {
+    ReflectOwnKeys = function ReflectOwnKeys2(target) {
+      return Object.getOwnPropertyNames(target);
+    };
+  }
+  function ProcessEmitWarning(warning) {
+    if (console && console.warn)
+      console.warn(warning);
+  }
+  var NumberIsNaN = Number.isNaN || function NumberIsNaN2(value) {
+    return value !== value;
+  };
+  function EventEmitter() {
+    EventEmitter.init.call(this);
+  }
+  events.exports = EventEmitter;
+  events.exports.once = once;
+  EventEmitter.EventEmitter = EventEmitter;
+  EventEmitter.prototype._events = void 0;
+  EventEmitter.prototype._eventsCount = 0;
+  EventEmitter.prototype._maxListeners = void 0;
+  var defaultMaxListeners = 10;
+  function checkListener(listener) {
+    if (typeof listener !== "function") {
+      throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
+    }
+  }
+  Object.defineProperty(EventEmitter, "defaultMaxListeners", {
+    enumerable: true,
+    get: function() {
+      return defaultMaxListeners;
+    },
+    set: function(arg) {
+      if (typeof arg !== "number" || arg < 0 || NumberIsNaN(arg)) {
+        throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + ".");
+      }
+      defaultMaxListeners = arg;
+    }
+  });
+  EventEmitter.init = function() {
+    if (this._events === void 0 || this._events === Object.getPrototypeOf(this)._events) {
+      this._events = /* @__PURE__ */ Object.create(null);
+      this._eventsCount = 0;
+    }
+    this._maxListeners = this._maxListeners || void 0;
+  };
+  EventEmitter.prototype.setMaxListeners = function setMaxListeners(n8) {
+    if (typeof n8 !== "number" || n8 < 0 || NumberIsNaN(n8)) {
+      throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n8 + ".");
+    }
+    this._maxListeners = n8;
+    return this;
+  };
+  function _getMaxListeners(that) {
+    if (that._maxListeners === void 0)
+      return EventEmitter.defaultMaxListeners;
+    return that._maxListeners;
+  }
+  EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
+    return _getMaxListeners(this);
+  };
+  EventEmitter.prototype.emit = function emit(type) {
+    var args = [];
+    for (var i = 1; i < arguments.length; i++)
+      args.push(arguments[i]);
+    var doError = type === "error";
+    var events2 = this._events;
+    if (events2 !== void 0)
+      doError = doError && events2.error === void 0;
+    else if (!doError)
+      return false;
+    if (doError) {
+      var er2;
+      if (args.length > 0)
+        er2 = args[0];
+      if (er2 instanceof Error) {
+        throw er2;
+      }
+      var err = new Error("Unhandled error." + (er2 ? " (" + er2.message + ")" : ""));
+      err.context = er2;
+      throw err;
+    }
+    var handler = events2[type];
+    if (handler === void 0)
+      return false;
+    if (typeof handler === "function") {
+      ReflectApply(handler, this, args);
+    } else {
+      var len = handler.length;
+      var listeners = arrayClone(handler, len);
+      for (var i = 0; i < len; ++i)
+        ReflectApply(listeners[i], this, args);
+    }
+    return true;
+  };
+  function _addListener(target, type, listener, prepend) {
+    var m;
+    var events2;
+    var existing;
+    checkListener(listener);
+    events2 = target._events;
+    if (events2 === void 0) {
+      events2 = target._events = /* @__PURE__ */ Object.create(null);
+      target._eventsCount = 0;
+    } else {
+      if (events2.newListener !== void 0) {
+        target.emit(
+          "newListener",
+          type,
+          listener.listener ? listener.listener : listener
+        );
+        events2 = target._events;
+      }
+      existing = events2[type];
+    }
+    if (existing === void 0) {
+      existing = events2[type] = listener;
+      ++target._eventsCount;
+    } else {
+      if (typeof existing === "function") {
+        existing = events2[type] = prepend ? [listener, existing] : [existing, listener];
+      } else if (prepend) {
+        existing.unshift(listener);
+      } else {
+        existing.push(listener);
+      }
+      m = _getMaxListeners(target);
+      if (m > 0 && existing.length > m && !existing.warned) {
+        existing.warned = true;
+        var w10 = new Error("Possible EventEmitter memory leak detected. " + existing.length + " " + String(type) + " listeners added. Use emitter.setMaxListeners() to increase limit");
+        w10.name = "MaxListenersExceededWarning";
+        w10.emitter = target;
+        w10.type = type;
+        w10.count = existing.length;
+        ProcessEmitWarning(w10);
+      }
+    }
+    return target;
+  }
+  EventEmitter.prototype.addListener = function addListener(type, listener) {
+    return _addListener(this, type, listener, false);
+  };
+  EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+  EventEmitter.prototype.prependListener = function prependListener(type, listener) {
+    return _addListener(this, type, listener, true);
+  };
+  function onceWrapper() {
+    if (!this.fired) {
+      this.target.removeListener(this.type, this.wrapFn);
+      this.fired = true;
+      if (arguments.length === 0)
+        return this.listener.call(this.target);
+      return this.listener.apply(this.target, arguments);
+    }
+  }
+  function _onceWrap(target, type, listener) {
+    var state = { fired: false, wrapFn: void 0, target, type, listener };
+    var wrapped = onceWrapper.bind(state);
+    wrapped.listener = listener;
+    state.wrapFn = wrapped;
+    return wrapped;
+  }
+  EventEmitter.prototype.once = function once2(type, listener) {
+    checkListener(listener);
+    this.on(type, _onceWrap(this, type, listener));
+    return this;
+  };
+  EventEmitter.prototype.prependOnceListener = function prependOnceListener(type, listener) {
+    checkListener(listener);
+    this.prependListener(type, _onceWrap(this, type, listener));
+    return this;
+  };
+  EventEmitter.prototype.removeListener = function removeListener(type, listener) {
+    var list, events2, position, i, originalListener;
+    checkListener(listener);
+    events2 = this._events;
+    if (events2 === void 0)
+      return this;
+    list = events2[type];
+    if (list === void 0)
+      return this;
+    if (list === listener || list.listener === listener) {
+      if (--this._eventsCount === 0)
+        this._events = /* @__PURE__ */ Object.create(null);
+      else {
+        delete events2[type];
+        if (events2.removeListener)
+          this.emit("removeListener", type, list.listener || listener);
+      }
+    } else if (typeof list !== "function") {
+      position = -1;
+      for (i = list.length - 1; i >= 0; i--) {
+        if (list[i] === listener || list[i].listener === listener) {
+          originalListener = list[i].listener;
+          position = i;
+          break;
+        }
+      }
+      if (position < 0)
+        return this;
+      if (position === 0)
+        list.shift();
+      else {
+        spliceOne(list, position);
+      }
+      if (list.length === 1)
+        events2[type] = list[0];
+      if (events2.removeListener !== void 0)
+        this.emit("removeListener", type, originalListener || listener);
+    }
+    return this;
+  };
+  EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+  EventEmitter.prototype.removeAllListeners = function removeAllListeners(type) {
+    var listeners, events2, i;
+    events2 = this._events;
+    if (events2 === void 0)
+      return this;
+    if (events2.removeListener === void 0) {
+      if (arguments.length === 0) {
+        this._events = /* @__PURE__ */ Object.create(null);
+        this._eventsCount = 0;
+      } else if (events2[type] !== void 0) {
+        if (--this._eventsCount === 0)
+          this._events = /* @__PURE__ */ Object.create(null);
+        else
+          delete events2[type];
+      }
+      return this;
+    }
+    if (arguments.length === 0) {
+      var keys = Object.keys(events2);
+      var key;
+      for (i = 0; i < keys.length; ++i) {
+        key = keys[i];
+        if (key === "removeListener")
+          continue;
+        this.removeAllListeners(key);
+      }
+      this.removeAllListeners("removeListener");
+      this._events = /* @__PURE__ */ Object.create(null);
+      this._eventsCount = 0;
+      return this;
+    }
+    listeners = events2[type];
+    if (typeof listeners === "function") {
+      this.removeListener(type, listeners);
+    } else if (listeners !== void 0) {
+      for (i = listeners.length - 1; i >= 0; i--) {
+        this.removeListener(type, listeners[i]);
+      }
+    }
+    return this;
+  };
+  function _listeners(target, type, unwrap) {
+    var events2 = target._events;
+    if (events2 === void 0)
+      return [];
+    var evlistener = events2[type];
+    if (evlistener === void 0)
+      return [];
+    if (typeof evlistener === "function")
+      return unwrap ? [evlistener.listener || evlistener] : [evlistener];
+    return unwrap ? unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
+  }
+  EventEmitter.prototype.listeners = function listeners(type) {
+    return _listeners(this, type, true);
+  };
+  EventEmitter.prototype.rawListeners = function rawListeners(type) {
+    return _listeners(this, type, false);
+  };
+  EventEmitter.listenerCount = function(emitter, type) {
+    if (typeof emitter.listenerCount === "function") {
+      return emitter.listenerCount(type);
+    } else {
+      return listenerCount.call(emitter, type);
+    }
+  };
+  EventEmitter.prototype.listenerCount = listenerCount;
+  function listenerCount(type) {
+    var events2 = this._events;
+    if (events2 !== void 0) {
+      var evlistener = events2[type];
+      if (typeof evlistener === "function") {
+        return 1;
+      } else if (evlistener !== void 0) {
+        return evlistener.length;
+      }
+    }
+    return 0;
+  }
+  EventEmitter.prototype.eventNames = function eventNames() {
+    return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
+  };
+  function arrayClone(arr, n8) {
+    var copy2 = new Array(n8);
+    for (var i = 0; i < n8; ++i)
+      copy2[i] = arr[i];
+    return copy2;
+  }
+  function spliceOne(list, index2) {
+    for (; index2 + 1 < list.length; index2++)
+      list[index2] = list[index2 + 1];
+    list.pop();
+  }
+  function unwrapListeners(arr) {
+    var ret = new Array(arr.length);
+    for (var i = 0; i < ret.length; ++i) {
+      ret[i] = arr[i].listener || arr[i];
+    }
+    return ret;
+  }
+  function once(emitter, name) {
+    return new Promise(function(resolve, reject) {
+      function errorListener(err) {
+        emitter.removeListener(name, resolver);
+        reject(err);
+      }
+      function resolver() {
+        if (typeof emitter.removeListener === "function") {
+          emitter.removeListener("error", errorListener);
+        }
+        resolve([].slice.call(arguments));
+      }
+      eventTargetAgnosticAddListener(emitter, name, resolver, { once: true });
+      if (name !== "error") {
+        addErrorHandlerIfEventEmitter(emitter, errorListener, { once: true });
+      }
+    });
+  }
+  function addErrorHandlerIfEventEmitter(emitter, handler, flags) {
+    if (typeof emitter.on === "function") {
+      eventTargetAgnosticAddListener(emitter, "error", handler, flags);
+    }
+  }
+  function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
+    if (typeof emitter.on === "function") {
+      if (flags.once) {
+        emitter.once(name, listener);
+      } else {
+        emitter.on(name, listener);
+      }
+    } else if (typeof emitter.addEventListener === "function") {
+      emitter.addEventListener(name, function wrapListener(arg) {
+        if (flags.once) {
+          emitter.removeEventListener(name, wrapListener);
+        }
+        listener(arg);
+      });
+    } else {
+      throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
+    }
+  }
+  var eventsExports = events.exports;
+  class TypedEventEmitter {
+    constructor() {
+      __publicField(this, "emitter", new eventsExports.EventEmitter());
+    }
+    emit(eventName, ...eventArg) {
+      this.emitter.emit(eventName, ...eventArg);
+    }
+    on(eventName, handler) {
+      this.emitter.on(eventName, handler);
+    }
+    off(eventName, handler) {
+      this.emitter.off(eventName, handler);
+    }
+  }
+  const EventBroker = new TypedEventEmitter();
   class SecureCitizenCamera {
     constructor(config3, override, optional) {
       __publicField(this, "videoElement");
@@ -53009,6 +53393,8 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
       drawValidationTests(this.okElement);
       if (allOk() || !ok$1.timeout.status) {
         (_b2 = this.human.webcam.element) == null ? void 0 : _b2.pause();
+        const lastImage = this.canvasElement.toDataURL();
+        EventBroker.emit("photoTaken", 200, lastImage);
         return this.human.result.face[0];
       }
       ok$1.elapsedMs.val = Math.trunc(this.human.now() - this.startTime);
@@ -53042,6 +53428,14 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
     //     await this.human.draw.all(this.canvas, interpolated) // draw labels, boxes, lines, etc.
     //     setTimeout(drawLoop, 30) // use to slow down refresh from max refresh rate to target of 1000/30 ~ 30 fps
     // }
+    /**
+    * SubscribeToPhotoTaken
+    */
+    SubscribeToPhotoTaken(f) {
+      EventBroker.on("photoTaken", (statusCode, photoString) => {
+        f(statusCode, photoString);
+      });
+    }
     async main() {
       var _a3, _b2, _c3, _d3;
       ok$1.faceCount.status = false;
@@ -53099,8 +53493,13 @@ lBhEMohlFerLlBjEMohMVTEARDKCITsAk2AEgAAAkAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAD/
     const camera = new SecureCitizenCamera(config3);
     camera.init();
   }
+  function authinit(config3) {
+    const auth = new SecureCitizenUserManager(config3.clientId);
+    return auth;
+  }
   const scCameraModule = {
-    quickInit: init
+    quickInit: init,
+    authinit
   };
   exports2.SecureCitizenCamera = SecureCitizenCamera;
   exports2.SecureCitizenUserManager = SecureCitizenUserManager;
