@@ -4,6 +4,6 @@ import SecureCitizenAuth from '../lib/sc-camera-module'
 
         const auth = SecureCitizenAuth.authinit({clientId: 'sc-app-beta'});
         console.log(auth);
-        auth.signinPopupCallback();
-        auth.signoutPopupCallback();
-        auth.startSilentRenew();
+        // auth.signinPopupCallback();
+        // auth.signoutPopupCallback();
+        // auth.startSilentRenew();
