@@ -1,5 +1,5 @@
 import { Log, User, UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client-ts";
-import { DEFAULT_CLIENT_ID } from "../utils/defaults";
+import { DEFAULT_AUTHORITY, DEFAULT_CLIENT_ID } from "../utils/defaults";
 // import { log } from "../utils/errors";
 
 Log.setLogger(console);
@@ -11,7 +11,7 @@ const url = window.location.origin + whatPath;
 export const SecureCitizenOIDC : UserManagerSettings = {
     stateStore: new WebStorageStateStore({ store: window.localStorage }),
     userStore: new WebStorageStateStore({ store: window.localStorage }),
-    authority: "https://sts.dev.securecitizen.cloud",
+    authority: DEFAULT_AUTHORITY,
     client_id: DEFAULT_CLIENT_ID,
     //client_id: 'interactive.public.short',
     // redirect_uri: url + "/index.html",
@@ -20,7 +20,7 @@ export const SecureCitizenOIDC : UserManagerSettings = {
     post_logout_redirect_uri: url,
     response_type: "code",
     //response_mode: 'fragment',
-    scope: "openid profile offline_access",
+    scope: "openid sc-camera",
     //scope: 'openid profile api offline_access',
 
     popup_redirect_uri: url + "/scauth/popup-signin.html",

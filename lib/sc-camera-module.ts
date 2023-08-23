@@ -5,7 +5,7 @@
 
 import { SecureCitizenUserManager } from './auth/scauth'
 import { SecureCitizenCamera } from './components/camera';
-import { InitConfig } from './utils/configuration'
+import { AuthInit, InitConfig } from './utils/configuration'
 
 function init(config: InitConfig): void {
 
@@ -35,11 +35,18 @@ function init(config: InitConfig): void {
   // return camera;
 }
 
+function authinit(config: AuthInit): SecureCitizenUserManager {
+    const auth = new SecureCitizenUserManager(config.clientId);
+
+    return auth;
+}
+
 export {
   SecureCitizenCamera,
   SecureCitizenUserManager
 }
 
 export default {
-  quickInit: init
+  quickInit: init,
+  authinit: authinit
 }

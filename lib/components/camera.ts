@@ -4,6 +4,7 @@ import humanConfig from './camera-configs'
 import { log, logMessages } from "../utils/errors";
 import drawOptions from "./draw-templates";
 import { InitConfig } from "../utils/configuration";
+import { EventBroker } from "../utils/typedeventemitter";
 
 class SecureCitizenCamera {
     public videoElement: HTMLVideoElement | undefined // this needs to be something that can be provided, or searched for in the HTML - 
@@ -185,8 +186,12 @@ class SecureCitizenCamera {
         drawValidationTests(this.okElement)
         if (allOk() || !ok.timeout.status) {
             // all criteria met
-            this.human.webcam.element?.pause()
-            return this.human.result.face[0]
+            // const lastImageData = this.canvasElement.getContext('2d')?.getImageData(0, 0, this.canvasElement.width, this.canvasElement.height) as ImageData;
+            
+            this.human.webcam.element?.pause();
+            const lastImage = this.canvasElement.toDataURL();
+            EventBroker.emit('photoTaken', 200, lastImage);
+            return this.human.result.face[0];
         }
         ok.elapsedMs.val = Math.trunc(this.human.now() - this.startTime)
         return new Promise((resolve) => {
@@ -226,6 +231,15 @@ class SecureCitizenCamera {
     //     await this.human.draw.all(this.canvas, interpolated) // draw labels, boxes, lines, etc.
     //     setTimeout(drawLoop, 30) // use to slow down refresh from max refresh rate to target of 1000/30 ~ 30 fps
     // }
+
+    /**
+    * SubscribeToPhotoTaken
+    */
+    public SubscribeToPhotoTaken(f: Function) {
+        EventBroker.on('photoTaken', (statusCode: number, photoString: string) => {
+        f(statusCode, photoString);
+        })
+    }
     
     public async main() {
         ok.faceCount.status = false
