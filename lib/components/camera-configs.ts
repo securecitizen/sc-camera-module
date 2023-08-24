@@ -72,7 +72,9 @@ const optimisedConfig: Partial<H.Config> = {
     segmentation: { enabled: false },
 }
 
+// eslint-disable-next-line 
 optimisedConfig.face!['scale'] = 1.5;
+// eslint-disable-next-line 
 optimisedConfig.face!['insightface'] = { enabled: true, modelPath: 'insightface-mobilenet-swish.json' }
 
 

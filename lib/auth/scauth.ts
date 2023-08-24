@@ -23,10 +23,10 @@ export const SecureCitizenOIDC : UserManagerSettings = {
     scope: "openid sc-camera",
     //scope: 'openid profile api offline_access',
 
-    popup_redirect_uri: url + "/scauth/popup-signin.html",
-    popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
+    // popup_redirect_uri: url + "/scauth/popup-signin.html",
+    // popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
 
-    popupWindowFeatures: { height: 768 },
+    // popupWindowFeatures: { height: 768 },
     
     silent_redirect_uri: url + "/scauth/silent-renew.html",
     automaticSilentRenew: false,

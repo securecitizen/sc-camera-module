@@ -10,12 +10,17 @@
 
 
     <script type="module">
-       import SecureCitizenAuth from '../lib/sc-camera-module'
+       import { SecureCitizenUserManager } from '../lib/sc-camera-module'
+        import { DEFAULT_CLIENT_ID } from '../lib/utils/defaults';
 
-// ModuleDemoPage.init('Success! The module is working.')
+        // ModuleDemoPage.init('Success! The module is working.')
+        const config = {
+            clientId: DEFAULT_CLIENT_ID,
+            debug: false
+        }
 
-const auth = SecureCitizenAuth.authinit({clientId: 'sc-app-beta'});
-       auth.popupSignout();
+        const auth = new SecureCitizenUserManager(config.clientId);
+        auth.popupSignout();
     </script>
 
 </body>

@@ -17,13 +17,6 @@ import { DEFAULT_CLIENT_ID } from '../lib/utils/defaults';
 const canvasElement: HTMLCanvasElement | undefined = document.getElementById('canvas') as HTMLCanvasElement;
 const okElement: HTMLDivElement | undefined  = document.getElementById('ok') as HTMLDivElement;
 const messageElement: HTMLPreElement | undefined  = document.getElementById('messageOutput') as HTMLPreElement;
-const loginElement: HTMLButtonElement | undefined  = document.getElementById('login') as HTMLButtonElement;
-
-loginElement.addEventListener('click', () => {
-    // console.log(auth);
-    // auth.signinPopup();
-    auth.signinRedirect();
-})
 
 const config = {
     clientId: DEFAULT_CLIENT_ID,
@@ -36,9 +29,6 @@ const override = {
     okElement,
     messageElement
 }
-
-
-const auth = new SecureCitizenUserManager(config.clientId);
 
 const camera = new SecureCitizenCamera(config, override);
 

@@ -26,7 +26,7 @@ module.exports = defineConfig({
         dts({
             insertTypesEntry: true,
             skipDiagnostics: false,
-            logDiagnostics: true
+            logDiagnostics: false
         }),
         banner(
             `/**\n * name: ${pkg.name}\n * version: v${pkg.version}\n * description: ${pkg.description}\n * author: ${pkg.author}\n * repository: ${pkg.repository.url}\n * build date: ${now} \n */`

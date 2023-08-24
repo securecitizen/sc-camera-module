@@ -189,6 +189,8 @@ class SecureCitizenCamera {
             // const lastImageData = this.canvasElement.getContext('2d')?.getImageData(0, 0, this.canvasElement.width, this.canvasElement.height) as ImageData;
             
             this.human.webcam.element?.pause();
+            const interpolated = this.human.next() // get smoothened result using last-known results which are continously updated based on input webcam video
+            this.human.draw.canvas(interpolated.canvas!, this.canvasElement) // we obviously detected this, so write this to the canvas as the final image
             const lastImage = this.canvasElement.toDataURL();
             EventBroker.emit('photoTaken', 200, lastImage);
             return this.human.result.face[0];
@@ -252,6 +254,11 @@ class SecureCitizenCamera {
         // ok.age.status = false
         // ok.gender.status = false
         ok.elapsedMs.val = 0
+
+        if(this.debug) {
+            // unhide the ok results listing
+            this.okElement.hidden = false;
+        }
     
         // main entry point
         this.messageElement.innerHTML = `human version: ${this.human.version} | tfjs version: ${this.human.tf.version['tfjs-core']}<br>platform: ${this.human.env.platform} | agent ${this.human.env.agent}`
@@ -272,6 +279,8 @@ class SecureCitizenCamera {
         this.human.video(this.human.webcam.element!) // instruct human to continously detect video frames
         this.canvasElement.width = this.human.webcam.width // set canvas resolution to input webcam native resolution
         this.canvasElement.height = this.human.webcam.height
+        // unhide the canvas
+        this.canvasElement.hidden = false;
         this.canvasElement.onclick = async () => {
             // pause when clicked on screen and resume on next click
             if (this.human.webcam.paused) {
@@ -299,6 +308,7 @@ class SecureCitizenCamera {
         logMessages(this.messageElement, 'loading human models...');
         await this.human.load(); // preload all models
         logMessages(this.messageElement, 'initializing this.human...');
+        // eslint-disable-next-line
         logMessages(this.messageElement, 'face embedding model:', humanConfig.face?.description?.enabled ? 'faceres' : '', humanConfig.face!['mobilefacenet']?.enabled ? 'mobilefacenet' : '', humanConfig.face!['insightface']?.enabled ? 'insightface' : '');
         await this.human.warmup(); // warmup function to initialize backend for future faster detection
         await this.main();
