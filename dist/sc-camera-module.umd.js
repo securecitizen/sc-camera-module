@@ -4,7 +4,7 @@
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-23T00:30:17.379Z 
+ * build date: 2023-08-23T00:33:34.567Z 
  */
 (function(global2, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2["sc-camera-module"] = {}));
@@ -3852,9 +3852,9 @@ var __publicField = (obj, key, value) => {
     //response_mode: 'fragment',
     scope: "openid sc-camera",
     //scope: 'openid profile api offline_access',
-    popup_redirect_uri: url + "/scauth/popup-signin.html",
-    popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
-    popupWindowFeatures: { height: 768 },
+    // popup_redirect_uri: url + "/scauth/popup-signin.html",
+    // popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
+    // popupWindowFeatures: { height: 768 },
     silent_redirect_uri: url + "/scauth/silent-renew.html",
     automaticSilentRenew: false,
     validateSubOnSilentRenew: true,

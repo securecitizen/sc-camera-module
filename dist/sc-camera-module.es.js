@@ -4,7 +4,7 @@
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-23T00:30:17.379Z 
+ * build date: 2023-08-23T00:33:34.567Z 
  */
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -3848,9 +3848,9 @@ const SecureCitizenOIDC = {
   //response_mode: 'fragment',
   scope: "openid sc-camera",
   //scope: 'openid profile api offline_access',
-  popup_redirect_uri: url + "/scauth/popup-signin.html",
-  popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
-  popupWindowFeatures: { height: 768 },
+  // popup_redirect_uri: url + "/scauth/popup-signin.html",
+  // popup_post_logout_redirect_uri: url + "/scauth/popup-signout.html",
+  // popupWindowFeatures: { height: 768 },
   silent_redirect_uri: url + "/scauth/silent-renew.html",
   automaticSilentRenew: false,
   validateSubOnSilentRenew: true,
