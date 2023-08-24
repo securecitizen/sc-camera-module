@@ -15,7 +15,8 @@ export const SecureCitizenOIDC : UserManagerSettings = {
     client_id: DEFAULT_CLIENT_ID,
     //client_id: 'interactive.public.short',
     // redirect_uri: url + "/index.html",
-    redirect_uri: url,
+    redirect_uri: url + "/scauth/callback.html",
+    // redirect_uri: url,
     // post_logout_redirect_uri: url + "/index.html",
     post_logout_redirect_uri: url,
     response_type: "code",
@@ -46,9 +47,10 @@ export const SecureCitizenOIDC : UserManagerSettings = {
 };
 
 class SecureCitizenUserManager extends UserManager {
-    constructor(clientId: string) {
+    constructor(clientId: string, redirectUrl?: string) {
         const settings = SecureCitizenOIDC;
         settings.client_id = clientId;
+        settings.redirect_uri = redirectUrl ?? url + "/scauth/callback.html";
         super(settings);
 
         // Initialise an Auth instance

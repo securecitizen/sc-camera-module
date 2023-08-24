@@ -14,24 +14,12 @@ const config = {
 
 const auth = new SecureCitizenUserManager(config.clientId);
 
-
 loginElement.addEventListener('click', () => {
         // console.log(auth);
-        auth.signinPopup();
-        // auth.startSigninMainWindow();
+        // auth.signinPopup();
+        auth.startSigninMainWindow();
     });
-
-auth.events.addUserLoaded(() => {
-    checkSessionElement.hidden = false;
-    console.log("User loaded");
-})
-
-auth.events.addUserSignedIn(() =>
-{
-    checkSessionElement.hidden = false;
-    console.log("User Signed In");
-})
-
+    
 checkSessionElement.addEventListener('click', async () => {
     console.log(await auth.sessionStatus());
 })

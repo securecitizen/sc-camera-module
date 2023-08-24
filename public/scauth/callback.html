@@ -2,12 +2,63 @@
 <html>
     <head>
         <title>Secure Citizen OIDC Callback</title>
+        <style>
+            body {
+              text-align: center;
+              padding: 40px 0;
+              background: #EBF0F5;
+            }
+              h1 {
+                color: #88B04B;
+                font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                font-weight: 900;
+                font-size: 40px;
+                margin-bottom: 10px;
+              }
+              p {
+                color: #404F5E;
+                font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                font-size:20px;
+                margin: 0;
+              }
+            i {
+              color: #9ABC66;
+              font-size: 100px;
+              line-height: 200px;
+              margin-left:-15px;
+            }
+            .card {
+              background: white;
+              padding: 60px;
+              border-radius: 4px;
+              box-shadow: 0 2px 3px #C8D0D8;
+              display: inline-block;
+              margin: 0 auto;
+            }
+          </style>
     </head>
     <body>
-        <pre id="out"></pre>
+        <div id="loading" class="card">
+            <div style="border-radius:200px; height:200px; width:200px; background: #faf7f5; margin:0 auto;">
+              <i class="checkmark">✓</i>
+            </div>
+              <h1>Loading</h1> 
+              <p>We are verifying your information!</p>
+        </div>
+        <div style="display: none;" id="confirmed" class="card">
+            <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+              <i class="checkmark">✓</i>
+            </div>
+              <h1>Success</h1> 
+              <p>Your identity has been verified;<br/> we'll be in touch shortly!</p>
+              <p style="padding-top: 10%; border: #9ABC66; border-width: 2px;">You may close this window</p>
+        </div>
         <script type="module">
             import { SecureCitizenUserManager } from '../lib/sc-camera-module'
             import { DEFAULT_CLIENT_ID } from '../lib/utils/defaults';
+
+            const loading = document.getElementById('loading');
+            const confirmed = document.getElementById('confirmed');
 
             // ModuleDemoPage.init('Success! The module is working.')
             const config = {
@@ -16,8 +67,14 @@
             }
 
             const auth = new SecureCitizenUserManager(config.clientId);
-            
+                        
             auth.endSigninMainWindow();
+
+            auth.events.addUserLoaded((user) => {
+                console.log(user.expires_in)
+                loading.style.display = 'none';
+                confirmed.style.display = 'block';
+            })
             
         </script>
 
