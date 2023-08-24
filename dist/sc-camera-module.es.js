@@ -1,10 +1,10 @@
 /**
  * name: @securecitizen/sc-camera-module
- * version: v2.0.19
+ * version: v2.0.20
  * description: This is the SC Camera Module repo that will create a Vite workflow to ease creation of Javascript modules with a dev server, GitHub Pages support and automated publishing to NPM.
  * author: Grant Vine <grantv@securecitizen.co.za> (https://securecitizen.co.za)
  * repository: https://github.com/securecitizen/sc-camera-module
- * build date: 2023-08-24T09:51:03.562Z 
+ * build date: 2023-08-24T12:06:29.301Z 
  */
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -3834,7 +3834,8 @@ const SecureCitizenOIDC = {
   client_id: DEFAULT_CLIENT_ID,
   //client_id: 'interactive.public.short',
   // redirect_uri: url + "/index.html",
-  redirect_uri: url,
+  redirect_uri: url + "/scauth/callback.html",
+  // redirect_uri: url,
   // post_logout_redirect_uri: url + "/index.html",
   post_logout_redirect_uri: url,
   response_type: "code",
@@ -3857,9 +3858,10 @@ const SecureCitizenOIDC = {
   //signingKeys:[{"kty":"RSA","use":"sig","kid":"5CCAA03EDDE26D53104CC35D0D4B299C","e":"AQAB","n":"3fbgsZuL5Kp7HyliAznS6N0kTTAqApIzYqu0tORUk4T9m2f3uW5lDomNmwwPuZ3QDn0nwN3esx2NvZjL_g5DN407Pgl0ffHhARdtydJvdvNJIpW4CmyYGnI8H4ZdHtuW4wF8GbKadIGgwpI4UqcsHuPiWKARfWZMQfPKBT08SiIPwGncavlRRDgRVX1T94AgZE_fOTJ4Odko9RX9iNXghJIzJ_wEkY9GEkoHz5lQGdHYUplxOS6fcxL8j_N9urSBlnoYjPntBOwUfPsMoNcmIDXPARcq10miWTz8SHzUYRtsiSUMqimRJ9KdCucKcCmttB_p_EAWohJQDnav-Vqi3Q","alg":"RS256"}]
 };
 class SecureCitizenUserManager extends UserManager {
-  constructor(clientId) {
+  constructor(clientId, redirectUrl) {
     const settings = SecureCitizenOIDC;
     settings.client_id = clientId;
+    settings.redirect_uri = redirectUrl ?? url + "/scauth/callback.html";
     super(settings);
     console.log("Client ID: " + clientId + " and authBase set to " + url);
   }

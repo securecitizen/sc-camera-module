@@ -2,7 +2,7 @@ import { Log, UserManager, UserManagerSettings } from "oidc-client-ts";
 declare const url: string;
 export declare const SecureCitizenOIDC: UserManagerSettings;
 declare class SecureCitizenUserManager extends UserManager {
-    constructor(clientId: string);
+    constructor(clientId: string, redirectUrl?: string);
     clearState(): void;
     sessionStatus(): void;
     getUserInfo(): void;
