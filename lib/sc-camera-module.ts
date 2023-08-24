@@ -5,48 +5,43 @@
 
 import { SecureCitizenUserManager } from './auth/scauth'
 import { SecureCitizenCamera } from './components/camera';
-import { AuthInit, InitConfig } from './utils/configuration'
+// import { AuthInit, InitConfig } from './utils/configuration'
 
-function init(config: InitConfig): void {
+// function init(config: InitConfig): void {
 
-  // config.debug = true;
+//   // config.debug = true;
 
-  // const video = document.getElementById('video') as HTMLVideoElement;
-  // const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-  // // const fps = document.getElementById('fps') as HTMLPreElement;
-  // const ok = document.getElementById('ok') as HTMLDivElement;
-  // const log = document.getElementById('messageOutput') as HTMLPreElement;
+//   // const video = document.getElementById('video') as HTMLVideoElement;
+//   // const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+//   // // const fps = document.getElementById('fps') as HTMLPreElement;
+//   // const ok = document.getElementById('ok') as HTMLDivElement;
+//   // const log = document.getElementById('messageOutput') as HTMLPreElement;
 
-  // const override = {
-  //   canvas,
-  //   ok,
-  //   log
-  // }
+//   // const override = {
+//   //   canvas,
+//   //   ok,
+//   //   log
+//   // }
 
-  // const optional = {
-  //   video,
-  //   // fps
-  // }
+//   // const optional = {
+//   //   video,
+//   //   // fps
+//   // }
 
-  const camera = new SecureCitizenCamera(config);
+//   const camera = new SecureCitizenCamera(config);
 
-  camera.init();
+//   camera.init();
 
-  // return camera;
-}
+//   // return camera;
+// }
 
-function authinit(config: AuthInit): SecureCitizenUserManager {
-    const auth = new SecureCitizenUserManager(config.clientId);
+// function authinit(config: AuthInit): SecureCitizenUserManager {
+//     const auth = new SecureCitizenUserManager(config.clientId);
 
-    return auth;
-}
+//     return auth;
+// }
 
 export {
   SecureCitizenCamera,
   SecureCitizenUserManager
-}
-
-export default {
-  quickInit: init,
-  authinit: authinit
 }
